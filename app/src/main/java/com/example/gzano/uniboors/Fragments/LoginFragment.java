@@ -1,30 +1,31 @@
 package com.example.gzano.uniboors.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.gzano.uniboors.R;
 
-import Presenter.WelcomeActivityPresenter;
+import Presenter.LoginPresenter;
+import ViewInterfaces.BaseView;
 
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements BaseView.LoginView {
 
-    private WelcomeActivityPresenter welcomeActivityPresenter;
+    private LoginPresenter loginPresenter;
 
     public LoginFragment() {
-        // Required empty public constructor
-    }
 
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loginPresenter.onCreate();
 
     }
 
@@ -34,7 +35,6 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
-
 
 
     @Override
@@ -49,4 +49,20 @@ public class LoginFragment extends Fragment {
     }
 
 
+    @Override
+    public void onLoginPressed() {
+        Log.d("TEST"," it works just fine");
+
+    }
+
+    @Override
+    public void onSignUpPressed() {
+
+    }
+
+    @Override
+    public void setPresenter(LoginPresenter presenter) {
+        this.loginPresenter=presenter;
+
+    }
 }
