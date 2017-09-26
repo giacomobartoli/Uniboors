@@ -23,7 +23,7 @@ class WelcomeActivityPresenter(var user: User, var welcomeView: WelcomeView) : P
     fun createAccount() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener(welcomeView.getActivityContext(),object:OnCompleteListener<AuthResult>{
             override fun onComplete(p0: Task<AuthResult>) {
-
+                val user= User("ciao","cacca")
             }
 
         } )
