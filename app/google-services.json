@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "484831871025",
+    "firebase_url": "https://uniboindoors.firebaseio.com",
+    "project_id": "uniboindoors",
+    "storage_bucket": "uniboindoors.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484831871025:android:c0032379753e4245",
+        "android_client_info": {
+          "package_name": "com.example.gzano.uniboors"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484831871025-d5iroif9kt67kegnrn2ui5e70llr20ng.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gzano.uniboors",
+            "certificate_hash": "303935a63d94f5563b865f76ad90cdf8ec225859"
+          }
+        },
+        {
+          "client_id": "484831871025-9ddlqt5u2ojmbo3kg3qmpst06e8km6ao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1YsdJC81il3vWtGtZEx4777HpoueipfA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484831871025-9ddlqt5u2ojmbo3kg3qmpst06e8km6ao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
