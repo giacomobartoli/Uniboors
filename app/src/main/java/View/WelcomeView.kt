@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseUser
  */
 interface WelcomeView {
 
-    fun updateView(user: FirebaseUser)
+    fun updateView(user: FirebaseUser?)
 
     fun onLoginPressed()
 

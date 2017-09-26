@@ -12,7 +12,18 @@ import com.google.firebase.auth.FirebaseAuth
  */
 class WelcomeActivityPresenter(var user: User, var welcomeView: WelcomeView) : Presenter {
 
+    private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
     override fun onCreate() {
+        mAuth.createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener(welcomeView.getActivityContext(), object : OnCompleteListener<AuthResult> {
+            override fun onComplete(p0: Task<AuthResult>) {
+                if (p0.isSuccessful) {
+                    welcomeView.updateView(mAuth.currentUser)
+                }
+
+            }
+
+        })
     }
 
     fun createUser(email: String, password: String) {
@@ -20,12 +31,6 @@ class WelcomeActivityPresenter(var user: User, var welcomeView: WelcomeView) : P
         user.password = password
     }
 
-    fun createAccount() {
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener(welcomeView.getActivityContext(),object:OnCompleteListener<AuthResult>{
-            override fun onComplete(p0: Task<AuthResult>) {
-                val user= User("ciao","cacca")
-            }
 
-        } )
-    }
+
 }
