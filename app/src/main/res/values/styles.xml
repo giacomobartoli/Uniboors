@@ -4,6 +4,7 @@
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/welcomeActivityBackground</item>
     </style>
 
     <style name="NoActionBarMaterial" parent="@android:style/Theme.Material" tools:targetApi="lollipop">
