@@ -1,5 +1,6 @@
 package com.example.gzano.uniboors.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.gzano.uniboors.R;
@@ -26,8 +28,9 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
     private LoginPresenter loginPresenter;
     private Button buttonSignUp, buttonLogin;
     private TextView userInfo;
-    private EditText email,password;
+    private EditText email, password;
     private View view;
+    private ProgressBar progressBar;
 
 
     public LoginFragment() {
@@ -50,9 +53,11 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
         view = inflater.inflate(R.layout.fragment_login, container, false);
         buttonLogin = view.findViewById(R.id.button2);
         buttonSignUp = view.findViewById(R.id.button3);
-        email=view.findViewById(R.id.email);
-        password=view.findViewById(R.id.password);
+        email = view.findViewById(R.id.email);
+        password = view.findViewById(R.id.password);
         userInfo = view.findViewById(R.id.userInfo);
+        progressBar = view.findViewById(R.id.progressBar);
+
         loginPresenter.onCreate();
 
         return view;
@@ -70,8 +75,6 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
     public void onDetach() {
         super.onDetach();
     }
-
-
 
 
     @Override
@@ -111,11 +114,21 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
 
     private void onSignUpPressed(View view) {
 
-        Log.d("MARCO ", " email: "+email.getText()+" pass "+password.getText().toString());
+        Log.d("MARCO ", " email: " + email.getText() + " pass " + password.getText().toString());
         loginPresenter.createUser(email.getText().toString(), password.getText().toString());
 
     }
 
 
+    @Override
+    public void showProgressBar(String message) {
+        progressBar.setClickable(false);
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
 }

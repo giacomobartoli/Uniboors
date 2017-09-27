@@ -14,6 +14,10 @@ interface FragmentView {
         fun replaceFragment(fragment: Fragment)
 
         fun informUser(message: String)
+
+        fun showProgressBar(message: String)
+
+        fun hideProgressBar()
     }
 
     interface WelcomeFragmentView : FragmentView {

@@ -21,11 +21,13 @@ class LoginPresenter(private var loginFragmentView: FragmentView.LoginFragmentVi
     }
 
     fun createUser(email: String, password: String) {
+        loginFragmentView.showProgressBar("creating account...")
         if (email.isEmpty() || password.isEmpty()) {
             loginFragmentView.informUser(Constants.ERROR_MESSAGE_AUTH)
         } else {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
                 if (authenticationTask.isSuccessful) {
+                    loginFragmentView.hideProgressBar()
                     Log.d("GEUUUUUUUUUUUUUUUUUUU", " user created")
                     loginFragmentView.replaceFragment(GoToAppFragment())
                 } else {
@@ -38,8 +40,11 @@ class LoginPresenter(private var loginFragmentView: FragmentView.LoginFragmentVi
     }
 
     fun signIn(email: String, password: String) {
+        loginFragmentView.showProgressBar("signing in...")
+
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
             if (authenticationTask.isSuccessful) {
+                loginFragmentView.hideProgressBar()
                // Log.d("GEUUUUUUUUUUUUUUUUUUU", " user created")
                 loginFragmentView.replaceFragment(GoToAppFragment())
             } else {
