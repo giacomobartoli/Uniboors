@@ -25,6 +25,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fragment_container"
+        android:animateLayoutChanges="true"
         android:layout_width="363dp"
         android:layout_height="219dp"
         android:layout_marginBottom="8dp"

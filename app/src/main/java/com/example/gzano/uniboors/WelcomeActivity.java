@@ -19,8 +19,7 @@ public class WelcomeActivity extends FragmentActivity {
     private EditText emailPassword;
     private Activity context = this;
     public ConstraintLayout fragmentContainer;
-    private WelcomePresenter welcomeActivityPresenter;
-    private LoginFragment loginFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
