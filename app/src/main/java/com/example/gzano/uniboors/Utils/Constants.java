@@ -6,5 +6,6 @@ package com.example.gzano.uniboors.Utils;
 
 public class Constants {
 
-    public static final String ERROR_MESSAGE_AUTH =" account already created or wrong email/password";
+    public static final String ERROR_MESSAGE_AUTH_EMAIL_EMPTY=" empty email field";
+    public static final String ERROR_MESSAGE_AUTH_PASSWORD_EMPTY="empty password field";
 }

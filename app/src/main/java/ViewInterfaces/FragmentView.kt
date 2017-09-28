@@ -13,8 +13,18 @@ interface FragmentView {
 
         fun replaceFragment(fragment: Fragment)
 
-        fun informUser(message: String)
+        fun informUserWrongPassword(message: String)
+
+        fun informUserWrongEmail(message: String)
+
+        fun hideHintPassword()
+
+        fun hideHintEmail()
+
+        fun showProgressBar()
+
     }
+
 
     interface WelcomeFragmentView : FragmentView {
 
