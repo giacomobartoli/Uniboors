@@ -1,11 +1,13 @@
 package Presenter
 
+import Model.AuthenticationMode
 import Model.User
 import ViewInterfaces.FragmentView
 import android.util.Log
 import com.example.gzano.uniboors.Fragments.GoToAppFragment
 import com.example.gzano.uniboors.Utils.Constants
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.*
 
 /**
  * Created by gzano on 26/09/2017.
@@ -13,14 +15,14 @@ import com.google.firebase.auth.FirebaseAuth
 class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFragmentView) : Presenter {
 
 
-    val user: User? = null
-    val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    private val TAG = "FIREBASEEXC"
     override fun onCreate() {
         loginFragmentView.setButtonListener()
     }
 
-    fun createUser(email: String, password: String) {
+    fun executeAuthentication(email: String, password: String, mode: AuthenticationMode) {
         if (email.isEmpty()) {
             loginFragmentView.informUserWrongEmail(Constants.ERROR_MESSAGE_AUTH_EMAIL_EMPTY)
             loginFragmentView.hideHintPassword()
@@ -38,48 +40,64 @@ class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFrag
         }
         if (!email.isEmpty() && !password.isEmpty()) {
             loginFragmentView.showProgressBar()
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
-                if (authenticationTask.isSuccessful) {
-                    Log.d("GEUUUUUUUUUUUUUUUUUUU", " user created")
-                    loginFragmentView.replaceFragment(GoToAppFragment())
-                } else {
-                    Log.d("AZZ", " error " + authenticationTask.exception)
+            when (mode) {
+                AuthenticationMode.SIGN_IN -> mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
+                    if (authenticationTask.isSuccessful) {
+                        loginFragmentView.replaceFragment(GoToAppFragment())
+                    } else {
+                        informUser(authenticationTask)
 
-                    // loginFragmentView.informUserWrongPassword(Constants.ERROR_MESSAGE_AUTH)
+                    }
+                }
+                AuthenticationMode.SIGN_UP -> mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
+                    if (authenticationTask.isSuccessful) {
+                        loginFragmentView.replaceFragment(GoToAppFragment())
+                    } else {
+
+
+                        informUser(authenticationTask)
+
+                    }
+                }
+
+
+            }
+        }
+
+    }
+
+    private fun informUser(authenticationTask: Task<AuthResult>) {
+        loginFragmentView.hideProgressBar()
+        try {
+            throw authenticationTask.exception!!
+        } catch (e: FirebaseAuthWeakPasswordException) {
+            loginFragmentView.informUserWrongPassword(Constants.WEAK_PASSWORD)
+            loginFragmentView.hideHintEmail()
+
+
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+
+            Log.d(TAG,e.errorCode)
+            when(e.errorCode){
+                Constants.ERROR_WRONG_PASSWORD->{
+                    loginFragmentView.informUserWrongPassword(Constants.ERROR_WRONG_PASSWORD)
+                    loginFragmentView.hideHintEmail()
+                }
+                Constants.ERROR_INVALID_EMAIL->{
+                    loginFragmentView.informUserWrongEmail(Constants.ERROR_INVALID_EMAIL)
+                    loginFragmentView.hideHintPassword()
                 }
             }
 
-        }
-    }
 
 
-    fun signIn(email: String, password: String) {
-        if (email.isEmpty()) {
-            loginFragmentView.informUserWrongEmail(Constants.ERROR_MESSAGE_AUTH_EMAIL_EMPTY)
+        } catch (e: FirebaseAuthUserCollisionException) {
+
+            loginFragmentView.informUserWrongEmail(Constants.EMAIL_ALREADY_IN_USE)
             loginFragmentView.hideHintPassword()
 
-        }
-        if (password.isEmpty()) {
-            loginFragmentView.informUserWrongPassword(Constants.ERROR_MESSAGE_AUTH_PASSWORD_EMPTY)
-            loginFragmentView.hideHintEmail()
-        }
-        if (email.isEmpty() && password.isEmpty()) {
-            loginFragmentView.informUserWrongPassword(Constants.ERROR_MESSAGE_AUTH_PASSWORD_EMPTY)
-            loginFragmentView.informUserWrongEmail(Constants.ERROR_MESSAGE_AUTH_EMAIL_EMPTY)
-        }
-        if (!email.isEmpty() && !password.isEmpty()) {
-            loginFragmentView.showProgressBar()
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
-                if (authenticationTask.isSuccessful) {
-                    loginFragmentView.replaceFragment(GoToAppFragment())
-                } else {
-
-                    loginFragmentView.informUserWrongPassword("sdfgg")
-                }
-            }
-
+        } catch (e: Exception) {
         }
     }
-
 
 }

@@ -5,4 +5,6 @@ import org.jetbrains.annotations.NotNull
 /**
  * Created by gzano on 26/09/2017.
  */
-data class User(@NotNull var email:String,@NotNull var password:String)
+class User(@NotNull private var email: String) {
+    override fun toString(): String = email.substringBefore('@')
+}

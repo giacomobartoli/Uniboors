@@ -24,4 +24,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="MyButton">
+        <item name="android:background">@color/buttonBackgroundRed</item>
+        <item name ="android:textColor">@color/buttonTextWhite</item>
+    </style>
+
 </resources>

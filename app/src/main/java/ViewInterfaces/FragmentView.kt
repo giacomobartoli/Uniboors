@@ -23,6 +23,7 @@ interface FragmentView {
 
         fun showProgressBar()
 
+        fun hideProgressBar()
     }
 
 
@@ -30,7 +31,6 @@ interface FragmentView {
 
         fun updateWelcomeMessage(message:String)
 
-        fun backToSignIn()
 
         fun onGoToAppPressed()
 

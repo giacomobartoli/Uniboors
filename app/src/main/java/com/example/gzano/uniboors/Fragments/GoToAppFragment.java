@@ -4,6 +4,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.gzano.uniboors.R;
+import com.example.gzano.uniboors.Utils.Constants;
 
 import Presenter.WelcomePresenter;
 import ViewInterfaces.FragmentView;
@@ -42,15 +47,21 @@ public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFra
         view = inflater.inflate(R.layout.fragment_go_to_app, container, false);
         welcomeTextView = view.findViewById(R.id.welcomeTextView);
         newAccount = view.findViewById(R.id.newAccountTextView);
-        newAccount.setClickable(true);
-        newAccount.setOnClickListener(new View.OnClickListener() {
+        SpannableString ss = new SpannableString(Constants.SIGNIN_SIGNUP_TEXT);
+        ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                presenter.textPressed();
+                LoginFragment fragment = new LoginFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
-        });
+        };
+        ss.setSpan(clickableSpan, 0, Constants.SIGNIN_SIGNUP_TEXT.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        newAccount.setText(ss);
+        newAccount.setMovementMethod(LinkMovementMethod.getInstance());
         presenter.onCreate();
-
         return view;
     }
 
@@ -73,19 +84,12 @@ public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFra
     }
 
 
-
     @Override
     public void updateWelcomeMessage(String message) {
-      welcomeTextView.setText(message);
+        welcomeTextView.setText(message);
 
     }
 
-    @Override
-    public void backToSignIn() {
-        LoginFragment fragment=new LoginFragment();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
+
+
 }

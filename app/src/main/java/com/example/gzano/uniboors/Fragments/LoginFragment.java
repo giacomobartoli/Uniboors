@@ -25,6 +25,7 @@ import com.example.gzano.uniboors.UniboorsActivity;
 import com.example.gzano.uniboors.Utils.Constants;
 
 
+import Model.AuthenticationMode;
 import Presenter.AccountAuthPresenter;
 import ViewInterfaces.FragmentView;
 
@@ -91,7 +92,7 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                authPresenter.signIn(email.getText().toString(), password.getText().toString());
+                authPresenter.executeAuthentication(email.getText().toString(), password.getText().toString(), AuthenticationMode.SIGN_IN);
 
             }
         });
@@ -104,8 +105,7 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-        progressBar.setVisibility(View.GONE);
-
+        hideProgressBar();
 
     }
 
@@ -131,31 +131,6 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
 
     }
 
-
-    private void initSpannable() {
-        SpannableString ss = new SpannableString(Constants.DONT_HAVE_ACCOUNT_SIGN_UP);
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View view) {
-                buttonLogin.setText("Sign Up!");
-                buttonLogin.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        authPresenter.createUser(email.getText().toString(), password.getText().toString());
-
-                    }
-                });
-                signUp.setVisibility(View.GONE);
-            }
-        };
-        ss.setSpan(clickableSpan, Constants.DONT_HAVE_ACCOUNT_SIGN_UP.length() - Constants.SIGN_UP.length(), Constants.DONT_HAVE_ACCOUNT_SIGN_UP.length(), Spanned.SPAN_COMPOSING);
-
-        signUp.setMovementMethod(LinkMovementMethod.getInstance());
-        signUp.setText(ss);
-
-    }
-
-
     @Override
     public void hideHintPassword() {
         if (textInputLayoutPassword.isErrorEnabled()) {
@@ -170,4 +145,35 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
             textInputLayoutemail.setErrorEnabled(false);
         }
     }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+
+    }
+
+    private void initSpannable() {
+        SpannableString ss = new SpannableString(Constants.DONT_HAVE_ACCOUNT_SIGN_UP);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                buttonLogin.setText("Sign Up!");
+                buttonLogin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        authPresenter.executeAuthentication(email.getText().toString(), password.getText().toString(), AuthenticationMode.SIGN_UP);
+
+                    }
+                });
+                signUp.setVisibility(View.GONE);
+            }
+        };
+        ss.setSpan(clickableSpan, Constants.DONT_HAVE_ACCOUNT_SIGN_UP.length() - Constants.SIGN_UP.length(), Constants.DONT_HAVE_ACCOUNT_SIGN_UP.length(), Spanned.SPAN_COMPOSING);
+
+        signUp.setMovementMethod(LinkMovementMethod.getInstance());
+        signUp.setText(ss);
+
+    }
+
+
 }
