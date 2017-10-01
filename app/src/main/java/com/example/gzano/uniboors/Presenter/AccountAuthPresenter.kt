@@ -1,23 +1,26 @@
-package Presenter
+package com.example.gzano.uniboors.Presenter
 
-import Model.AuthenticationMode
-import Model.User
-import ViewInterfaces.FragmentView
+import com.example.gzano.uniboors.Model.AuthenticationMode
+import com.example.gzano.uniboors.ViewInterfaces.FragmentView
 import android.util.Log
 import com.example.gzano.uniboors.Fragments.GoToAppFragment
+import com.example.gzano.uniboors.Presenter.FirebaseAdapters.UserListener
 import com.example.gzano.uniboors.Utils.Constants
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
+import com.google.firebase.database.FirebaseDatabase
 
 /**
  * Created by gzano on 26/09/2017.
  */
 class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFragmentView) : Presenter {
 
-
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
+
     private val TAG = "FIREBASEEXC"
+
+
     override fun onCreate() {
         loginFragmentView.setButtonListener()
     }
@@ -45,6 +48,7 @@ class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFrag
                     if (authenticationTask.isSuccessful) {
 
                         loginFragmentView.replaceFragment(GoToAppFragment())
+
                     } else {
                         informUser(authenticationTask)
 
@@ -52,7 +56,10 @@ class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFrag
                 }
                 AuthenticationMode.SIGN_UP -> mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
                     if (authenticationTask.isSuccessful) {
+
+
                         loginFragmentView.replaceFragment(GoToAppFragment())
+
                     } else {
 
 
@@ -71,7 +78,7 @@ class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFrag
         loginFragmentView.hideProgressBar()
         try {
             throw authenticationTask.exception!!
-        } catch (e:FirebaseAuthWeakPasswordException) {
+        } catch (e: FirebaseAuthWeakPasswordException) {
             Log.d(TAG, e.errorCode)
 
             loginFragmentView.informUserWrongPassword(Constants.WEAK_PASSWORD)

@@ -1,14 +1,12 @@
 package com.example.gzano.uniboors.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +15,8 @@ import android.widget.TextView;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.Utils.Constants;
 
-import Presenter.WelcomePresenter;
-import ViewInterfaces.FragmentView;
+import com.example.gzano.uniboors.Presenter.WelcomePresenter;
+import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 
 
 public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFragmentView {
