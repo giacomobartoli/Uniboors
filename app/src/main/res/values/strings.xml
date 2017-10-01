@@ -9,6 +9,7 @@
     <string name="hintPassword">password</string>
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign Up!</string>
     <string name="signup_or_signin">"Sign in or sign up to a new account"</string>
+    <string name="action_settings">\"TEST\"</string>
 
 
 </resources>

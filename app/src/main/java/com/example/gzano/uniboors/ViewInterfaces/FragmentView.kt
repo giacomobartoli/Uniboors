@@ -34,6 +34,7 @@ interface FragmentView {
 
         fun onGoToAppPressed()
 
+        fun setListeners()
 
     }
 }

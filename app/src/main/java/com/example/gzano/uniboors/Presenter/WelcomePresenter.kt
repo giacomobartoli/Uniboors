@@ -24,10 +24,12 @@ class WelcomePresenter(private var welcomeFragmentView: FragmentView.WelcomeFrag
     override fun onCreate() {
         welcomeFragmentView.updateWelcomeMessage("  welcome " + user.toString())
         firebaseDatabase.ref.addListenerForSingleValueEvent(UserListener(mUser!!))
+        welcomeFragmentView.setListeners()
 
     }
 
     fun goButtonPressed() {
+        welcomeFragmentView.onGoToAppPressed()
 
     }
 
