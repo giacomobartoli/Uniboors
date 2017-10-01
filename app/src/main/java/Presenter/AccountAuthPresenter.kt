@@ -43,6 +43,7 @@ class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFrag
             when (mode) {
                 AuthenticationMode.SIGN_IN -> mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
                     if (authenticationTask.isSuccessful) {
+
                         loginFragmentView.replaceFragment(GoToAppFragment())
                     } else {
                         informUser(authenticationTask)
@@ -70,33 +71,37 @@ class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFrag
         loginFragmentView.hideProgressBar()
         try {
             throw authenticationTask.exception!!
-        } catch (e: FirebaseAuthWeakPasswordException) {
+        } catch (e:FirebaseAuthWeakPasswordException) {
+            Log.d(TAG, e.errorCode)
+
             loginFragmentView.informUserWrongPassword(Constants.WEAK_PASSWORD)
             loginFragmentView.hideHintEmail()
 
 
         } catch (e: FirebaseAuthInvalidCredentialsException) {
 
-            Log.d(TAG,e.errorCode)
-            when(e.errorCode){
-                Constants.ERROR_WRONG_PASSWORD->{
+            Log.d(TAG, e.errorCode)
+            when (e.errorCode) {
+                Constants.ERROR_WRONG_PASSWORD -> {
                     loginFragmentView.informUserWrongPassword(Constants.ERROR_WRONG_PASSWORD)
                     loginFragmentView.hideHintEmail()
                 }
-                Constants.ERROR_INVALID_EMAIL->{
+                Constants.ERROR_INVALID_EMAIL -> {
                     loginFragmentView.informUserWrongEmail(Constants.ERROR_INVALID_EMAIL)
                     loginFragmentView.hideHintPassword()
                 }
             }
 
 
-
         } catch (e: FirebaseAuthUserCollisionException) {
+            Log.d(TAG, e.errorCode)
 
             loginFragmentView.informUserWrongEmail(Constants.EMAIL_ALREADY_IN_USE)
             loginFragmentView.hideHintPassword()
 
         } catch (e: Exception) {
+            Log.d(TAG, e.message)
+
         }
     }
 
