@@ -2,32 +2,43 @@ package com.example.gzano.uniboors.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.UniboorsActivity;
+import com.example.gzano.uniboors.Utils.Constants;
 
 
-import Presenter.LoginPresenter;
+import Model.AuthenticationMode;
+import Presenter.AccountAuthPresenter;
 import ViewInterfaces.FragmentView;
 
 
 public class LoginFragment extends Fragment implements FragmentView.LoginFragmentView {
 
-    private LoginPresenter loginPresenter;
-    private Button buttonSignUp, buttonLogin;
-    private TextView userInfo;
-    private EditText email,password;
+    private AccountAuthPresenter authPresenter;
+    private Button buttonLogin;
+    private TextInputEditText email, password;
     private View view;
+    private TextInputLayout textInputLayoutemail, textInputLayoutPassword;
+    private ProgressBar progressBar;
+    private TextView signUp;
 
 
     public LoginFragment() {
@@ -46,14 +57,18 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        this.loginPresenter = new LoginPresenter(this);
+        authPresenter = new AccountAuthPresenter(this);
         view = inflater.inflate(R.layout.fragment_login, container, false);
         buttonLogin = view.findViewById(R.id.button2);
-        buttonSignUp = view.findViewById(R.id.button3);
-        email=view.findViewById(R.id.email);
-        password=view.findViewById(R.id.password);
-        userInfo = view.findViewById(R.id.userInfo);
-        loginPresenter.onCreate();
+        email = view.findViewById(R.id.email);
+        password = view.findViewById(R.id.password);
+        textInputLayoutemail = view.findViewById(R.id.email_helper);
+        textInputLayoutPassword = view.findViewById(R.id.password_helper);
+        progressBar = view.findViewById(R.id.progressBarLogin);
+        signUp = view.findViewById(R.id.signUpTextView);
+
+        initSpannable();
+        authPresenter.onCreate();
 
         return view;
 
@@ -72,50 +87,92 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
     }
 
 
-
-
     @Override
     public void setButtonListener() {
-        buttonSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onSignUpPressed(view);
-            }
-        });
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onLoginPressed(view);
+                authPresenter.executeAuthentication(email.getText().toString(), password.getText().toString(), AuthenticationMode.SIGN_IN);
+
             }
         });
     }
 
 
     public void replaceFragment(Fragment fragment) {
-        Log.d("TESTACT", String.valueOf(getActivity() instanceof UniboorsActivity));
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+        hideProgressBar();
+
     }
 
     @Override
-    public void informUser(String message) {
-        userInfo.setText(message);
-    }
+    public void showProgressBar() {
 
-    private void onLoginPressed(View view) {
-        loginPresenter.signIn(email.getText().toString(), password.getText().toString());
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
 
     }
 
-    private void onSignUpPressed(View view) {
+    @Override
+    public void informUserWrongPassword(String message) {
+        textInputLayoutPassword.setErrorEnabled(true);
+        textInputLayoutPassword.setError(message);
+    }
 
-        Log.d("MARCO ", " email: "+email.getText()+" pass "+password.getText().toString());
-        loginPresenter.createUser(email.getText().toString(), password.getText().toString());
+
+    @Override
+    public void informUserWrongEmail(String message) {
+        textInputLayoutemail.setErrorEnabled(true);
+        textInputLayoutemail.setError(message);
 
     }
 
+    @Override
+    public void hideHintPassword() {
+        if (textInputLayoutPassword.isErrorEnabled()) {
+            textInputLayoutPassword.setErrorEnabled(false);
+        }
+
+    }
+
+    @Override
+    public void hideHintEmail() {
+        if (textInputLayoutemail.isErrorEnabled()) {
+            textInputLayoutemail.setErrorEnabled(false);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+
+    }
+
+    private void initSpannable() {
+        SpannableString ss = new SpannableString(Constants.DONT_HAVE_ACCOUNT_SIGN_UP);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                buttonLogin.setText("Sign Up!");
+                buttonLogin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        authPresenter.executeAuthentication(email.getText().toString(), password.getText().toString(), AuthenticationMode.SIGN_UP);
+
+                    }
+                });
+                signUp.setVisibility(View.GONE);
+            }
+        };
+        ss.setSpan(clickableSpan, Constants.DONT_HAVE_ACCOUNT_SIGN_UP.length() - Constants.SIGN_UP.length(), Constants.DONT_HAVE_ACCOUNT_SIGN_UP.length(), Spanned.SPAN_COMPOSING);
+
+        signUp.setMovementMethod(LinkMovementMethod.getInstance());
+        signUp.setText(ss);
+
+    }
 
 
 }

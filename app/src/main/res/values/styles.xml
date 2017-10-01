@@ -4,6 +4,7 @@
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/welcomeActivityBackground</item>
     </style>
 
     <style name="NoActionBarMaterial" parent="@android:style/Theme.Material" tools:targetApi="lollipop">
@@ -17,4 +18,15 @@
         <item name="android:typeface">monospace</item>
         <item name="android:textSize">32sp</item>
     </style>
+
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/buttonBackgroundRed</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="MyButton">
+        <item name="android:background">@color/buttonBackgroundRed</item>
+        <item name ="android:textColor">@color/buttonTextWhite</item>
+    </style>
+
 </resources>

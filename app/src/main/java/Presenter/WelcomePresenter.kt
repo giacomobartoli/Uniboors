@@ -10,23 +10,16 @@ import com.google.firebase.auth.FirebaseUser
  */
 class WelcomePresenter(private var welcomeFragmentView: FragmentView.WelcomeFragmentView) : Presenter {
 
-    private val user = FirebaseAuth.getInstance().currentUser
+    private val user = User(FirebaseAuth.getInstance().currentUser?.email.toString())
 
 
     override fun onCreate() {
-        welcomeFragmentView.updateWelcomeMessage("      welcome "+user?.email)
+        welcomeFragmentView.updateWelcomeMessage("  welcome " + user.toString())
     }
 
-    fun goButtonPressed(){
+    fun goButtonPressed() {
 
     }
-
-    fun textPressed(){
-        welcomeFragmentView.backToSignIn()
-    }
-
-
-
 
 
 }

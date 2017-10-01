@@ -13,14 +13,24 @@ interface FragmentView {
 
         fun replaceFragment(fragment: Fragment)
 
-        fun informUser(message: String)
+        fun informUserWrongPassword(message: String)
+
+        fun informUserWrongEmail(message: String)
+
+        fun hideHintPassword()
+
+        fun hideHintEmail()
+
+        fun showProgressBar()
+
+        fun hideProgressBar()
     }
+
 
     interface WelcomeFragmentView : FragmentView {
 
         fun updateWelcomeMessage(message:String)
 
-        fun backToSignIn()
 
         fun onGoToAppPressed()
 
