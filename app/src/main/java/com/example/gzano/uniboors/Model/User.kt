@@ -1,4 +1,4 @@
-package Model
+package com.example.gzano.uniboors.Model
 
 import org.jetbrains.annotations.NotNull
 

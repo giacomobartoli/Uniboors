@@ -11,8 +11,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +19,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.gzano.uniboors.R;
-import com.example.gzano.uniboors.UniboorsActivity;
 import com.example.gzano.uniboors.Utils.Constants;
 
 
-import Model.AuthenticationMode;
-import Presenter.AccountAuthPresenter;
-import ViewInterfaces.FragmentView;
+import com.example.gzano.uniboors.Model.AuthenticationMode;
+import com.example.gzano.uniboors.Presenter.AccountAuthPresenter;
+import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 
 
 public class LoginFragment extends Fragment implements FragmentView.LoginFragmentView {

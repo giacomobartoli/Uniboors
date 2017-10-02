@@ -19,4 +19,5 @@ public class Constants {
     public static final String EMAIL_ALREADY_IN_USE="email already in use";
     public static final String ERROR_WRONG_PASSWORD="ERROR_WRONG_PASSWORD";
     public static final String ERROR_INVALID_EMAIL="ERROR_INVALID_EMAIL";
+    public static final String NODE_USERS_PATH="users";
 }

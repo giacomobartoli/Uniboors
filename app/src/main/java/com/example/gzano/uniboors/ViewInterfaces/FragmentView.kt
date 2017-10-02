@@ -1,4 +1,4 @@
-package ViewInterfaces
+package com.example.gzano.uniboors.ViewInterfaces
 
 import android.support.v4.app.Fragment
 
@@ -34,6 +34,7 @@ interface FragmentView {
 
         fun onGoToAppPressed()
 
+        fun setListeners()
 
     }
 }

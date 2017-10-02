@@ -1,24 +1,25 @@
 package com.example.gzano.uniboors.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.gzano.uniboors.MyPlacesActivity;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.Utils.Constants;
 
-import Presenter.WelcomePresenter;
-import ViewInterfaces.FragmentView;
+import com.example.gzano.uniboors.Presenter.WelcomePresenter;
+import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 
 
 public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFragmentView {
@@ -27,6 +28,7 @@ public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFra
     private TextView welcomeTextView;
     private TextView newAccount;
     private View view;
+    private Button goToAppButton;
 
     public GoToAppFragment() {
         // Required empty public constructor
@@ -47,7 +49,9 @@ public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFra
         view = inflater.inflate(R.layout.fragment_go_to_app, container, false);
         welcomeTextView = view.findViewById(R.id.welcomeTextView);
         newAccount = view.findViewById(R.id.newAccountTextView);
+        goToAppButton = view.findViewById(R.id.goToAppButton);
         SpannableString ss = new SpannableString(Constants.SIGNIN_SIGNUP_TEXT);
+
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
@@ -80,7 +84,8 @@ public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFra
 
     @Override
     public void onGoToAppPressed() {
-
+        Intent intent = new Intent(getActivity(), MyPlacesActivity.class);
+        startActivity(intent);
     }
 
 
@@ -91,5 +96,13 @@ public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFra
     }
 
 
-
+    @Override
+    public void setListeners() {
+        goToAppButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.goButtonPressed();
+            }
+        });
+    }
 }
