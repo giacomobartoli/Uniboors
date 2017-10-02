@@ -7,6 +7,9 @@
     <color name="uniboorsText">#f44336</color>
     <color name="buttonBackgroundRed">#f44336</color>
     <color name="textViewGrey">#9E9E9E</color>
-
-
+    <color name="colorPrimaryCard">#F50057</color>
+    <color name="colorPrimaryDarkCard">#F50057</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="viewBg">#f1f5f8</color>
+    <color name="album_title">#4c4c4c</color>
 </resources>

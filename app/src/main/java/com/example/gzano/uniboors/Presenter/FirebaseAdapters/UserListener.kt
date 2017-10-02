@@ -19,7 +19,7 @@ class UserListener(private var mUser: FirebaseUser) : ValueEventListener {
         val childRef = snapshot?.child(mUser.uid)?.child("places")
 
         if (childRef!!.value == null ) {
-            snapshot?.child(mUser.uid)?.child("places")?.ref?.setValue("empty")
+            snapshot.child(mUser.uid)?.child("places")?.ref?.setValue("empty")
 
         }
     }
