@@ -17,6 +17,10 @@
         android:theme="?attr/actionBarTheme"
         android:weightSum="1">
 
+        <SearchView
+            android:id="@+id/searchViewMyPlaces"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </android.support.v7.widget.Toolbar>
 
