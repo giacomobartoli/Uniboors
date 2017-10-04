@@ -16,11 +16,12 @@ import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.Utils.Adapters.RecyclerAdapter;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
 
-public class RecyclerViewFragment extends Fragment implements FragmentView.PlacesFragmentView {
+public class RecyclerFragment extends Fragment implements FragmentView.PlacesFragmentView {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private RecyclerAdapter mAdapter;
@@ -28,7 +29,7 @@ public class RecyclerViewFragment extends Fragment implements FragmentView.Place
     private View rootView;
     private ProgressBar progressBar;
 
-    public RecyclerViewFragment() {
+    public RecyclerFragment() {
     }
 
 
@@ -41,11 +42,12 @@ public class RecyclerViewFragment extends Fragment implements FragmentView.Place
         progressBar = getActivity().findViewById(R.id.progressBarPlacesActivity);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        placesPresenter = new PlacesPresenter(this);
         placesPresenter.onCreate();
+
 
         return rootView;
     }
+
 
 
     @Override
@@ -62,7 +64,7 @@ public class RecyclerViewFragment extends Fragment implements FragmentView.Place
     @Override
     public void setAdapter(@NonNull ArrayList<Room> fetchedRooms) {
 
-        mAdapter = new RecyclerAdapter(fetchedRooms);
+        mAdapter = new RecyclerAdapter(fetchedRooms, placesPresenter);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -79,4 +81,16 @@ public class RecyclerViewFragment extends Fragment implements FragmentView.Place
         progressBar.setVisibility(View.GONE);
 
     }
+
+    @Override
+    public void suggestUserToLookForPlaces() {
+        mRecyclerView.setVisibility(View.GONE);
+
+    }
+
+    public void setPlacesPresenter(DatabaseReference reference) {
+        placesPresenter = new PlacesPresenter(this, reference);
+
+    }
+
 }

@@ -1,7 +1,5 @@
 package com.example.gzano.uniboors.Utils;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Created by gzano on 27/09/2017.
  */
@@ -21,6 +19,7 @@ public class Constants {
     public static final String ERROR_INVALID_EMAIL="ERROR_INVALID_EMAIL";
     public static final String NODE_USERS_PATH="users";
     public static final String CESENA_CAMPUS="Campus Cesena Places";
+    public static final String CESENA_CAMPUS_NODE = "CesenaCampus";
     public static final String YOUR_PLACES="your places";
     public static final int PLACES_PAGE_NUMBER=2;
 }

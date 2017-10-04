@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gzano.uniboors.Model.Room;
+import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private ArrayList<Room> mRooms;
 
-    public RecyclerAdapter(ArrayList<Room> mRooms) {
+    public RecyclerAdapter(ArrayList<Room> mRooms, PlacesPresenter placesPresenter) {
         this.mRooms = mRooms;
     }
 
