@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gzano.uniboors.Model.Room;
 import com.example.gzano.uniboors.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -19,10 +18,10 @@ import java.util.ArrayList;
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    private ArrayList<Integer> mPhotos;
+    private ArrayList<Room> mRooms;
 
-    public RecyclerAdapter(ArrayList<Integer> mPhotos) {
-        this.mPhotos = mPhotos;
+    public RecyclerAdapter(ArrayList<Room> mRooms) {
+        this.mRooms = mRooms;
     }
 
     @Override
@@ -34,14 +33,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d("TAAAAAG"," number: " + mPhotos.get(position));
+        Log.d("TAAAAAG", " number: " + mRooms.get(position));
 
-        holder.bind(mPhotos.get(position));
+        holder.bind(mRooms.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mPhotos.size();
+        return mRooms.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -62,8 +61,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         }
 
-        public void bind(int number){
-            mItemDate.setText(String.valueOf(number));
+        public void bind(Room room) {
+            mItemDate.setText(String.valueOf(room.getRoomType()));
         }
 
     }

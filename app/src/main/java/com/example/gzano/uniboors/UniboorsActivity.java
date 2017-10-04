@@ -1,13 +1,14 @@
 package com.example.gzano.uniboors;
 
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 
 import com.example.gzano.uniboors.Fragments.GoToAppFragment;
 import com.example.gzano.uniboors.Fragments.LoginFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class UniboorsActivity extends FragmentActivity {
 
@@ -21,6 +22,7 @@ public class UniboorsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         fragmentContainer = findViewById(R.id.fragment_container);
         loginFragment = new LoginFragment();
         goToAppFragment = new GoToAppFragment();

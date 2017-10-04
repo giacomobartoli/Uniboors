@@ -78,7 +78,6 @@
 
     <ProgressBar
         android:id="@+id/progressBarLogin"
-        style="?android:attr/progressBarStyle"
         android:layout_width="80dp"
         android:layout_height="69dp"
         android:layout_marginBottom="8dp"

@@ -1,6 +1,7 @@
 package com.example.gzano.uniboors.ViewInterfaces
 
 import android.support.v4.app.Fragment
+import com.example.gzano.uniboors.Model.Room
 
 /**
  * Created by gzano on 26/09/2017.
@@ -36,5 +37,13 @@ interface FragmentView {
 
         fun setListeners()
 
+    }
+
+    interface PlacesFragmentView : FragmentView {
+        fun setAdapter(fetchedRooms: ArrayList<Room>)
+
+        fun showProgressBar()
+
+        fun hideProgressBar()
     }
 }
