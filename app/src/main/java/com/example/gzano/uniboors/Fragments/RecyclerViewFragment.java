@@ -34,7 +34,11 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView = rootView.findViewById(R.id.placesRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mAdapter = new RecyclerAdapter(new ArrayList<ImageView>());
+        ArrayList<Integer> ciaone = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            ciaone.add(i);
+        }
+        mAdapter = new RecyclerAdapter(ciaone);
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;

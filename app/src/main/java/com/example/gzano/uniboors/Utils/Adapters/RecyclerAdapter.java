@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.gzano.uniboors.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -17,9 +19,9 @@ import java.util.ArrayList;
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    private ArrayList<ImageView> mPhotos;
+    private ArrayList<Integer> mPhotos;
 
-    public RecyclerAdapter(ArrayList<ImageView> mPhotos) {
+    public RecyclerAdapter(ArrayList<Integer> mPhotos) {
         this.mPhotos = mPhotos;
     }
 
@@ -32,12 +34,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.d("TAAAAAG"," number: " + mPhotos.get(position));
 
+        holder.bind(mPhotos.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 12;
+        return mPhotos.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -48,6 +52,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            mItemDate=itemView.findViewById(R.id.item_date);
+
         }
 
         @Override
@@ -56,6 +62,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         }
 
+        public void bind(int number){
+            mItemDate.setText(String.valueOf(number));
+        }
 
     }
 }
