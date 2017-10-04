@@ -14,5 +14,8 @@
     <string name="search_hint">search your place</string>
     <string name="title_activity_your_places">YourPlacesActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_places">PlacesActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_provaattivita">provaattivita</string>
 
 </resources>
