@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.gzano.uniboors.PlacesActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never|collapseActionView" />
+    <item
+
+        android:id="@+id/menuSearch"
+        android:icon="@drawable/ic_white_search_icon"
+        android:title="@string/search_hint"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:queryHint="@string/search_hint"
+        app:showAsAction="ifRoom|collapseActionView">
+
+    </item>
+</menu>

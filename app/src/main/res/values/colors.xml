@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="welcomeActivityBackground">#FDFEFE</color>
     <color name="buttonTextWhite">#fdfefe</color>
+    <color name="whitewithopacity">#e5e5e5</color>
     <color name="uniboorsText">#f44336</color>
     <color name="buttonBackgroundRed">#f44336</color>
     <color name="textViewGrey">#9E9E9E</color>

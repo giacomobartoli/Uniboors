@@ -17,14 +17,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".MyPlacesActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+        <activity
+            android:name=".PlacesActivity"
+            android:label="@string/title_activity_your_places"
+            android:theme="@style/NoActionBar"></activity>
     </application>
 
 </manifest>

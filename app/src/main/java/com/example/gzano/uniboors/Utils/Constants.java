@@ -20,4 +20,7 @@ public class Constants {
     public static final String ERROR_WRONG_PASSWORD="ERROR_WRONG_PASSWORD";
     public static final String ERROR_INVALID_EMAIL="ERROR_INVALID_EMAIL";
     public static final String NODE_USERS_PATH="users";
+    public static final String CESENA_CAMPUS="Campus Cesena Places";
+    public static final String YOUR_PLACES="your places";
+    public static final int PLACES_PAGE_NUMBER=2;
 }

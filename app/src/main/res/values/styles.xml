@@ -5,6 +5,9 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/welcomeActivityBackground</item>
+        <item name="android:colorPrimary" tools:targetApi="lollipop">@color/buttonBackgroundRed
+        </item>
+        <item name="android:colorSecondary" tools:targetApi="n_mr1">@color/buttonTextWhite</item>
     </style>
 
     <style name="NoActionBarMaterial" parent="@android:style/Theme.Material" tools:targetApi="lollipop">
@@ -30,5 +33,13 @@
     </style>
 
 
+    <style name="MySearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColorPrimary">@color/buttonTextWhite</item>
+        <item name="android:textColorHint">@color/whitewithopacity</item>
 
+    </style>
+
+    <style name="NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
