@@ -12,21 +12,21 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.gzano.uniboors.Model.Room;
+import com.example.gzano.uniboors.Model.RoomType;
 import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.Utils.Adapters.RecyclerAdapter;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class RecyclerFragment extends Fragment implements FragmentView.PlacesFragmentView {
     private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLinearLayoutManager;
-    private RecyclerAdapter mAdapter;
     private PlacesPresenter placesPresenter;
-    private View rootView;
     private ProgressBar progressBar;
 
     public RecyclerFragment() {
@@ -37,10 +37,10 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.places_recycler_view_layout, container, false);
+        View rootView = inflater.inflate(R.layout.places_recycler_view_layout, container, false);
         mRecyclerView = rootView.findViewById(R.id.placesRecyclerView);
         progressBar = getActivity().findViewById(R.id.progressBarPlacesActivity);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         placesPresenter.onCreate();
 
@@ -62,9 +62,9 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void setAdapter(@NonNull ArrayList<Room> fetchedRooms) {
+    public void setAdapter(@NonNull ArrayList<Room> fetchedRooms, HashMap<RoomType, File> files) {
 
-        mAdapter = new RecyclerAdapter(fetchedRooms, placesPresenter);
+        RecyclerAdapter mAdapter = new RecyclerAdapter(fetchedRooms, placesPresenter, files);
         mRecyclerView.setAdapter(mAdapter);
     }
 

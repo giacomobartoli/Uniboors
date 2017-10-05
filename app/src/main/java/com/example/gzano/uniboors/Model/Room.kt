@@ -10,6 +10,8 @@ interface Room {
 
     var isFriendly: Boolean
 
+
     data class ClassRoom(override val roomType: RoomType, override val roomName: String, override var isFriendly: Boolean) : Room
     data class ComputerLab(override val roomType: RoomType, override val roomName: String, override var isFriendly: Boolean) : Room
+    data class GenericRoom(override val roomType: RoomType, override val roomName: String, override var isFriendly: Boolean) : Room
 }
