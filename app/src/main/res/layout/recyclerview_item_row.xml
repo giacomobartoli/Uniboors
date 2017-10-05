@@ -12,8 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/classroomImageView"
@@ -28,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/classroomImageView"
+            android:layout_alignBottom="@+id/classroomImageView"
             android:text="Title"
             android:textSize="18sp" />
 
@@ -37,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/room_details_text_view"
-            android:layout_toRightOf="@+id/classroomImageView"
+            android:layout_alignBottom="@+id/classroomImageView"
             android:text="Description" />
 
     </RelativeLayout>
