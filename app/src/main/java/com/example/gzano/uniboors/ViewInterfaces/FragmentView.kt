@@ -47,9 +47,9 @@ interface FragmentView {
     interface PlacesFragmentView : FragmentView {
         fun setAdapter(fetchedRooms: ArrayList<Room>, files: HashMap<RoomType, File>)
 
-        fun showProgressBar()
+        fun showProgressBar(pageTag: Int)
 
-        fun hideProgressBar()
+        fun hideProgressBar(pageTag: Int)
 
         fun suggestUserToLookForPlaces()
 
@@ -60,6 +60,8 @@ interface FragmentView {
         fun showPopUp(view: View)
 
         fun getPageTag(): Int
+
+        fun startActivity()
 
         fun showGoAlert()
 

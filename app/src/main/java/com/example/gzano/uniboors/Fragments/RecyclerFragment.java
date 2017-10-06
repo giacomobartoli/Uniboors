@@ -28,6 +28,7 @@ import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapter;
+import com.example.gzano.uniboors.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -90,19 +91,28 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void showProgressBar() {
+    public void showProgressBar(int pageTag) {
 
-//        progressBarActivity.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
+        if (pageTag == Constants.PAGE_TAG_CESENA_PLACE) {
+            progressBarActivity.setVisibility(View.VISIBLE);
+        }
+        if (pageTag == Constants.PAGE_TAG_YOUR_PLACE) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
 
     }
 
     @Override
-    public void hideProgressBar() {
+    public void hideProgressBar(int pageTag) {
 
-//        progressBarActivity.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
+        if (pageTag == Constants.PAGE_TAG_CESENA_PLACE) {
+            progressBarActivity.setVisibility(View.GONE);
+        }
+        if (pageTag == Constants.PAGE_TAG_YOUR_PLACE) {
+            progressBar.setVisibility(View.GONE);
+        }
+
 
 
     }
@@ -139,8 +149,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 alertDialogGoToNavigation.hide();
-                                Intent intent = new Intent(getActivity(), NavigationActivity.class);
-                                startActivity(intent);
+                                goToNavigationActivity();
                             }
                         });
 
@@ -209,9 +218,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
 
 
                         alertDialogGoToNavigation.hide();
-                        Intent intent = new Intent(getActivity(), NavigationActivity.class);
-                        startActivity(intent);
-
+                        goToNavigationActivity();
 
                     }
                 });
@@ -234,5 +241,15 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     @Override
     public int getPageTag() {
         return pageTag;
+    }
+
+    @Override
+    public void startActivity() {
+        goToNavigationActivity();
+    }
+
+    private void goToNavigationActivity() {
+        Intent intent = new Intent(getActivity(), NavigationActivity.class);
+        startActivity(intent);
     }
 }

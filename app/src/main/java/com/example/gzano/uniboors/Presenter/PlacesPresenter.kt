@@ -29,7 +29,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                 if (p0 != null && p0.value == "empty") {
                     placesFragmentView.suggestUserToLookForPlaces()
                 } else {
-                    placesFragmentView.showProgressBar()
+                    placesFragmentView.showProgressBar(placesFragmentView.getPageTag())
 
 //                    }
 
@@ -64,7 +64,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                                 storage2.getFile(localFile2).addOnSuccessListener {
                                     images.put(RoomType.CLASSROOM, localFile2!!)
                                     placesFragmentView.setAdapter(fetchedRooms, images)
-                                    placesFragmentView.hideProgressBar()
+                                    placesFragmentView.hideProgressBar(placesFragmentView.getPageTag())
                                     Log.d("TESTFILE ", " map " + images)
                                 }
 
@@ -120,12 +120,16 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                 if (p0 != null) {
                     //  placesFragmentView.showAlertGoToNavigationOrStay()
                     val isPresent = p0.children.any { it.key == roomName }
-                    if (!isPresent) {
+                    if (!isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_CESENA_PLACE) {
                         placesFragmentView.showAlertGoToNavigationOrStay(databaseRef.child(roomName), value)
 
 
-                    } else {
+                    }
+                    if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_CESENA_PLACE) {
                         placesFragmentView.showGoAlert()
+                    }
+                    if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_YOUR_PLACE) {
+                        placesFragmentView.startActivity()
                     }
                 }
             }
