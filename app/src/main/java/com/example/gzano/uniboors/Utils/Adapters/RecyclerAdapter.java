@@ -69,7 +69,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            Log.d("RecyclerView", "CLICK!");
+
+            String roomName = mItemDate.getText().toString();
+            RoomType roomType = (RoomType) mItemDate.getTag();
+            if (roomType.equals(RoomType.CLASSROOM)) {
+                placesPresenter.addToFavPlaces(new Room.ClassRoom(roomType, roomName, false));
+            }
+            if (roomType.equals(RoomType.COMPUTER_LAB)) {
+                placesPresenter.addToFavPlaces(new Room.ComputerLab(roomType, roomName, false));
+            }
 
         }
 
@@ -77,17 +85,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
             switch (room.getRoomType()) {
                 case CLASSROOM:
-                    Log.d("TESTFILE", " map files " + files + " file " + files.get(RoomType.CLASSROOM).getAbsolutePath());
+                    mItemDate.setTag(RoomType.CLASSROOM);
                     mItemImage.setImageBitmap(BitmapFactory.decodeFile(files.get(RoomType.CLASSROOM).getAbsolutePath()));
                     break;
 
                 case COMPUTER_LAB:
-                    Log.d("TESTFILE", " map files " + files + " file " + files.get(RoomType.COMPUTER_LAB).getAbsolutePath());
+                    mItemDate.setTag(RoomType.COMPUTER_LAB);
                     mItemImage.setImageBitmap(BitmapFactory.decodeFile(files.get(RoomType.COMPUTER_LAB).getAbsolutePath()));
 
                     break;
             }
-            mItemDate.setText(room.getRoomName().toUpperCase());
+            mItemDate.setText(room.getRoomName());
             description.setText(R.string.wow_cool_lesson);
 
 

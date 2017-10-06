@@ -22,4 +22,7 @@ public class Constants {
     public static final String CESENA_CAMPUS_NODE = "CesenaCampus";
     public static final String YOUR_PLACES="your places";
     public static final int PLACES_PAGE_NUMBER=2;
+    public static final String CLASSROOM_NODE_VALUE = "classroom";
+    public static final String COMPUTER_LAB_NODE_VALUE = "computerlab";
+
 }

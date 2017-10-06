@@ -50,5 +50,9 @@ interface FragmentView {
         fun hideProgressBar()
 
         fun suggestUserToLookForPlaces()
+
+        fun showAlert()
+
+        fun hideAlert()
     }
 }

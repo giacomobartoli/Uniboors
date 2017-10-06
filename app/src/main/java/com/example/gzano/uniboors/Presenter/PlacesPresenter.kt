@@ -4,11 +4,10 @@ import android.util.Log
 import com.example.gzano.uniboors.Model.Room
 import com.example.gzano.uniboors.Model.Room.*
 import com.example.gzano.uniboors.Model.RoomType
+import com.example.gzano.uniboors.Utils.Constants
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView.PlacesFragmentView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 import java.io.IOException
@@ -32,7 +31,6 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                 if (p0 != null && p0.value == "empty") {
                     placesFragmentView.suggestUserToLookForPlaces()
                 } else {
-                    val children = p0?.childrenCount
                     placesFragmentView.showProgressBar()
 
 //                    }
@@ -40,12 +38,12 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
 
                     p0?.children?.mapTo(fetchedRooms) {
                         when (it.value.toString()) {
-                            "classroom" -> {
+                            Constants.CLASSROOM_NODE_VALUE -> {
 
                                 ClassRoom(RoomType.CLASSROOM, it.key.toString(), false)
 
                             }
-                            "computerlab" -> {
+                            Constants.COMPUTER_LAB_NODE_VALUE -> {
                                 ComputerLab(RoomType.COMPUTER_LAB, it.key.toString(), false)
                             }
                             else -> {
@@ -85,8 +83,6 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                     }
 
 
-
-
                 }
 
             }
@@ -100,7 +96,44 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
 
     }
 
+    fun addToFavPlaces(room: Room) {
 
+        val databaseRef = FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH).
+                child(FirebaseAuth.getInstance().currentUser?.uid).child("places")
+        when (room.roomType) {
+            RoomType.CLASSROOM -> checkIfPresent(databaseRef, room)
+
+
+            RoomType.COMPUTER_LAB -> checkIfPresent(databaseRef, room)
+            else -> {
+            }
+        }
+    }
+
+    private fun checkIfPresent(databaseRef: DatabaseReference, room: Room) {
+        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                if (p0 != null) {
+                    var isPresent = false
+                    for (snapshot in p0.children) {
+                        if (snapshot.key == room.roomName) {
+                            placesFragmentView.showAlert()
+                            isPresent = true
+                        }
+                    }
+                    if (!isPresent) {
+                        databaseRef.child(room.roomName).setValue(Constants.CLASSROOM_NODE_VALUE)
+
+                    }
+                }
+            }
+
+        })
+    }
 }
 
 

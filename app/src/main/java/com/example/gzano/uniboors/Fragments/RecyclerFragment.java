@@ -93,4 +93,13 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
 
     }
 
+    @Override
+    public void showAlert() {
+
+    }
+
+    @Override
+    public void hideAlert() {
+
+    }
 }
