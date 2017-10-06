@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.gzano.uniboors.Model.Room;
 import com.example.gzano.uniboors.Model.RoomType;
+import com.example.gzano.uniboors.Model.User;
 import com.example.gzano.uniboors.NavigationActivity;
 import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
@@ -31,6 +32,8 @@ import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapter;
 import com.example.gzano.uniboors.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import java.io.File;
@@ -135,9 +138,12 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
 
     @Override
     public void showAlertGoToNavigationOrStay(@NonNull final DatabaseReference databaseReference, final String value) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        User u = new User(user.getEmail());
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
-        builder.setTitle("Do you want to add this in your places and go to navigation?");
+        builder.setTitle("Hi " + u.toString());
+        builder.setMessage("Would you like to add places or do you want to jump straight to navigation?");
         String positiveText = "ADD AND GO!";
         builder.setPositiveButton(positiveText,
                 new DialogInterface.OnClickListener() {
@@ -183,6 +189,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
             }
         });
         alertDialogGoToNavigation = builder.create();
+
         alertDialogGoToNavigation.show();
     }
 
@@ -233,14 +240,13 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
         alertDialogGoToNavigation.show();
     }
 
-    public void setPageTag(int pageNumber) {
-        this.pageTag = pageNumber;
-    }
-
-
     @Override
     public int getPageTag() {
         return pageTag;
+    }
+
+    public void setPageTag(int pageNumber) {
+        this.pageTag = pageNumber;
     }
 
     @Override
