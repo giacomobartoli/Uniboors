@@ -2,16 +2,17 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
+    android:id="@+id/coordinator_layout_places_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.gzano.uniboors.PlacesActivity">
 
     <ProgressBar
         android:id="@+id/progressBarPlacesActivity"
-        android:layout_width="99dp"
-        android:layout_height="79dp"
+        android:layout_width="80dp"
+        android:layout_height="69dp"
         android:layout_gravity="center"
+        android:indeterminateTint="@color/RedBackground"
         android:visibility="gone" />
 
     <android.support.design.widget.AppBarLayout
@@ -25,7 +26,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/buttonBackgroundRed"
+            android:background="@color/RedBackground"
             android:title="@string/app_name"
             app:popupTheme="@style/NoActionBar.PopupOverlay">
 
@@ -35,7 +36,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/buttonBackgroundRed"
+            android:background="@color/RedBackground"
             app:layout_scrollFlags="scroll|enterAlways|snap" />
 
     </android.support.design.widget.AppBarLayout>

@@ -15,11 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.gzano.uniboors.PlacesActivity;
-import com.example.gzano.uniboors.R;
-import com.example.gzano.uniboors.Utils.Constants;
-
 import com.example.gzano.uniboors.Presenter.WelcomePresenter;
+import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
+import com.example.gzano.uniboors.utils.Constants;
 
 
 public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFragmentView {

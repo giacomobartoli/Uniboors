@@ -1,4 +1,4 @@
-package com.example.gzano.uniboors.Utils;
+package com.example.gzano.uniboors.utils;
 
 /**
  * Created by gzano on 27/09/2017.
@@ -24,5 +24,7 @@ public class Constants {
     public static final int PLACES_PAGE_NUMBER=2;
     public static final String CLASSROOM_NODE_VALUE = "classroom";
     public static final String COMPUTER_LAB_NODE_VALUE = "computerlab";
+    public static final int PAGE_TAG_YOUR_PLACE = 1;
+    public static final int PAGE_TAG_CESENA_PLACE = 0;
 
 }

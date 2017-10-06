@@ -1,11 +1,12 @@
 package com.example.gzano.uniboors.Presenter
 
 import android.util.Log
+import android.view.View
 import com.example.gzano.uniboors.Model.Room
 import com.example.gzano.uniboors.Model.Room.*
 import com.example.gzano.uniboors.Model.RoomType
-import com.example.gzano.uniboors.Utils.Constants
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView.PlacesFragmentView
+import com.example.gzano.uniboors.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -18,11 +19,8 @@ import java.util.*
  */
 class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val databaseRef: DatabaseReference) : Presenter {
 
-    private var imagesfile = HashMap<RoomType, File>()
+    private var images = HashMap<RoomType, File>()
     override fun onCreate() {
-
-        placesFragmentView.showProgressBar()
-
 
 
         databaseRef.addValueEventListener(object : ValueEventListener {
@@ -58,16 +56,16 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                     try {
                         localFile1 = File.createTempFile("image1", "jpg")
                         storage1.getFile(localFile1).addOnSuccessListener {
-                            imagesfile.put(RoomType.COMPUTER_LAB, localFile1!!)
+                            images.put(RoomType.COMPUTER_LAB, localFile1!!)
                             val storage2 = FirebaseStorage.getInstance().reference.child("job-day5.jpg")
                             var localFile2: File?
                             try {
                                 localFile2 = File.createTempFile("image2", "jpg")
                                 storage2.getFile(localFile2).addOnSuccessListener {
-                                    imagesfile.put(RoomType.CLASSROOM, localFile2!!)
-                                    placesFragmentView.setAdapter(fetchedRooms, imagesfile)
+                                    images.put(RoomType.CLASSROOM, localFile2!!)
+                                    placesFragmentView.setAdapter(fetchedRooms, images)
                                     placesFragmentView.hideProgressBar()
-                                    Log.d("TESTFILE ", " map " + imagesfile)
+                                    Log.d("TESTFILE ", " map " + images)
                                 }
 
                             } catch (e: IOException) {
@@ -89,6 +87,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
 
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
 
         })
@@ -98,19 +97,20 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
 
     fun addToFavPlaces(room: Room) {
 
+
         val databaseRef = FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH).
                 child(FirebaseAuth.getInstance().currentUser?.uid).child("places")
         when (room.roomType) {
-            RoomType.CLASSROOM -> checkIfPresent(databaseRef, room)
+            RoomType.CLASSROOM -> checkIfPresent(databaseRef, room.roomName, Constants.CLASSROOM_NODE_VALUE)
 
 
-            RoomType.COMPUTER_LAB -> checkIfPresent(databaseRef, room)
+            RoomType.COMPUTER_LAB -> checkIfPresent(databaseRef, room.roomName, Constants.COMPUTER_LAB_NODE_VALUE)
             else -> {
             }
         }
     }
 
-    private fun checkIfPresent(databaseRef: DatabaseReference, room: Room) {
+    private fun checkIfPresent(databaseRef: DatabaseReference, roomName: String, value: String) {
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -118,21 +118,42 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
 
             override fun onDataChange(p0: DataSnapshot?) {
                 if (p0 != null) {
-                    var isPresent = false
-                    for (snapshot in p0.children) {
-                        if (snapshot.key == room.roomName) {
-                            placesFragmentView.showAlert()
-                            isPresent = true
-                        }
-                    }
+                    //  placesFragmentView.showAlertGoToNavigationOrStay()
+                    val isPresent = p0.children.any { it.key == roomName }
                     if (!isPresent) {
-                        databaseRef.child(room.roomName).setValue(Constants.CLASSROOM_NODE_VALUE)
+                        placesFragmentView.showAlertGoToNavigationOrStay(databaseRef.child(roomName), value)
 
+
+                    } else {
+                        placesFragmentView.showGoAlert()
                     }
                 }
             }
 
         })
+    }
+
+    fun onLongPressed(view: View) {
+
+        if (placesFragmentView.getPageTag() == Constants.PAGE_TAG_YOUR_PLACE) {
+            placesFragmentView.showPopUp(view)
+        }
+
+    }
+
+    fun removeRoom(roomName: String) {
+
+        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                p0?.children?.filter { it.key == roomName }?.forEach { it.ref.removeValue() }
+            }
+        })
+
+
     }
 }
 

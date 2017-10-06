@@ -18,5 +18,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_provaattivita">provaattivita</string>
     <string name="wow_cool_lesson">wow cool lesson</string>
+    <string name="remove_place">remove place</string>
 
 </resources>

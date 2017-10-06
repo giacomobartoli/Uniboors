@@ -6,7 +6,7 @@
     <color name="buttonTextWhite">#fdfefe</color>
     <color name="whitewithopacity">#e5e5e5</color>
     <color name="uniboorsText">#f44336</color>
-    <color name="buttonBackgroundRed">#f44336</color>
+    <color name="RedBackground">#f44336</color>
     <color name="textViewGrey">#9E9E9E</color>
     <color name="colorPrimaryCard">#F50057</color>
     <color name="colorPrimaryDarkCard">#F50057</color>

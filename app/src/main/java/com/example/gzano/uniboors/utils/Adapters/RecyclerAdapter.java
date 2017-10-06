@@ -1,4 +1,4 @@
-package com.example.gzano.uniboors.Utils.Adapters;
+package com.example.gzano.uniboors.utils.Adapters;
 
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
@@ -53,7 +53,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return mRooms.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private ImageView mItemImage;
         private TextView mItemDate, description;
 
@@ -61,6 +62,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             mItemDate = itemView.findViewById(R.id.room_details_text_view);
             mItemImage = itemView.findViewById(R.id.classroomImageView);
             description = itemView.findViewById(R.id.description);
@@ -102,5 +104,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
 
+        @Override
+        public boolean onLongClick(View view) {
+            placesPresenter.onLongPressed(view);
+            return true;
+        }
     }
 }

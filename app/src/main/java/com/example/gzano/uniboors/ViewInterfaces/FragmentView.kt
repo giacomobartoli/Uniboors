@@ -1,8 +1,10 @@
 package com.example.gzano.uniboors.ViewInterfaces
 
 import android.support.v4.app.Fragment
+import android.view.View
 import com.example.gzano.uniboors.Model.Room
 import com.example.gzano.uniboors.Model.RoomType
+import com.google.firebase.database.DatabaseReference
 import java.io.File
 import java.util.*
 
@@ -33,7 +35,7 @@ interface FragmentView {
 
     interface WelcomeFragmentView : FragmentView {
 
-        fun updateWelcomeMessage(message:String)
+        fun updateWelcomeMessage(message: String)
 
 
         fun onGoToAppPressed()
@@ -51,8 +53,16 @@ interface FragmentView {
 
         fun suggestUserToLookForPlaces()
 
-        fun showAlert()
+        fun showAlertGoToNavigationOrStay(databaseReference: DatabaseReference, value: String)
 
-        fun hideAlert()
+        fun showAlertAlreadyInsert()
+
+        fun showPopUp(view: View)
+
+        fun getPageTag(): Int
+
+        fun showGoAlert()
+
+
     }
 }
