@@ -3,8 +3,6 @@ package com.example.gzano.uniboors.Fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -45,7 +43,6 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     private ProgressBar progressBar, progressBarActivity;
     private AlertDialog alertDialogGoToNavigation;
     private int pageTag;
-    private NetworkInfo activeNetwork;
     private View rootView;
 
     public RecyclerFragment() {
@@ -63,9 +60,6 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         progressBarActivity = getActivity().findViewById(R.id.progressBarPlacesActivity);
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        activeNetwork = cm.getActiveNetworkInfo();
-
         placesPresenter.onCreate();
 
 
@@ -140,7 +134,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void showAlertGoToNavigationOrStay(final String value) {
+    public void showAlertGoToNavigationOrStay(@NonNull final String value) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         User u = new User(user.getEmail());
         AlertDialog.Builder builder =
@@ -188,7 +182,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
 
 
     @Override
-    public void showPopUp(final View viewClicked) {
+    public void showPopUp(@NonNull final View viewClicked) {
         PopupMenu popupMenu = new PopupMenu(getActivity(), viewClicked.findViewById(R.id.cardView), Gravity.CENTER_HORIZONTAL);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.menu_options, popupMenu.getMenu());
@@ -206,7 +200,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void showGoAlertOrRemove(String value, final String roomName) {
+    public void showGoAlertOrRemove(@NonNull String value, @NonNull final String roomName) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
         builder.setTitle("This place is already added!");
