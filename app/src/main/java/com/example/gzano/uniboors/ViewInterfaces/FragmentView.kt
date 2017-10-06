@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment
 import android.view.View
 import com.example.gzano.uniboors.Model.Room
 import com.example.gzano.uniboors.Model.RoomType
-import com.google.firebase.database.DatabaseReference
 import java.io.File
 import java.util.*
 
@@ -53,7 +52,7 @@ interface FragmentView {
 
         fun suggestUserToLookForPlaces()
 
-        fun showAlertGoToNavigationOrStay(databaseReference: DatabaseReference, value: String)
+        fun showAlertGoToNavigationOrStay(value: String)
 
         fun showAlertAlreadyInsert()
 
@@ -63,7 +62,7 @@ interface FragmentView {
 
         fun startActivity()
 
-        fun showGoAlert()
+        fun showGoAlertOrRemove(value: String, roomName: String)
 
 
     }

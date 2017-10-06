@@ -30,8 +30,6 @@ import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapter;
 import com.example.gzano.uniboors.utils.Constants;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -76,6 +74,12 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        placesPresenter.onCreate();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -117,7 +121,6 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
         }
 
 
-
     }
 
     @Override
@@ -137,7 +140,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void showAlertGoToNavigationOrStay(@NonNull final DatabaseReference databaseReference, final String value) {
+    public void showAlertGoToNavigationOrStay(final String value) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         User u = new User(user.getEmail());
         AlertDialog.Builder builder =
@@ -150,14 +153,8 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-
-                        databaseReference.setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                alertDialogGoToNavigation.hide();
-                                goToNavigationActivity();
-                            }
-                        });
+                        alertDialogGoToNavigation.hide();
+                        goToNavigationActivity();
 
 
                     }
@@ -169,14 +166,10 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        databaseReference.setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
 
-                                alertDialogGoToNavigation.hide();
+                        alertDialogGoToNavigation.hide();
 
-                            }
-                        });
+
                     }
                 });
 
@@ -213,10 +206,11 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void showGoAlert() {
+    public void showGoAlertOrRemove(String value, final String roomName) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
-        builder.setTitle("This place is already added, do you want to go straight to navigation?");
+        builder.setTitle("This place is already added!");
+        builder.setMessage("Do you want to go to navigation or remove from your list?");
         String positiveText = "GO!";
         builder.setPositiveButton(positiveText,
                 new DialogInterface.OnClickListener() {
@@ -229,6 +223,20 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
 
                     }
                 });
+        String negativeText = "REMOVE";
+        builder.setNegativeButton(negativeText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        placesPresenter.removeRoom(roomName);
+                        alertDialogGoToNavigation.hide();
+
+
+                    }
+                });
+
+
         String neutralText = "BACK";
         builder.setNeutralButton(neutralText, new DialogInterface.OnClickListener() {
             @Override
@@ -258,4 +266,6 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
         Intent intent = new Intent(getActivity(), NavigationActivity.class);
         startActivity(intent);
     }
+
+
 }

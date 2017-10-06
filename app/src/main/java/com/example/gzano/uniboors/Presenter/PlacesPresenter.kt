@@ -121,12 +121,13 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                     //  placesFragmentView.showAlertGoToNavigationOrStay()
                     val isPresent = p0.children.any { it.key == roomName }
                     if (!isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_CESENA_PLACE) {
-                        placesFragmentView.showAlertGoToNavigationOrStay(databaseRef.child(roomName), value)
+                        databaseRef.child(roomName).setValue(value)
+                        placesFragmentView.showAlertGoToNavigationOrStay(value)
 
 
                     }
                     if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_CESENA_PLACE) {
-                        placesFragmentView.showGoAlert()
+                        placesFragmentView.showGoAlertOrRemove(value, roomName)
                     }
                     if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_YOUR_PLACE) {
                         placesFragmentView.startActivity()
@@ -146,6 +147,9 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
     }
 
     fun removeRoom(roomName: String) {
+        val databaseRef = FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH)
+                .child(FirebaseAuth.getInstance().currentUser?.uid).child("places")
+
 
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
