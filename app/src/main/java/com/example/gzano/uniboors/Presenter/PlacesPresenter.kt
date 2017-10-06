@@ -123,6 +123,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                         if (snapshot.key == room.roomName) {
                             placesFragmentView.showAlert()
                             isPresent = true
+                            val ciaone = "jkedfnjk"
                         }
                     }
                     if (!isPresent) {
