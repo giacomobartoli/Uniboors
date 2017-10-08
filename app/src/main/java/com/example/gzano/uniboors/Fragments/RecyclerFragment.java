@@ -43,7 +43,6 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     private ProgressBar progressBar, progressBarActivity;
     private AlertDialog alertDialogGoToNavigation;
     private int pageTag;
-    private View rootView;
 
     public RecyclerFragment() {
     }
@@ -54,7 +53,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
                              Bundle savedInstanceState) {
 
 
-        rootView = inflater.inflate(R.layout.places_recycler_view_layout, container, false);
+        View rootView = inflater.inflate(R.layout.places_recycler_view_layout, container, false);
         mRecyclerView = rootView.findViewById(R.id.placesRecyclerView);
         progressBar = rootView.findViewById(R.id.progressBarPlacesFragment);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());

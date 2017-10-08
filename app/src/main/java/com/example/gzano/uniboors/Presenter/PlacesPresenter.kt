@@ -31,7 +31,6 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                 } else {
                     placesFragmentView.showProgressBar(placesFragmentView.getPageTag())
 
-//                    }
 
 
                     p0?.children?.mapTo(fetchedRooms) {
@@ -110,33 +109,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
         }
     }
 
-    private fun checkIfPresent(databaseRef: DatabaseReference, roomName: String, value: String) {
-        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
 
-            override fun onDataChange(p0: DataSnapshot?) {
-                if (p0 != null) {
-                    //  placesFragmentView.showAlertGoToNavigationOrStay()
-                    val isPresent = p0.children.any { it.key == roomName }
-                    if (!isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_CESENA_PLACE) {
-                        databaseRef.child(roomName).setValue(value)
-                        placesFragmentView.showAlertGoToNavigationOrStay(value)
-
-
-                    }
-                    if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_CESENA_PLACE) {
-                        placesFragmentView.showGoAlertOrRemove(value, roomName)
-                    }
-                    if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_YOUR_PLACE) {
-                        placesFragmentView.startActivity()
-                    }
-                }
-            }
-
-        })
-    }
 
     fun onLongPressed(view: View) {
 
@@ -162,6 +135,33 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
         })
 
 
+    }
+
+    private fun checkIfPresent(databaseRef: DatabaseReference, roomName: String, value: String) {
+        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                if (p0 != null) {
+                    val isPresent = p0.children.any { it.key == roomName }
+                    if (!isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_CESENA_PLACE) {
+                        databaseRef.child(roomName).setValue(value)
+                        placesFragmentView.showAlertGoToNavigationOrStay(value)
+
+
+                    }
+                    if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_CESENA_PLACE) {
+                        placesFragmentView.showGoAlertOrRemove(value, roomName)
+                    }
+                    if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_YOUR_PLACE) {
+                        placesFragmentView.startActivity()
+                    }
+                }
+            }
+
+        })
     }
 }
 
