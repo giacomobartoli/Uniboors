@@ -16,10 +16,12 @@ class UserListener(private var mUser: FirebaseUser) : ValueEventListener {
     }
 
     override fun onDataChange(snapshot: DataSnapshot?) {
-        val childRef = snapshot?.child(mUser.uid)?.child("places")
+        val childRefPlaces = snapshot?.child(mUser.uid)?.child("places")
 
-        if (childRef!!.value == null ) {
-            snapshot.child(mUser.uid)?.child("places")?.ref?.setValue("empty")
+        val childRef = snapshot?.child(mUser.uid)?.ref
+
+        if (childRef == null || childRefPlaces!!.value == null) {
+            snapshot?.child(mUser.uid)?.child("places")?.ref?.setValue("empty")
 
         }
     }

@@ -1,14 +1,15 @@
 package com.example.gzano.uniboors;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.gzano.uniboors.utils.Adapters.PlacesPagerAdapter;
+import com.example.gzano.uniboors.Fragments.CampusPlacesFragment;
+import com.example.gzano.uniboors.utils.Constants;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class PlacesActivity extends AppCompatActivity {
 
@@ -22,12 +23,17 @@ public class PlacesActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        PlacesPagerAdapter mSectionsPagerAdapter = new PlacesPagerAdapter(getSupportFragmentManager());
+        // PlacesPagerAdapter mSectionsPagerAdapter = new PlacesPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        CampusPlacesFragment recyclerFragment = new CampusPlacesFragment();
+        recyclerFragment.setPlacesPresenter(FirebaseDatabase.getInstance().getReference(Constants.CESENA_CAMPUS_NODE));
+        getSupportFragmentManager().beginTransaction().add(R.id.places_fragment_container, recyclerFragment).commit();
+
+
+//        mViewPager = findViewById(R.id.container);
+//        mViewPager.setAdapter(mSectionsPagerAdapter);
+//        TabLayout tabLayout = findViewById(R.id.tabs);
+//        tabLayout.setupWithViewPager(mViewPager);
 
     }
 
