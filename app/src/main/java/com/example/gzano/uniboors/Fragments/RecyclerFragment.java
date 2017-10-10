@@ -20,19 +20,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.gzano.uniboors.Model.Room;
-import com.example.gzano.uniboors.Model.RoomType;
 import com.example.gzano.uniboors.Model.User;
 import com.example.gzano.uniboors.NavigationActivity;
 import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapter;
-import com.example.gzano.uniboors.utils.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -84,34 +81,28 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void setAdapter(@NonNull ArrayList<Room> fetchedRooms, @NonNull HashMap<RoomType, File> files) {
+    public void setAdapter(@NonNull ArrayList<Room> fetchedRooms) {
 
-        RecyclerAdapter mAdapter = new RecyclerAdapter(fetchedRooms, placesPresenter, files);
+        RecyclerAdapter mAdapter = new RecyclerAdapter(fetchedRooms, placesPresenter, pageTag);
         mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
-    public void showProgressBar(int pageTag) {
+    public void showProgressBar() {
 
-        if (pageTag == Constants.PAGE_TAG_CESENA_PLACE) {
-            progressBarActivity.setVisibility(View.VISIBLE);
-        }
-        if (pageTag == Constants.PAGE_TAG_YOUR_PLACE) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
+        progressBarActivity.setVisibility(View.VISIBLE);
+
+        //   progressBar.setVisibility(View.VISIBLE);
 
 
     }
 
     @Override
-    public void hideProgressBar(int pageTag) {
+    public void hideProgressBar() {
 
-        if (pageTag == Constants.PAGE_TAG_CESENA_PLACE) {
-            progressBarActivity.setVisibility(View.GONE);
-        }
-        if (pageTag == Constants.PAGE_TAG_YOUR_PLACE) {
-            progressBar.setVisibility(View.GONE);
-        }
+        progressBarActivity.setVisibility(View.GONE);
+
+        //  progressBar.setVisibility(View.GONE);
 
 
     }
@@ -122,10 +113,6 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
 
     }
 
-    public void setPlacesPresenter(DatabaseReference reference) {
-        placesPresenter = new PlacesPresenter(this, reference);
-
-    }
 
     @Override
     public void showAlertAlreadyInsert() {
@@ -133,7 +120,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void showAlertGoToNavigationOrStay(@NonNull final String value) {
+    public void showAlertGoToNavigationOrStay(final HashMap<String, String> data, final String roomName) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         User u = new User(user.getEmail());
         AlertDialog.Builder builder =
@@ -146,6 +133,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        placesPresenter.add(data, roomName);
                         alertDialogGoToNavigation.hide();
                         goToNavigationActivity();
 
@@ -199,7 +187,7 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     }
 
     @Override
-    public void showGoAlertOrRemove(@NonNull String value, @NonNull final String roomName) {
+    public void showGoAlertOrRemove(@NonNull final String roomName) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(getActivity(), R.style.MyDialogTheme);
         builder.setTitle("This place is already added!");
@@ -253,6 +241,11 @@ public class RecyclerFragment extends Fragment implements FragmentView.PlacesFra
     @Override
     public void startActivity() {
         goToNavigationActivity();
+    }
+
+    public void setPlacesPresenter(DatabaseReference reference) {
+        placesPresenter = new PlacesPresenter(this, reference);
+
     }
 
     private void goToNavigationActivity() {

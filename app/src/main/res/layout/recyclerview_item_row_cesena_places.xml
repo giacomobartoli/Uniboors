@@ -4,41 +4,52 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="4dp"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="@dimen/activity_vertical_margin"
-    app:cardElevation="@dimen/activity_vertical_margin">
+    app:cardElevation="4dp">
 
     <RelativeLayout
         android:id="@+id/relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
 
-        <ImageView
-            android:id="@+id/classroomImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp" />
+        >
+
 
         <TextView
             android:id="@+id/room_details_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/classroomImageView"
-            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/row_margin"
+            android:layout_marginLeft="@dimen/row_margin"
+            android:layout_marginTop="@dimen/row_margin"
             android:text="Title"
+            android:textColor="@color/color_black"
             android:textSize="18sp" />
+
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/classroomImageView"
             android:layout_below="@+id/room_details_text_view"
+            android:layout_marginLeft="@dimen/row_margin"
+            android:layout_marginTop="@dimen/row_margin"
             android:text="Description" />
+
+        <ImageView
+            android:id="@+id/favourite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/description"
+            android:layout_marginBottom="@dimen/row_margin"
+            android:layout_marginRight="@dimen/row_margin"
+            android:src="@drawable/favorite_icon" />
 
     </RelativeLayout>
 

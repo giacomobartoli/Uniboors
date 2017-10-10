@@ -88,11 +88,11 @@ class AccountAuthPresenter(private var loginFragmentView: FragmentView.LoginFrag
             Log.d(TAG, e.errorCode)
             when (e.errorCode) {
                 Constants.ERROR_WRONG_PASSWORD -> {
-                    loginFragmentView.informUserWrongPassword(Constants.ERROR_WRONG_PASSWORD)
+                    loginFragmentView.informUserWrongPassword(Constants.GENERAL_PASSWORD_ERROR_AUTH)
                     loginFragmentView.hideHintEmail()
                 }
                 Constants.ERROR_INVALID_EMAIL -> {
-                    loginFragmentView.informUserWrongEmail(Constants.ERROR_INVALID_EMAIL)
+                    loginFragmentView.informUserWrongEmail(Constants.WRONG_EMAIL_FORMAT)
                     loginFragmentView.hideHintPassword()
                 }
             }

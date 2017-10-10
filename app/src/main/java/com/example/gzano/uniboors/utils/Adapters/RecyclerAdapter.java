@@ -1,8 +1,6 @@
 package com.example.gzano.uniboors.utils.Adapters;
 
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +12,7 @@ import com.example.gzano.uniboors.Model.RoomType;
 import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by gzano on 04/10/2017.
@@ -25,20 +21,20 @@ import java.util.HashMap;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private ArrayList<Room> mRooms;
     private PlacesPresenter placesPresenter;
-    private HashMap<RoomType, File> files;
+    private int tag;
 
-    public RecyclerAdapter(ArrayList<Room> mRooms, PlacesPresenter placesPresenter, HashMap<RoomType, File> files) {
+    public RecyclerAdapter(ArrayList<Room> mRooms, PlacesPresenter placesPresenter, int tag) {
         this.mRooms = mRooms;
         this.placesPresenter = placesPresenter;
-        this.files = files;
-        Log.d("TESTFILE ", " map " + files.values().size());
+
+        this.tag = tag;
 
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {           //create the view to inflate in the rows, and pass it to the holder
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclerview_item_row, parent, false);
+                .inflate(R.layout.recyclerview_item_row_cesena_places, parent, false);
         return new ViewHolder(inflatedView);
     }
 
@@ -54,60 +50,49 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        private ImageView mItemImage;
-        private TextView mItemDate, description;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView roomTitle, description;
+        private ImageView heartImage;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-            mItemDate = itemView.findViewById(R.id.room_details_text_view);
-            mItemImage = itemView.findViewById(R.id.classroomImageView);
+
+            roomTitle = itemView.findViewById(R.id.room_details_text_view);
             description = itemView.findViewById(R.id.description);
+            heartImage = itemView.findViewById(R.id.favourite);
+
 
         }
 
-        @Override
-        public void onClick(View view) {
 
-            String roomName = mItemDate.getText().toString();
-            RoomType roomType = (RoomType) mItemDate.getTag();
-            if (roomType.equals(RoomType.CLASSROOM)) {
-                placesPresenter.addToFavPlaces(new Room.ClassRoom(roomType, roomName, false));
-            }
-            if (roomType.equals(RoomType.COMPUTER_LAB)) {
-                placesPresenter.addToFavPlaces(new Room.ComputerLab(roomType, roomName, false));
-            }
-
-        }
 
         public void bind(final Room room) {
 
             switch (room.getRoomType()) {
                 case CLASSROOM:
-                    mItemDate.setTag(RoomType.CLASSROOM);
-                    mItemImage.setImageBitmap(BitmapFactory.decodeFile(files.get(RoomType.CLASSROOM).getAbsolutePath()));
+                    roomTitle.setTag(RoomType.CLASSROOM);
                     break;
 
                 case COMPUTER_LAB:
-                    mItemDate.setTag(RoomType.COMPUTER_LAB);
-                    mItemImage.setImageBitmap(BitmapFactory.decodeFile(files.get(RoomType.COMPUTER_LAB).getAbsolutePath()));
+                    roomTitle.setTag(RoomType.COMPUTER_LAB);
 
                     break;
             }
-            mItemDate.setText(room.getRoomName());
+
+            roomTitle.setText(room.getRoomName());
             description.setText(R.string.wow_cool_lesson);
+            heartImage.setFocusableInTouchMode(true);
+            heartImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    placesPresenter.addToFavPlaces(room);
 
+                }
+            });
 
         }
 
 
-        @Override
-        public boolean onLongClick(View view) {
-            placesPresenter.onLongPressed(view);
-            return true;
-        }
     }
 }

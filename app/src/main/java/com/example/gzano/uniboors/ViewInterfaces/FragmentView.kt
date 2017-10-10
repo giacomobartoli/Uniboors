@@ -3,8 +3,6 @@ package com.example.gzano.uniboors.ViewInterfaces
 import android.support.v4.app.Fragment
 import android.view.View
 import com.example.gzano.uniboors.Model.Room
-import com.example.gzano.uniboors.Model.RoomType
-import java.io.File
 import java.util.*
 
 /**
@@ -44,15 +42,15 @@ interface FragmentView {
     }
 
     interface PlacesFragmentView : FragmentView {
-        fun setAdapter(fetchedRooms: ArrayList<Room>, files: HashMap<RoomType, File>)
+        fun setAdapter(fetchedRooms: ArrayList<Room>)
 
-        fun showProgressBar(pageTag: Int)
+        fun showProgressBar()
 
-        fun hideProgressBar(pageTag: Int)
+        fun hideProgressBar()
 
         fun suggestUserToLookForPlaces()
 
-        fun showAlertGoToNavigationOrStay(value: String)
+        fun showAlertGoToNavigationOrStay(data: HashMap<String, String>, roomName: String)
 
         fun showAlertAlreadyInsert()
 
@@ -62,7 +60,7 @@ interface FragmentView {
 
         fun startActivity()
 
-        fun showGoAlertOrRemove(value: String, roomName: String)
+        fun showGoAlertOrRemove(roomName: String)
 
 
     }
