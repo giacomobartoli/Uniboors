@@ -1,5 +1,6 @@
 package com.example.gzano.uniboors.Presenter
 
+import android.util.Log
 import com.example.gzano.uniboors.Model.Floor
 import com.example.gzano.uniboors.Model.Room
 import com.example.gzano.uniboors.Model.Room.*
@@ -16,23 +17,17 @@ import com.google.firebase.database.*
 class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val databaseRef: DatabaseReference) : Presenter {
 
 
-    init {
-        databaseRef.keepSynced(true)
-    }
-
     override fun onCreate() {
 
 
-        databaseRef.addValueEventListener(object : ValueEventListener {
+        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(p0: DataSnapshot?) {
-                val fetchedRoomsCampus = ArrayList<Room>()
-                if (p0 != null && p0.value == "empty") {
-                    placesFragmentView.suggestUserToLookForPlaces()
-                } else {
-                    placesFragmentView.showProgressBar()
-                    val childrenCount = p0?.childrenCount
 
-                    p0?.children?.mapTo(fetchedRoomsCampus) {
+                val fetchedRoomsCampus = ArrayList<Room>()
+                val fetchedRoomsUser = ArrayList<Room>()
+                placesFragmentView.showProgressBar()
+                if (p0 != null && p0.value.toString() != "empty") {
+                    p0.children?.mapTo(fetchedRoomsUser) {
                         when (it.child("type").value.toString()) {
                             Constants.CLASSROOM_NODE_VALUE -> {
 
@@ -47,58 +42,83 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                             }
                         }
                     }
-                    val databaseRefUser = FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH)
-                            .child(FirebaseAuth.getInstance().currentUser?.uid).child("places")
-                    databaseRefUser.addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onCancelled(p0: DatabaseError?) {
-                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                        }
+                }
+                val databaseRefCampus = FirebaseDatabase.getInstance().getReference(Constants.CESENA_CAMPUS_NODE)
+                databaseRefCampus.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError?) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
 
-                        override fun onDataChange(p0: DataSnapshot?) {
-
-                            val fetchedRoomsUser = ArrayList<Room>()
-
+                    override fun onDataChange(p0: DataSnapshot?) {
+                        Log.d("SNAPSHOT", p0?.value.toString())
 
 
-                            p0?.children?.mapTo(fetchedRoomsUser) {
-                                when (it.child("type").value.toString()) {
-                                    Constants.CLASSROOM_NODE_VALUE -> {
+                        p0?.children?.mapTo(fetchedRoomsCampus) {
+                            when (it.child("type").value.toString()) {
+                                Constants.CLASSROOM_NODE_VALUE -> {
 
-                                        ClassRoom(RoomType.CLASSROOM, it.key.toString(), false, Floor.FIRST_FLOOR)
+                                    ClassRoom(RoomType.CLASSROOM, it.key.toString(), false, Floor.FIRST_FLOOR)
 
-                                    }
-                                    Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                        ComputerLab(RoomType.COMPUTER_LAB, it.key.toString(), false, Floor.FIRST_FLOOR)
-                                    }
-                                    else -> {
-                                        GenericRoom(RoomType.GENERIC, it.key.toString(), false, Floor.FIRST_FLOOR)
-                                    }
+                                }
+                                Constants.COMPUTER_LAB_NODE_VALUE -> {
+                                    ComputerLab(RoomType.COMPUTER_LAB, it.key.toString(), false, Floor.FIRST_FLOOR)
+                                }
+                                else -> {
+                                    GenericRoom(RoomType.GENERIC, it.key.toString(), false, Floor.FIRST_FLOOR)
                                 }
                             }
-                            if (fetchedRoomsCampus.size == childrenCount?.toInt()) {
-                                placesFragmentView.setAdapter(fetchedRoomsCampus, fetchedRoomsUser)
-                                placesFragmentView.hideProgressBar()
-                            }
 
+                        }
+                        if (fetchedRoomsCampus.size.toLong() == p0?.childrenCount) {
+                            Log.d("SIZE", fetchedRoomsCampus.size.toString())
+                            placesFragmentView.setAdapter(fetchedRoomsCampus, fetchedRoomsUser)
+                            placesFragmentView.hideProgressBar()
 
                         }
 
-                    })
 
+                    }
 
-                }
+                })
 
             }
 
+
+            override fun onCancelled(p0: DatabaseError?) {
+            }
+
+        })
+    }
+
+
+    fun listenForItemChange() {
+
+        databaseRef.addChildEventListener(object : ChildEventListener {
             override fun onCancelled(p0: DatabaseError?) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
 
+            override fun onChildMoved(p0: DataSnapshot?, p1: String?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onChildChanged(p0: DataSnapshot?, p1: String?) {
+                Log.d("CHANGED ", "changed " + p0?.value + " " + p1)
+            }
+
+            override fun onChildAdded(p0: DataSnapshot?, p1: String?) {
+                Log.d("ADDED ", "added " + p0?.value + " " + p1)
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot?) {
+                Log.d("REMOVED ", "removed " + p0?.value)
             }
 
         })
 
 
     }
+
 
     fun addRoom(room: Room, position: Int) {
 
@@ -131,14 +151,18 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                 if (p0?.childrenCount == 1.toLong()) {
                     p0.ref.setValue("empty").addOnCompleteListener {
                         if (it.isComplete) {
-                            placesFragmentView.setFavoriteIcon(R.drawable.ic_action_name, position)
+                            placesFragmentView.setFavoriteIcon(R.drawable.ic_action_name, position, room)
+                            placesFragmentView.setNewClickListener(R.drawable.ic_action_name, position, room)
+
                         }
                     }
                 }
                 p0?.children?.filter { it.key == room.roomName }?.forEach {
                     it.ref.removeValue().addOnCompleteListener({
                         if (it.isComplete) {
-                            placesFragmentView.setFavoriteIcon(R.drawable.ic_action_name, position)
+                            placesFragmentView.setFavoriteIcon(R.drawable.ic_action_name, position, room)
+                            placesFragmentView.setNewClickListener(R.drawable.ic_action_name, position, room)
+
                         }
                     })
                 }
@@ -164,21 +188,21 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView, private val da
                     data.put("isFriendly", room.isFriendly.toString())
                     data.put("floor", room.floor.toString())
                     if (!isPresent) {
-                        databaseRef.child(room.roomName).setValue(data)
-                        placesFragmentView.setFavoriteIcon(R.drawable.favorite_icon, position)
+                        databaseRef.child(room.roomName).setValue(data).addOnCompleteListener {
+                            Log.d("FRAGMENTTAG", " position " + position)
+                            placesFragmentView.setFavoriteIcon(R.drawable.favorite_icon, position, room)
+                            placesFragmentView.setNewClickListener(R.drawable.favorite_icon, position, room)
+
+                        }
 
                     }
-                    if (isPresent) {
-                        //   placesFragmentView.showGoAlertOrRemove(room.roomName)
-                    }
-//                    if (isPresent && placesFragmentView.getPageTag() == Constants.PAGE_TAG_YOUR_PLACE) {
-//                        placesFragmentView.startActivity()
-//                    }
+
                 }
             }
 
         })
     }
+
 }
 
 

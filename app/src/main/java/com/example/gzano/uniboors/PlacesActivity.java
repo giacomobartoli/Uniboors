@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.example.gzano.uniboors.Fragments.CampusPlacesFragment;
 import com.example.gzano.uniboors.utils.Constants;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class PlacesActivity extends AppCompatActivity {
@@ -23,20 +24,13 @@ public class PlacesActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // PlacesPagerAdapter mSectionsPagerAdapter = new PlacesPagerAdapter(getSupportFragmentManager());
 
         CampusPlacesFragment recyclerFragment = new CampusPlacesFragment();
-        recyclerFragment.setPlacesPresenter(FirebaseDatabase.getInstance().getReference(Constants.CESENA_CAMPUS_NODE));
+        recyclerFragment.setPlacesPresenter(FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("places").getRef());
         getSupportFragmentManager().beginTransaction().add(R.id.places_fragment_container, recyclerFragment).commit();
 
-
-//        mViewPager = findViewById(R.id.container);
-//        mViewPager.setAdapter(mSectionsPagerAdapter);
-//        TabLayout tabLayout = findViewById(R.id.tabs);
-//        tabLayout.setupWithViewPager(mViewPager);
-
     }
-
 
 
     @Override
@@ -50,9 +44,6 @@ public class PlacesActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }

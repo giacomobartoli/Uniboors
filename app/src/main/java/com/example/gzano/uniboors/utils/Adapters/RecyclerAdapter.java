@@ -1,7 +1,6 @@
 package com.example.gzano.uniboors.utils.Adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +20,13 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PlacesHolder> {
     private ArrayList<Room> mRoomsCampus, mRoomsUser;
     private PlacesPresenter placesPresenter;
-    private PlacesHolder placesHolder;
 
     public RecyclerAdapter(ArrayList<Room> mRooms, PlacesPresenter placesPresenter, ArrayList<Room> mRoomsUser) {
         this.mRoomsCampus = mRooms;
         this.placesPresenter = placesPresenter;
         this.mRoomsUser = mRoomsUser;
+        //   Log.d("SIZE", String.valueOf(mRoomsCampus.size()));
+
 
     }
 
@@ -34,13 +34,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
     public PlacesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_item_row_cesena_places, parent, false);
-        this.placesHolder = new PlacesHolder(inflatedView);
-        return placesHolder;
+
+        return new PlacesHolder(inflatedView);
     }
 
-    public PlacesHolder getPlacesHolder() {
-        return placesHolder;
-    }
 
     @Override
     public void onBindViewHolder(PlacesHolder holder, int position) {
@@ -73,7 +70,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
 
         public void bind(final Room room, final int position) {
 
-
             roomTitle.setText(room.getRoomName());
             description.setText(R.string.wow_cool_lesson);
             if (isFavorite(room)) {
@@ -82,28 +78,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
                     @Override
                     public void onClick(View view) {
                         placesPresenter.removeRoom(room, position);
-
                     }
-
-
                 });
-            } else
-
-            {
-
+            } else {
                 heartImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.d("TAG", "CLICKED!");
                         placesPresenter.addRoom(room, position);
-
                     }
                 });
-            }
-        }
 
-        public void setHeartImageResource(int resource) {
-            heartImage.setImageResource(resource);
+            }
+
         }
 
 
