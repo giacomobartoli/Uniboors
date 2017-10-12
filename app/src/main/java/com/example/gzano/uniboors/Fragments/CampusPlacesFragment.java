@@ -115,7 +115,7 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
     }
 
     @Override
-    public void setNewClickListener(int resource, final int position, final Room room) {
+    public void setNewClickListener(int resource, final int position, @NonNull final Room room) {
         ImageView imageView = getImageAtPosition(position);
         if (resource == R.drawable.ic_action_name) {
             imageView.setOnClickListener(new View.OnClickListener() {
