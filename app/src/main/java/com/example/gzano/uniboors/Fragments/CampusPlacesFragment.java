@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapter;
-import com.google.firebase.database.DatabaseReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +28,7 @@ import java.util.ArrayList;
 public class CampusPlacesFragment extends Fragment implements FragmentView.PlacesFragmentView {
     private RecyclerView mRecyclerView;
     private PlacesPresenter placesPresenter;
-    private ProgressBar progressBar, progressBarActivity;
+    private ProgressBar progressBarActivity;
     private RecyclerAdapter mAdapter;
 
 
@@ -45,22 +43,18 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
 
         View rootView = inflater.inflate(R.layout.places_recycler_view_layout, container, false);
         mRecyclerView = rootView.findViewById(R.id.placesRecyclerView);
-        progressBar = rootView.findViewById(R.id.progressBarPlacesFragment);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         progressBarActivity = getActivity().findViewById(R.id.progressBarPlacesActivity);
+        progressBarActivity.setVisibility(View.VISIBLE);
+        mAdapter = new RecyclerAdapter(new ArrayList<Room>(), placesPresenter, new ArrayList<Room>());
+        mRecyclerView.setAdapter(mAdapter);
         placesPresenter.onCreate();
 
 
         return rootView;
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //   placesPresenter.onCreate();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -75,7 +69,6 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
 
     @Override
     public void setAdapter(@NotNull ArrayList<Room> fetchedRooms, @NotNull ArrayList<Room> fetchedRoomsUser) {
-        Log.d("TIMES", "COUNTING");
         mAdapter = new RecyclerAdapter(fetchedRooms, placesPresenter, fetchedRoomsUser);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -85,7 +78,6 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
 
         progressBarActivity.setVisibility(View.VISIBLE);
 
-        //   progressBar.setVisibility(View.VISIBLE);
 
 
     }
@@ -110,15 +102,11 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
         goToNavigationActivity();
     }
 
-    public void setPlacesPresenter(DatabaseReference reference) {
-        placesPresenter = new PlacesPresenter(this, reference);
 
-    }
 
 
     @Override
     public void setFavoriteIcon(int resource, final int position, @NonNull final Room room) {
-
 
         ImageView imageView = getImageAtPosition(position);
         imageView.setImageResource(resource);
@@ -149,17 +137,57 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
         }
     }
 
+    @Override
+    public void addCampusRoom(@NonNull Room room) {
+
+        if (!mAdapter.getCampusRooms().contains(room)) {
+            mAdapter.getCampusRooms().add(room);
+            mAdapter.notifyItemInserted(mAdapter.getCampusRooms().size());
+        }
+
+
+    }
+
+    @Override
+    public void removeCampusRoom(@NonNull Room room) {
+        if (mAdapter.getCampusRooms().contains(room)) {
+            mAdapter.getCampusRooms().remove(room);
+            mAdapter.notifyItemRemoved(mAdapter.getCampusRooms().size());
+        }
+
+    }
+
+    @Override
+    public void addUserRoom(@NonNull Room room) {
+        if (!mAdapter.getUserRooms().contains(room)) {
+            mAdapter.getUserRooms().add(room);
+
+        }
+    }
+
+    @Override
+    public void removeUserRoom(@NonNull Room room) {
+        if (mAdapter.getUserRooms().contains(room)) {
+            mAdapter.getUserRooms().remove(room);
+        }
+    }
+
+    public void setPlacesPresenter() {
+        placesPresenter = new PlacesPresenter(this);
+
+    }
+
     private void goToNavigationActivity() {
         Intent intent = new Intent(getActivity(), NavigationActivity.class);
         startActivity(intent);
     }
 
     private ImageView getImageAtPosition(int position) {
+
         RecyclerAdapter.PlacesHolder viewHolderForAdapterPosition = (RecyclerAdapter.PlacesHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
 
-        ImageView imageView = viewHolderForAdapterPosition.itemView.findViewById(R.id.favourite);
-        return imageView;
 
+        return viewHolderForAdapterPosition.itemView.findViewById(R.id.favourite);
 
     }
 

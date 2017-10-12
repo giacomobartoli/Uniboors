@@ -22,9 +22,13 @@ public class Constants {
     public static final String CESENA_CAMPUS_NODE = "CesenaCampus";
     public static final String YOUR_PLACES="your places";
     public static final int PLACES_PAGE_NUMBER=2;
-    public static final String CLASSROOM_NODE_VALUE = "classroom";
-    public static final String COMPUTER_LAB_NODE_VALUE = "computerlab";
-    public static final int PAGE_TAG_YOUR_PLACE = 1;
-    public static final int PAGE_TAG_CESENA_PLACE = 0;
+    public static final String CLASSROOM_NODE_VALUE = "CLASSROOM";
+    public static final String COMPUTER_LAB_NODE_VALUE = "COMPUTER_LAB";
+    public static final String TYPE_NODE_VALUE = "type";
+    public static final String EMPTY_NODE_VALUE = "empty";
+    public static final String IS_FRIENDLY_NODE_VALUE = "isFriendly";
+    public static final String FLOOR_NODE_VALUE = "floor";
+    public static final String PLACES_NODE_VALUE = "places";
+
 
 }

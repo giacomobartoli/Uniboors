@@ -5,8 +5,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.example.gzano.uniboors.Fragments.CampusPlacesFragment
 import com.example.gzano.uniboors.utils.Constants
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 
 /**
  * Created by gzano on 04/10/2017.
@@ -18,15 +16,14 @@ class PlacesPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapte
 
         0 -> {
             val recyclerFragment = CampusPlacesFragment()
-            recyclerFragment.setPlacesPresenter(FirebaseDatabase.getInstance().getReference(Constants.CESENA_CAMPUS_NODE))
+            recyclerFragment.setPlacesPresenter()
             recyclerFragment
 
         }
         1 -> {
             val recyclerFragment = CampusPlacesFragment()
-            val databaseRef = FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH).
-                    child(FirebaseAuth.getInstance().currentUser?.uid).child("places")
-            recyclerFragment.setPlacesPresenter(databaseRef)
+
+            recyclerFragment.setPlacesPresenter()
             recyclerFragment
         }
         else -> {

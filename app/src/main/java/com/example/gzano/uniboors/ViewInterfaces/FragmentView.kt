@@ -51,6 +51,10 @@ interface FragmentView {
         fun startActivity()
         fun setFavoriteIcon(resource: Int, position: Int, room: Room)
         fun setNewClickListener(resource: Int, position: Int, room: Room)
+        fun addCampusRoom(room: Room)
+        fun removeCampusRoom(room: Room)
+        fun addUserRoom(room: Room)
+        fun removeUserRoom(room: Room)
 
 
     }

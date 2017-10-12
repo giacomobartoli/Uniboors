@@ -21,13 +21,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
     private ArrayList<Room> mRoomsCampus, mRoomsUser;
     private PlacesPresenter placesPresenter;
 
-    public RecyclerAdapter(ArrayList<Room> mRooms, PlacesPresenter placesPresenter, ArrayList<Room> mRoomsUser) {
-        this.mRoomsCampus = mRooms;
+    public RecyclerAdapter(ArrayList<Room> mRoomsCampus, PlacesPresenter placesPresenter, ArrayList<Room> mRoomsUser) {
+        this.mRoomsCampus = mRoomsCampus;
         this.placesPresenter = placesPresenter;
         this.mRoomsUser = mRoomsUser;
-        //   Log.d("SIZE", String.valueOf(mRoomsCampus.size()));
+    }
 
+    public ArrayList<Room> getCampusRooms() {
+        return mRoomsCampus;
+    }
 
+    public ArrayList<Room> getUserRooms() {
+        return mRoomsUser;
     }
 
     @Override
@@ -41,8 +46,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
 
     @Override
     public void onBindViewHolder(PlacesHolder holder, int position) {
-
-        holder.bind(mRoomsCampus.get(position), position);
+        holder.bind(mRoomsCampus.get(position));
     }
 
     @Override
@@ -50,6 +54,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
         return mRoomsCampus.size();
     }
 
+    private boolean isFavorite(Room room) {
+        for (Room r : mRoomsUser) {
+
+            if (r.getRoomName().equals(room.getRoomName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public class PlacesHolder extends RecyclerView.ViewHolder {
         private TextView roomTitle, description;
@@ -68,7 +81,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
         }
 
 
-        public void bind(final Room room, final int position) {
+        public void bind(final Room room) {
 
             roomTitle.setText(room.getRoomName());
             description.setText(R.string.wow_cool_lesson);
@@ -77,29 +90,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
                 heartImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        placesPresenter.removeRoom(room, position);
+                        heartImage.setImageResource(R.drawable.ic_action_name);
+                        placesPresenter.removeRoom(room, getAdapterPosition());
                     }
                 });
-            } else {
+            } else { //no default images or for some reason binding does not work,
+                heartImage.setImageResource(R.drawable.ic_action_name);
                 heartImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        placesPresenter.addRoom(room, position);
+                        heartImage.setImageResource(R.drawable.favorite_icon);
+                        placesPresenter.addRoom(room, getAdapterPosition());
                     }
                 });
-
             }
-
         }
 
-
-        private boolean isFavorite(Room room) {
-            for (Room r : mRoomsUser) {
-                if (r.getRoomName().equals(room.getRoomName())) {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
+
+
 }
+
