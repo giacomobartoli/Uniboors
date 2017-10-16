@@ -26,12 +26,13 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".NavigationActivity"></activity>
-
+        <activity android:name=".NavigationActivity" />
+        <activity android:name=".PresentationActivity"></activity>
     </application>
 
 </manifest>

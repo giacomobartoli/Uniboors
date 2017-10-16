@@ -95,7 +95,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
                     }
                 });
             } else { //no default images or for some reason binding does not work,
-                heartImage.setImageResource(R.drawable.ic_action_name);
+                heartImage.setImageResource(R.drawable.ic_not_favorite);
                 heartImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

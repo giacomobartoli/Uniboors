@@ -31,14 +31,15 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
                         when (it.child(Constants.TYPE_NODE_VALUE)?.value.toString()) {
                             Constants.CLASSROOM_NODE_VALUE -> {
 
-                                ClassRoom(RoomType.CLASSROOM, it?.key.toString(), false, Floor.FIRST_FLOOR)
+                                ClassRoom(RoomType.CLASSROOM, it?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR)
 
                             }
                             Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                ComputerLab(RoomType.COMPUTER_LAB, it?.key.toString(), false, Floor.FIRST_FLOOR)
+                                ComputerLab(RoomType.COMPUTER_LAB, it?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR)
                             }
                             else -> {
-                                GenericRoom(RoomType.GENERIC, it?.key.toString(), false, Floor.FIRST_FLOOR)
+
+                                GenericRoom(RoomType.GENERIC, it?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR)
                             }
 
                         }
@@ -75,14 +76,14 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
                         when (p0?.child(Constants.TYPE_NODE_VALUE)?.value.toString()) {
                             Constants.CLASSROOM_NODE_VALUE -> {
 
-                                placesFragmentView.addCampusRoom(ClassRoom(RoomType.CLASSROOM, p0?.key.toString(), false, Floor.FIRST_FLOOR))
+                                placesFragmentView.addCampusRoom(ClassRoom(RoomType.CLASSROOM, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
 
                             }
                             Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                placesFragmentView.addCampusRoom(ComputerLab(RoomType.COMPUTER_LAB, p0?.key.toString(), false, Floor.FIRST_FLOOR))
+                                placesFragmentView.addCampusRoom(ComputerLab(RoomType.COMPUTER_LAB, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
                             }
                             else -> {
-                                placesFragmentView.addCampusRoom(GenericRoom(RoomType.GENERIC, p0?.key.toString(), false, Floor.FIRST_FLOOR))
+                                //placesFragmentView.addCampusRoom(GenericRoom(RoomType.GENERIC,p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
                             }
 
                         }
@@ -94,14 +95,14 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
                         when (p0?.child(Constants.TYPE_NODE_VALUE)?.value.toString()) {
                             Constants.CLASSROOM_NODE_VALUE -> {
 
-                                placesFragmentView.removeCampusRoom(ClassRoom(RoomType.CLASSROOM, p0?.key.toString(), false, Floor.FIRST_FLOOR))
+                                placesFragmentView.removeCampusRoom(ClassRoom(RoomType.CLASSROOM, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
 
                             }
                             Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                placesFragmentView.removeCampusRoom(ComputerLab(RoomType.COMPUTER_LAB, p0?.key.toString(), false, Floor.FIRST_FLOOR))
+                                placesFragmentView.removeCampusRoom(ComputerLab(RoomType.COMPUTER_LAB, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
                             }
                             else -> {
-                                placesFragmentView.removeCampusRoom(GenericRoom(RoomType.GENERIC, p0?.key.toString(), false, Floor.FIRST_FLOOR))
+                                // placesFragmentView.removeCampusRoom(GenericRoom(RoomType.GENERIC, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
                             }
 
                         }
@@ -137,8 +138,8 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
                 if (p0?.childrenCount == 1.toLong()) {
                     p0.ref.setValue(Constants.EMPTY_NODE_VALUE).addOnCompleteListener {
                         if (it.isComplete) {
-                            placesFragmentView.setFavoriteIcon(R.drawable.ic_action_name, position, room)
-                            placesFragmentView.setNewClickListener(R.drawable.ic_action_name, position, room)
+                            placesFragmentView.setFavoriteIcon(R.drawable.ic_not_favorite, position, room)
+                            placesFragmentView.setNewClickListener(R.drawable.ic_not_favorite, position, room)
                             placesFragmentView.removeUserRoom(room)
 
                         }
@@ -147,8 +148,8 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
                 p0?.children?.filter { it.key == room.roomName }?.forEach {
                     it.ref.removeValue().addOnCompleteListener({
                         if (it.isComplete) {
-                            placesFragmentView.setFavoriteIcon(R.drawable.ic_action_name, position, room)
-                            placesFragmentView.setNewClickListener(R.drawable.ic_action_name, position, room)
+                            placesFragmentView.setFavoriteIcon(R.drawable.ic_not_favorite, position, room)
+                            placesFragmentView.setNewClickListener(R.drawable.ic_not_favorite, position, room)
                             placesFragmentView.removeUserRoom(room)
                         }
                     })
