@@ -1,12 +1,14 @@
 package com.example.gzano.uniboors.utils.Adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gzano.uniboors.Model.Floor;
 import com.example.gzano.uniboors.Model.Room;
 import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
@@ -17,14 +19,15 @@ import java.util.ArrayList;
  * Created by gzano on 04/10/2017.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.PlacesHolder> {
+public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterPlaces.PlacesHolder> {
     private ArrayList<Room> mRoomsCampus, mRoomsUser;
     private PlacesPresenter placesPresenter;
 
-    public RecyclerAdapter(ArrayList<Room> mRoomsCampus, PlacesPresenter placesPresenter, ArrayList<Room> mRoomsUser) {
+    public RecyclerAdapterPlaces(ArrayList<Room> mRoomsCampus, PlacesPresenter placesPresenter, ArrayList<Room> mRoomsUser) {
         this.mRoomsCampus = mRoomsCampus;
         this.placesPresenter = placesPresenter;
         this.mRoomsUser = mRoomsUser;
+        Log.d("TAG", mRoomsUser.toString());
     }
 
     public ArrayList<Room> getCampusRooms() {
@@ -84,7 +87,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
         public void bind(final Room room) {
 
             roomTitle.setText(room.getRoomName());
-            description.setText(R.string.wow_cool_lesson);
+            render(room);
             if (isFavorite(room)) {
                 heartImage.setImageResource(R.drawable.favorite_icon);
                 heartImage.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +109,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Places
             }
         }
 
+        private void render(Room room) {
+            if (room.getFloor().equals(Floor.FIRST_FLOOR)) {
+                description.setText("Primo piano");
+            } else {
+                description.setText("piano terra");
+            }
+        }
     }
 
 

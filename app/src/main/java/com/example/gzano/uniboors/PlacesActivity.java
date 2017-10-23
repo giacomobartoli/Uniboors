@@ -16,7 +16,7 @@ public class PlacesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_places);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.places_toolbar);
         setSupportActionBar(toolbar);
 
         CampusPlacesFragment recyclerFragment = new CampusPlacesFragment();

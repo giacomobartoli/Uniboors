@@ -7,7 +7,7 @@
     <color name="RedBackground">#f44336</color>
     <color name="textViewGrey">#9E9E9E</color>
     <color name="colorPrimaryCard">#F50057</color>
-    <color name="colorPrimaryDarkCard">#F50057</color>
+    <color name="colorPrimaryDarkCard">#f50057</color>
     <color name="color_black">#000000</color>
     <color name="viewBg">#f1f5f8</color>
     <color name="places_background">#D3D3D3</color>

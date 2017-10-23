@@ -1,5 +1,6 @@
 package com.example.gzano.uniboors.Presenter
 
+import android.util.Log
 import com.example.gzano.uniboors.Model.Floor
 import com.example.gzano.uniboors.Model.Room
 import com.example.gzano.uniboors.Model.Room.*
@@ -30,16 +31,16 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
                     p0.children.mapTo(userRooms) {
                         when (it.child(Constants.TYPE_NODE_VALUE)?.value.toString()) {
                             Constants.CLASSROOM_NODE_VALUE -> {
-
-                                ClassRoom(RoomType.CLASSROOM, it?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR)
+                                Log.d("TAGPROVA", "name: " + it?.child("name")?.value.toString())
+                                ClassRoom(RoomType.CLASSROOM, it?.child("name")?.value.toString(), false, Floor.valueOf(it?.child("floor")?.value.toString()))
 
                             }
                             Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                ComputerLab(RoomType.COMPUTER_LAB, it?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR)
+                                ComputerLab(RoomType.COMPUTER_LAB, it?.child("name")?.value.toString(), false, Floor.valueOf(it?.child("floor")?.value.toString()))
                             }
                             else -> {
 
-                                GenericRoom(RoomType.GENERIC, it?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR)
+                                GenericRoom(RoomType.GENERIC, it?.child("name")?.value.toString(), false, Floor.valueOf(it?.child("floor")?.value.toString()))
                             }
 
                         }
@@ -76,11 +77,11 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
                         when (p0?.child(Constants.TYPE_NODE_VALUE)?.value.toString()) {
                             Constants.CLASSROOM_NODE_VALUE -> {
 
-                                placesFragmentView.addCampusRoom(ClassRoom(RoomType.CLASSROOM, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
+                                placesFragmentView.addCampusRoom(ClassRoom(RoomType.CLASSROOM, p0?.child("name")?.value.toString(), false, Floor.valueOf(p0?.child("floor")?.value.toString())))
 
                             }
                             Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                placesFragmentView.addCampusRoom(ComputerLab(RoomType.COMPUTER_LAB, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
+                                placesFragmentView.addCampusRoom(ComputerLab(RoomType.COMPUTER_LAB, p0?.child("name")?.value.toString(), false, Floor.valueOf(p0?.child("floor")?.value.toString())))
                             }
                             else -> {
                                 //placesFragmentView.addCampusRoom(GenericRoom(RoomType.GENERIC,p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
@@ -172,12 +173,14 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
                 if (p0 != null) {
                     val isPresent = p0.children.any { it.key == room.roomName }
                     val data = HashMap<String, String>()
+                    data.put("name", room.roomName)
                     data.put(Constants.TYPE_NODE_VALUE, room.roomType.toString())
                     data.put(Constants.IS_FRIENDLY_NODE_VALUE, room.isFriendly.toString())
                     data.put(Constants.FLOOR_NODE_VALUE, room.floor.toString())
                     if (!isPresent) {
                         userDatabaseRef.child(room.roomName).setValue(data).addOnCompleteListener {
                             placesFragmentView.addUserRoom(room)
+                            Log.d("TAGROOM", room.toString())
                             placesFragmentView.setFavoriteIcon(R.drawable.favorite_icon, position, room)
                             placesFragmentView.setNewClickListener(R.drawable.favorite_icon, position, room)
 

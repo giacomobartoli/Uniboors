@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import com.example.gzano.uniboors.NavigationActivity;
 import com.example.gzano.uniboors.Presenter.PlacesPresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
-import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapter;
+import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapterPlaces;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +30,7 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
     private RecyclerView mRecyclerView;
     private PlacesPresenter placesPresenter;
     private ProgressBar progressBarActivity;
-    private RecyclerAdapter mAdapter;
+    private RecyclerAdapterPlaces mAdapter;
 
 
     public CampusPlacesFragment() {
@@ -47,8 +48,8 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         progressBarActivity = getActivity().findViewById(R.id.progressBarPlacesActivity);
         progressBarActivity.setVisibility(View.VISIBLE);
-        mAdapter = new RecyclerAdapter(new ArrayList<Room>(), placesPresenter, new ArrayList<Room>());
-        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter = new RecyclerAdapterPlaces(new ArrayList<Room>(), placesPresenter, new ArrayList<Room>());
+//        mRecyclerView.setAdapter(mAdapter);
         placesPresenter.onCreate();
 
 
@@ -69,7 +70,7 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
 
     @Override
     public void setAdapter(@NotNull ArrayList<Room> fetchedRooms, @NotNull ArrayList<Room> fetchedRoomsUser) {
-        mAdapter = new RecyclerAdapter(fetchedRooms, placesPresenter, fetchedRoomsUser);
+        mAdapter = new RecyclerAdapterPlaces(fetchedRooms, placesPresenter, fetchedRoomsUser);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -115,12 +116,13 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
     }
 
     @Override
-    public void setNewClickListener(int resource, final int position, @NonNull final Room room) {
+    public void setNewClickListener(final int resource, final int position, @NonNull final Room room) {
         ImageView imageView = getImageAtPosition(position);
-        if (resource == R.drawable.ic_action_name) {
+        if (resource == R.drawable.ic_not_favorite) {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.d("TAGADDROOM", " add room  " + room);
                     placesPresenter.addRoom(room, position);
                 }
             });
@@ -130,6 +132,8 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.d("TAGremoveROOM", " remove room " + room);
+
                     placesPresenter.removeRoom(room, position);
                 }
             });
@@ -168,6 +172,7 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
     @Override
     public void removeUserRoom(@NonNull Room room) {
         if (mAdapter.getUserRooms().contains(room)) {
+            Log.d("TAGUSERROOM", " room " + room);
             mAdapter.getUserRooms().remove(room);
         }
     }
@@ -184,7 +189,7 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
 
     private ImageView getImageAtPosition(int position) {
 
-        RecyclerAdapter.PlacesHolder viewHolderForAdapterPosition = (RecyclerAdapter.PlacesHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        RecyclerAdapterPlaces.PlacesHolder viewHolderForAdapterPosition = (RecyclerAdapterPlaces.PlacesHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
 
 
         return viewHolderForAdapterPosition.itemView.findViewById(R.id.favourite);

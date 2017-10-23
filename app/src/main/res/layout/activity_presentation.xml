@@ -1,102 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.gzano.uniboors.PresentationActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_campuses_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/cards_margin"
-        android:layout_marginLeft="@dimen/cards_margin"
-        android:layout_marginRight="@dimen/cards_margin"
-        android:layout_marginTop="@dimen/cards_margin"
-        android:text="Cesena's Campus"
-        android:textColor="@color/color_black"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view_cesena"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_campuses_title"
-        android:layout_marginBottom="@dimen/cards_margin"
-        android:layout_marginLeft="@dimen/cards_margin"
-        android:layout_marginRight="@dimen/cards_margin"
-        android:layout_marginTop="@dimen/cards_margin"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="4dp">
+        android:theme="@style/NoActionBar.AppBarOverlay"
+        android:title="@string/alma_mater_cesenae"
+        app:layout_anchorGravity="top|start">
 
-        <android.support.constraint.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/campus_name_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Ingegneria e Scienze Informatiche"
-                android:textAppearance="@android:style/TextAppearance.Holo.Light.Large"
-                android:textColor="@color/buttonTextWhite"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view_classrooms"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/card_view_cesena"
-        android:layout_marginBottom="@dimen/cards_margin"
-        android:layout_marginLeft="@dimen/cards_margin"
-        android:layout_marginRight="@dimen/cards_margin"
-        android:layout_marginTop="@dimen/cards_margin"
-        app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="4dp">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/Classrooms"
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/major_toolbar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="@dimen/text_margin"
-                android:layout_marginRight="@dimen/text_margin"
-                android:layout_marginTop="16dp"
-                android:text="My Favorites Places"
-                android:textColor="@color/buttonTextWhite"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-        </android.support.constraint.ConstraintLayout>
+                android:background="@color/colorPrimary">
 
 
-    </android.support.v7.widget.CardView>
+            </android.support.v7.widget.Toolbar>
+
+            <LinearLayout
+                android:id="@+id/majors_layout_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/major_toolbar"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/majors_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal" />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.design.widget.AppBarLayout>
+
 
 </RelativeLayout>
