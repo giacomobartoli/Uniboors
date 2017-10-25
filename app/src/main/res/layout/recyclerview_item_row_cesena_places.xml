@@ -41,6 +41,11 @@
         android:layout_marginBottom="@dimen/row_margin"
         android:layout_marginLeft="@dimen/row_margin"
         android:layout_marginRight="@dimen/row_margin" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/listDivider"
+        android:layout_alignParentBottom="true"/>
 
 
 </RelativeLayout>
