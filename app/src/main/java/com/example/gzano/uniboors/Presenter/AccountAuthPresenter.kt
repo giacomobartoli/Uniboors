@@ -3,6 +3,7 @@ package com.example.gzano.uniboors.Presenter
 import android.util.Log
 import com.example.gzano.uniboors.Fragments.GoToAppFragment
 import com.example.gzano.uniboors.Model.AuthenticationMode
+import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView
 import com.example.gzano.uniboors.utils.Constants
 import com.google.android.gms.tasks.Task

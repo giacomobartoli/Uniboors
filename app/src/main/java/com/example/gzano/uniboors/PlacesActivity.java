@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.gzano.uniboors.Fragments.CampusPlacesFragment;
+import com.example.gzano.uniboors.Fragments.LessonsFragment;
 
 public class PlacesActivity extends AppCompatActivity {
 
@@ -19,7 +19,7 @@ public class PlacesActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.places_toolbar);
         setSupportActionBar(toolbar);
 
-        CampusPlacesFragment recyclerFragment = new CampusPlacesFragment();
+        LessonsFragment recyclerFragment = new LessonsFragment();
         recyclerFragment.setPlacesPresenter();
         getSupportFragmentManager().beginTransaction().add(R.id.places_fragment_container, recyclerFragment).commit();
 

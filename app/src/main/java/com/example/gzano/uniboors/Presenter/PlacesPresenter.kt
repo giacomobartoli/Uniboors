@@ -5,6 +5,7 @@ import com.example.gzano.uniboors.Model.Floor
 import com.example.gzano.uniboors.Model.Room
 import com.example.gzano.uniboors.Model.Room.*
 import com.example.gzano.uniboors.Model.RoomType
+import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter
 import com.example.gzano.uniboors.R
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView.PlacesFragmentView
 import com.example.gzano.uniboors.utils.Constants
@@ -36,7 +37,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
 
                             }
                             Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                ComputerLab(RoomType.COMPUTER_LAB, it?.child("name")?.value.toString(), false, Floor.valueOf(it?.child("floor")?.value.toString()))
+                                ComputerLab(RoomType.LAB, it?.child("name")?.value.toString(), false, Floor.valueOf(it?.child("floor")?.value.toString()))
                             }
                             else -> {
 
@@ -81,7 +82,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
 
                             }
                             Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                placesFragmentView.addCampusRoom(ComputerLab(RoomType.COMPUTER_LAB, p0?.child("name")?.value.toString(), false, Floor.valueOf(p0?.child("floor")?.value.toString())))
+                                placesFragmentView.addCampusRoom(ComputerLab(RoomType.LAB, p0?.child("name")?.value.toString(), false, Floor.valueOf(p0?.child("floor")?.value.toString())))
                             }
                             else -> {
                                 //placesFragmentView.addCampusRoom(GenericRoom(RoomType.GENERIC,p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
@@ -100,7 +101,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
 
                             }
                             Constants.COMPUTER_LAB_NODE_VALUE -> {
-                                placesFragmentView.removeCampusRoom(ComputerLab(RoomType.COMPUTER_LAB, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
+                                placesFragmentView.removeCampusRoom(ComputerLab(RoomType.LAB, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
                             }
                             else -> {
                                 // placesFragmentView.removeCampusRoom(GenericRoom(RoomType.GENERIC, p0?.child("name")?.value.toString(), false, Floor.FIRST_FLOOR))
@@ -119,7 +120,7 @@ class PlacesPresenter(val placesFragmentView: PlacesFragmentView) : Presenter {
             RoomType.CLASSROOM -> checkIfPresent(room, position)
 
 
-            RoomType.COMPUTER_LAB -> checkIfPresent(room, position)
+            RoomType.LAB -> checkIfPresent(room, position)
             else -> {
             }
         }

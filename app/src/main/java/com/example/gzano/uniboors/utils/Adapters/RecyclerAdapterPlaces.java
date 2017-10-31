@@ -41,7 +41,7 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
     @Override
     public PlacesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclerview_item_row_cesena_places, parent, false);
+                .inflate(R.layout.places_layout, parent, false);
 
         return new PlacesHolder(inflatedView);
     }
@@ -69,15 +69,17 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
 
     public class PlacesHolder extends RecyclerView.ViewHolder {
         private TextView roomTitle, description;
-        private ImageView heartImage;
+        private ImageView heartImage, backgroundImage;
 
 
         public PlacesHolder(View itemView) {
             super(itemView);
 
-            roomTitle = itemView.findViewById(R.id.room_details_text_view);
+            roomTitle = itemView.findViewById(R.id.lesson_title);
             description = itemView.findViewById(R.id.description);
             heartImage = itemView.findViewById(R.id.favourite);
+            backgroundImage = itemView.findViewById(R.id.image_background);
+//            backgroundImage.setImageResource(R.drawable.ic_development);
             heartImage.setClickable(true);
 
 
@@ -89,20 +91,20 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
             roomTitle.setText(room.getRoomName());
             render(room);
             if (isFavorite(room)) {
-                heartImage.setImageResource(R.drawable.favorite_icon);
+                heartImage.setImageResource(R.drawable.ic_favorite);
                 heartImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        heartImage.setImageResource(R.drawable.ic_action_name);
+                        heartImage.setImageResource(R.drawable.ic_favorite_borde);
                         placesPresenter.removeRoom(room, getAdapterPosition());
                     }
                 });
             } else { //no default images or for some reason binding does not work,
-                heartImage.setImageResource(R.drawable.ic_not_favorite);
+                heartImage.setImageResource(R.drawable.ic_favorite_borde);
                 heartImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        heartImage.setImageResource(R.drawable.favorite_icon);
+                        heartImage.setImageResource(R.drawable.ic_favorite);
                         placesPresenter.addRoom(room, getAdapterPosition());
                     }
                 });
