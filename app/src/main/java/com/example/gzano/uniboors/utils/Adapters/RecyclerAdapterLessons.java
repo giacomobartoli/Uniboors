@@ -92,7 +92,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         public void bind(final Lesson lesson) {
             render(lesson);
             lessonTitle.setText(lesson.getName());
-            description.setText("Luogo " + renderPlace(lesson.getSchedule()) + " giorno  " + renderTime(lesson.getSchedule()));
+            description.setText(String.format("Luogo %s giorno  %s", renderPlace(lesson.getSchedule()), renderTime(lesson.getSchedule())));
             if (isFavorite(lesson)) {
                 addImage.setImageResource(R.drawable.ic_check_added);
                 addImage.setOnClickListener(new View.OnClickListener() {
