@@ -6,7 +6,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -18,13 +17,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.gzano.uniboors.R;
-import com.example.gzano.uniboors.Utils.Constants;
-
-
 import com.example.gzano.uniboors.Model.AuthenticationMode;
 import com.example.gzano.uniboors.Presenter.AccountAuthPresenter;
+import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
+import com.example.gzano.uniboors.utils.Constants;
 
 
 public class LoginFragment extends Fragment implements FragmentView.LoginFragmentView {

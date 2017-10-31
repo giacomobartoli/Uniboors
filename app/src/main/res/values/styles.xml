@@ -5,6 +5,8 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/welcomeActivityBackground</item>
+        <item name="android:colorPrimary" tools:targetApi="lollipop">@color/RedBackground</item>
+        <item name="android:colorSecondary" tools:targetApi="n_mr1">@color/secondary_light</item>
     </style>
 
     <style name="NoActionBarMaterial" parent="@android:style/Theme.Material" tools:targetApi="lollipop">
@@ -20,15 +22,39 @@
     </style>
 
     <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/buttonBackgroundRed</item>
+        <item name="android:textColor">@color/RedBackground</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="MyButton">
-        <item name="android:background">@color/buttonBackgroundRed</item>
+        <item name="android:background">@color/RedBackground</item>
         <item name="android:textColor">@color/buttonTextWhite</item>
     </style>
 
+    <style name="MyErrorText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/RedBackground</item>
+    </style>
 
 
+    <style name="MySearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColorPrimary">@color/buttonTextWhite</item>
+
+    </style>
+
+    <style name="NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--buttons color-->
+        <item name="colorAccent">@color/color_black</item>
+        <!--title and message color-->
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <!--dialog background-->
+        <item name="android:windowBackground">@drawable/stylish_alert</item>
+    </style>
+
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/secondary_dark</item>
+    </style>
 </resources>

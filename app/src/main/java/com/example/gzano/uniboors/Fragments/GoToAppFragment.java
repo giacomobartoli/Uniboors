@@ -14,12 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.gzano.uniboors.MyPlacesActivity;
-import com.example.gzano.uniboors.R;
-import com.example.gzano.uniboors.Utils.Constants;
-
+import com.example.gzano.uniboors.PlacesActivity;
 import com.example.gzano.uniboors.Presenter.WelcomePresenter;
+import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
+import com.example.gzano.uniboors.utils.Constants;
 
 
 public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFragmentView {
@@ -84,7 +83,7 @@ public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFra
 
     @Override
     public void onGoToAppPressed() {
-        Intent intent = new Intent(getActivity(), MyPlacesActivity.class);
+        Intent intent = new Intent(getActivity(), PlacesActivity.class);
         startActivity(intent);
     }
 
