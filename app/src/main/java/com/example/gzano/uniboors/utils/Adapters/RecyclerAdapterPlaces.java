@@ -41,7 +41,7 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
     @Override
     public PlacesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.places_layout, parent, false);
+                .inflate(R.layout.lessons_and_places_row_layout, parent, false);
 
         return new PlacesHolder(inflatedView);
     }

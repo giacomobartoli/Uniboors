@@ -1,6 +1,7 @@
 package com.example.gzano.uniboors.utils.Adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
     @Override
     public PlacesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.places_layout, parent, false);
+                .inflate(R.layout.lessons_and_places_row_layout, parent, false);
 
         return new PlacesHolder(inflatedView);
     }
@@ -130,6 +131,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
             HashMap<Integer, LessonTime> map = lessonSchedule.getDaysAndTime();
 
             if (map.containsKey(dow)) {
+                Log.d("TAGDOW", String.valueOf(dow));
                 return map.get(dow).getRoomName();
             } else {
                 int closestDayOfLesson = LessonSchedule.Utils.getClosestDayOfLesson(map.keySet().toArray(new Integer[map.size()]));
