@@ -20,7 +20,6 @@ import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
 import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapterLessons;
-import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapterPlaces;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,8 +45,7 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
         mRecyclerView = rootView.findViewById(R.id.lessons_recycler_view);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mAdapter = new RecyclerAdapterLessons(new ArrayList<Lesson>(), lessonsPresenter, new ArrayList<Lesson>());
-        mRecyclerView.setAdapter(mAdapter);
+
         lessonsPresenter.onCreate();
 
 
@@ -67,8 +65,9 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
     }
 
     @Override
-    public void setAdapter(@NotNull ArrayList<Lesson> fetchedLessons, @NotNull ArrayList<Lesson> fetchedUserlessons) {
-
+    public void setAdapter(@NotNull ArrayList<Lesson> fetchedLessons, @NotNull ArrayList<String> fetchedUserlessons) {
+        mAdapter = new RecyclerAdapterLessons(fetchedLessons, lessonsPresenter, fetchedUserlessons);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 
@@ -95,7 +94,7 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
     @Override
     public void addUserLesson(Lesson lesson) {
         if (!mAdapter.getCampusLessons().contains(lesson)) {
-            mAdapter.getUserLessons().add(lesson);
+            mAdapter.getUserLessons().add(lesson.getName());
 
         }
 
@@ -103,26 +102,38 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
 
     @Override
     public void removeUserLesson(Lesson lesson) {
-        if (!mAdapter.getCampusLessons().contains(lesson)) {
+        if (mAdapter.getCampusLessons().contains(lesson)) {
             mAdapter.getUserLessons().remove(lesson);
 
         }
     }
 
     @Override
+    public void setFavoriteIcon(int resource, final int position) {
+
+        ImageView imageView = getImageAtPosition(position);
+        imageView.setImageResource(resource);
+
+
+    }
+
+    @Override
     public void setNewClickListener(final int resource, final int position, @NonNull final Lesson lesson) {
         ImageView imageView = getImageAtPosition(position);
         if (resource == R.drawable.ic_add) {
+            imageView.setImageResource(R.drawable.ic_add);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("TAGADDROOM", " add room  " + lesson);
+
                     lessonsPresenter.addLesson(lesson, position);
                 }
             });
 
         }
-        if (resource == R.drawable.ic_added_check) {
+        if (resource == R.drawable.ic_check_added) {
+            imageView.setImageResource(R.drawable.ic_check_added);
+
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -146,10 +157,10 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
 
     private ImageView getImageAtPosition(int position) {
 
-        RecyclerAdapterPlaces.PlacesHolder viewHolderForAdapterPosition = (RecyclerAdapterPlaces.PlacesHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        RecyclerAdapterLessons.LessonsHolder viewHolderForAdapterPosition = (RecyclerAdapterLessons.LessonsHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
 
 
-        return viewHolderForAdapterPosition.itemView.findViewById(R.id.favourite);
+        return viewHolderForAdapterPosition.itemView.findViewById(R.id.add);
 
     }
 

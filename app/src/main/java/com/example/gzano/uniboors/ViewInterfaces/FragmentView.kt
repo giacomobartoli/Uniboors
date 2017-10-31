@@ -61,13 +61,14 @@ interface FragmentView {
     }
 
     interface LessonFragmentView : FragmentView {
-        fun setAdapter(fetchedLessons: ArrayList<Lesson>, fetchedUserlessons: ArrayList<Lesson>)
         fun setPlacesPresenter()
         fun addLesson(lesson: Lesson)
         fun removeLesson(lesson: Lesson)
         fun addUserLesson(lesson: Lesson)
         fun removeUserLesson(lesson: Lesson)
         fun setNewClickListener(resource: Int, position: Int, lesson: Lesson)
+        fun setAdapter(fetchedLessons: ArrayList<Lesson>, fetchedUserlessons: ArrayList<String>)
+        fun setFavoriteIcon(resource: Int, position: Int)
 
     }
 }

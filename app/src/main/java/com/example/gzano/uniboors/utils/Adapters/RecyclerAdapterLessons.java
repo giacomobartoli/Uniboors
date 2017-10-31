@@ -23,13 +23,14 @@ import java.util.HashMap;
  * Created by gzano on 04/10/2017.
  */
 
-public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapterLessons.PlacesHolder> {
-    private ArrayList<Lesson> mCampuseLessons, mUserLessons;
-    private Presenter.LessonsPresenter placesPresenter;
+public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapterLessons.LessonsHolder> {
+    private ArrayList<Lesson> mCampuseLessons;
+    private ArrayList<String> mUserLessons;
+    private Presenter.LessonsPresenter lessonsPresenter;
 
-    public RecyclerAdapterLessons(ArrayList<Lesson> mCampuseLessons, Presenter.LessonsPresenter placesPresenter, ArrayList<Lesson> mUserLessons) {
+    public RecyclerAdapterLessons(ArrayList<Lesson> mCampuseLessons, Presenter.LessonsPresenter lessonsPresenter, ArrayList<String> mUserLessons) {
         this.mCampuseLessons = mCampuseLessons;
-        this.placesPresenter = placesPresenter;
+        this.lessonsPresenter = lessonsPresenter;
         this.mUserLessons = mUserLessons;
     }
 
@@ -37,21 +38,21 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         return mCampuseLessons;
     }
 
-    public ArrayList<Lesson> getUserLessons() {
+    public ArrayList<String> getUserLessons() {
         return mUserLessons;
     }
 
     @Override
-    public PlacesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LessonsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.lessons_and_places_row_layout, parent, false);
 
-        return new PlacesHolder(inflatedView);
+        return new LessonsHolder(inflatedView);
     }
 
 
     @Override
-    public void onBindViewHolder(PlacesHolder holder, int position) {
+    public void onBindViewHolder(LessonsHolder holder, int position) {
         holder.bind(mCampuseLessons.get(position));
     }
 
@@ -61,21 +62,21 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
     }
 
     private boolean isFavorite(Lesson lesson) {
-        for (Lesson l : mUserLessons) {
-
-            if (l.getName().equals(lesson.getName())) {
+        for (String type : mUserLessons) {
+            Log.d("TAGISFAV", type + " " + lesson.getType().toString());
+            if (type.equals(lesson.getType().toString())) {
                 return true;
             }
         }
         return false;
     }
 
-    public class PlacesHolder extends RecyclerView.ViewHolder {
+    public class LessonsHolder extends RecyclerView.ViewHolder {
         private TextView lessonTitle, description;
         private ImageView addImage, backgroundImage;
 
 
-        public PlacesHolder(View itemView) {
+        public LessonsHolder(View itemView) {
             super(itemView);
 
             lessonTitle = itemView.findViewById(R.id.lesson_title);
@@ -93,10 +94,11 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
             lessonTitle.setText(lesson.getName());
             description.setText("Luogo " + renderPlace(lesson.getSchedule()) + " giorno  " + renderTime(lesson.getSchedule()));
             if (isFavorite(lesson)) {
-                addImage.setImageResource(R.drawable.ic_added_check);
+                addImage.setImageResource(R.drawable.ic_check_added);
                 addImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        lessonsPresenter.removeLesson(lesson, getAdapterPosition());
                         addImage.setImageResource(R.drawable.ic_add);
                     }
                 });
@@ -105,7 +107,8 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
                 addImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        addImage.setImageResource(R.drawable.ic_added_check);
+                        lessonsPresenter.addLesson(lesson, getAdapterPosition());
+                        addImage.setImageResource(R.drawable.ic_check_added);
                     }
                 });
 
@@ -140,7 +143,6 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         }
 
         private String renderTime(LessonSchedule lessonSchedule) {
-            DateTime dateTime = new DateTime();
             HashMap<Integer, LessonTime> map = lessonSchedule.getDaysAndTime();
             int size = map.keySet().size();
             if (LessonSchedule.Utils.isToday(map.keySet().toArray(new Integer[size]))) {

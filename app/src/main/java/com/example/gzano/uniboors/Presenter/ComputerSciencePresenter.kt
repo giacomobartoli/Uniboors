@@ -6,12 +6,11 @@ import com.example.gzano.uniboors.Model.LessonSchedule
 import com.example.gzano.uniboors.Model.LessonTime
 import com.example.gzano.uniboors.Model.Lessons
 import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter
+import com.example.gzano.uniboors.R
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView
 import com.example.gzano.uniboors.utils.Constants
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 /**
  * Created by gzano on 30/10/2017.
@@ -19,7 +18,23 @@ import com.google.firebase.database.FirebaseDatabase
 class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) : Presenter.LessonsPresenter {
 
     private val databaseRef = FirebaseDatabase.getInstance().getReference(Constants.CESENA_CAMPUS_NODE).child("Corsi")
+    private val userLessonDatabaseRef = FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH).child(FirebaseAuth.getInstance().currentUser?.uid).child("lessons").ref
 
+    init {
+        userLessonDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            val userLessons = ArrayList<String>()
+            override fun onCancelled(p0: DatabaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                p0?.children?.mapTo(userLessons) { it.child("lessonType").value.toString() }
+                Log.d("TAGUSERLES", userLessons.toString())
+                lessonView.setAdapter(ArrayList(), userLessons)
+            }
+
+        })
+    }
 
     override fun onCreate() {
         databaseRef.addChildEventListener(object : ChildEventListener {
@@ -87,10 +102,58 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
     }
 
     override fun addLesson(lesson: Lesson, position: Int) {
+        userLessonDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot?) {
+
+                if (p0?.value?.toString() != null) {
+                    val isPresent = p0.children?.any { it.key == lesson.name }
+                    val data = HashMap<String, String>()
+                    data.put("lessonType", lesson.type.toString())
+                    if (!isPresent!!) {
+                        userLessonDatabaseRef.child(lesson.name).setValue(data).addOnCompleteListener {
+                            lessonView.setNewClickListener(R.drawable.ic_check_added, position, lesson)
+
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
 
     }
 
     override fun removeLesson(lesson: Lesson, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        userLessonDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot?) {
+                if (p0?.childrenCount == 1.toLong()) {
+                    p0.ref.setValue(Constants.EMPTY_NODE_VALUE).addOnCompleteListener {
+                        if (it.isComplete) {
+                            lessonView.setNewClickListener(R.drawable.ic_add, position, lesson)
+                            lessonView.removeUserLesson(lesson)
+
+                        }
+                    }
+                }
+                p0?.children?.filter { it.key == lesson.name }?.forEach {
+                    it.ref.removeValue().addOnCompleteListener({
+                        if (it.isComplete) {
+                            lessonView.setNewClickListener(R.drawable.ic_add, position, lesson)
+                            lessonView.removeUserLesson(lesson)
+                        }
+                    })
+                }
+
+            }
+
+
+            override fun onCancelled(p0: DatabaseError?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
     }
 }
