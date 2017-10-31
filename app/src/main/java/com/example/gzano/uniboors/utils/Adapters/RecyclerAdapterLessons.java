@@ -122,8 +122,13 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
                     backgroundImage.setImageResource(R.drawable.ic_dev);
                     break;
                 case APPLICAZIONI_WEB:
-                    backgroundImage.setImageResource(R.drawable.ic_web);
-
+                    backgroundImage.setImageResource(R.drawable.ic_web_development);
+                    break;
+                case MACHINE_LEARNING:
+                    backgroundImage.setImageResource(R.drawable.ic_machine_learning);
+                    break;
+                case DATA_MINING:
+                    backgroundImage.setImageResource(R.drawable.ic_data_mining);
                     break;
             }
 

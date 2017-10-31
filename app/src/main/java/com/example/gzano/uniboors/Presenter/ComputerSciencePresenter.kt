@@ -54,41 +54,35 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
                 if (p0 != null) {
 
                     Log.d("TAGCHILD", p0.toString() + " " + p0.key.toString())
+                    val dayAndTime = HashMap<Int, LessonTime>()
+                    for (snapshot in scheduleDatabaseRef?.children!!) {
+                        val timeStart = snapshot?.child("timeStart")?.value.toString().toInt()
+                        val timeEnd = snapshot?.child("timeEnd")?.value.toString().toInt()
+                        val roomString = snapshot?.child("place")?.value.toString()
+                        val dayOfWeek = snapshot.child("value")?.value.toString().toInt()
+                        Log.d("TAGSCHEDULE", timeEnd.toString() + " " + timeStart.toString() + " " + roomString + " " + dayOfWeek)
+                        dayAndTime.put(dayOfWeek, LessonTime(timeStart, timeEnd, roomString))
+                    }
+                    val lessonSchedule = LessonSchedule.createLessonSchedule(dayAndTime)
                     when (Lessons.valueOf(p0.child("type").value.toString())) {
                         Lessons.APPLICAZIONI_WEB -> {
-                            val dayAndTime = HashMap<Int, LessonTime>()
-                            for (snapshot in scheduleDatabaseRef?.children!!) {
-                                val timeStart = snapshot?.child("timeStart")?.value.toString().toInt()
-                                val timeEnd = snapshot?.child("timeEnd")?.value.toString().toInt()
-                                val roomString = snapshot?.child("place")?.value.toString()
-                                val dayOfWeek = snapshot.child("value")?.value.toString().toInt()
-                                Log.d("TAGSCHEDULE", timeEnd.toString() + " " + timeStart.toString() + " " + roomString + " " + dayOfWeek)
-                                dayAndTime.put(dayOfWeek, LessonTime(timeStart, timeEnd, roomString))
-                            }
-                            val lessonSchedule = LessonSchedule.createLessonSchedule(dayAndTime)
+
                             lessonView.addLesson(Lesson.WebApplication("Applicazioni Web", Lessons.APPLICAZIONI_WEB, p0.child("credits").value.toString().toInt(), p0.child("teacher").value.toString(), lessonSchedule))
 
                         }
                         Lessons.SVILUPPO_SISTEMI_SOFTWARE -> {
-                            val dayAndTime = HashMap<Int, LessonTime>()
-                            for (snapshot in scheduleDatabaseRef?.children!!) {
-                                val timeStart = snapshot?.child("timeStart")?.value.toString().toInt()
-                                val timeEnd = snapshot?.child("timeEnd")?.value.toString().toInt()
-                                val roomString = snapshot?.child("place")?.value.toString()
-                                Log.d("TAGCHECK", snapshot.hasChild("value").toString())
-                                val dayOfWeek = snapshot.child("value")?.value.toString().toInt()
-                                Log.d("TAGSCHEDULE", timeEnd.toString() + " " + timeStart.toString() + " " + roomString + " " + dayOfWeek)
-                                dayAndTime.put(dayOfWeek, LessonTime(timeStart, timeEnd, roomString))
-                            }
-                            val lessonSchedule = LessonSchedule.createLessonSchedule(dayAndTime)
                             lessonView.addLesson(Lesson.SoftwareDevelopment("Sviluppo di Sistemi Software", Lessons.SVILUPPO_SISTEMI_SOFTWARE, p0.child("credits").value.toString().toInt(), p0.child("teacher").value.toString(), lessonSchedule))
                         }
 
                         Lessons.SISTEMI_DISTRIBUITI -> TODO()
-                        Lessons.MACHINE_LEARNING -> TODO()
-                        Lessons.SITEMI_INFORMATIVI -> TODO()
+                        Lessons.MACHINE_LEARNING -> lessonView.addLesson(Lesson.MachineLearning("Machine Learning", Lessons.MACHINE_LEARNING, p0.child("credits").value.toString().toInt(), p0.child("teacher").value.toString(), lessonSchedule))
+
+                        Lessons.SISTEMI_INFORMATIVI -> TODO()
                         Lessons.SICUREZZA_DELLE_RETI -> TODO()
                         Lessons.LCMC -> TODO()
+                        Lessons.DATA_MINING -> {
+                            lessonView.addLesson(Lesson.DataMining("Data Mining", Lessons.DATA_MINING, p0.child("credits").value.toString().toInt(), p0.child("teacher").value.toString(), lessonSchedule))
+                        }
                     }
                 }
 
