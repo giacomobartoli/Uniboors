@@ -20,7 +20,7 @@
 
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/day_and_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lesson_title"
@@ -33,10 +33,10 @@
         android:id="@+id/favourite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/description"
+        android:layout_alignEnd="@+id/day_and_time"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignRight="@+id/description"
+        android:layout_alignRight="@+id/day_and_time"
         android:layout_centerVertical="true"
         android:layout_marginBottom="@dimen/row_margin"
         android:layout_marginLeft="@dimen/row_margin"

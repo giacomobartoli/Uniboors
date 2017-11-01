@@ -23,15 +23,35 @@ class LessonSchedule(val daysAndTime: HashMap<Int, LessonTime>) {
             return getTimeDifference(timeStart) <= 5
         }
 
+        fun getLessonTime(dayOfWeek: Int, lesson: Lesson): LessonTime {
+            return if (lesson.schedule.daysAndTime.containsKey(dayOfWeek)) {
+                lesson.schedule.daysAndTime[dayOfWeek]!!
+            } else {
+                lesson.schedule.daysAndTime[DateTime().dayOfWeek]!!
+            }
+        }
+
         fun getClosestDayOfLesson(daysOfWeek: Array<Int>): Int {
             val localTime = DateTime()
-            var temp: Int? = null
-            for (i in daysOfWeek) {
-                daysOfWeek
-                        .filter { localTime.withDayOfWeek(i).isBefore(localTime.withDayOfWeek(it)) }
-                        .forEach { temp = i }
+            val today = localTime.dayOfWeek
+            var temp = daysOfWeek[0]
+            for (dayOfTheWeek in daysOfWeek) {
+                if (dayOfTheWeek > today && temp > today && dayOfTheWeek < temp) {
+                    temp = dayOfTheWeek
+                }
+                if (dayOfTheWeek < today && temp < today && dayOfTheWeek < temp) {
+                    temp = dayOfTheWeek
+
+                }
+                if (dayOfTheWeek > today) {
+                    temp = dayOfTheWeek
+                }
+                if (dayOfTheWeek == today) {
+                    return 0
+                }
+
             }
-            return temp!!
+            return temp
         }
 
         fun isToday(daysOfWeek: Array<Int>): Boolean {

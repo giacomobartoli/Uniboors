@@ -63,7 +63,6 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
 
     private boolean isFavorite(Lesson lesson) {
         for (String type : mUserLessons) {
-            Log.d("TAGISFAV", type + " " + lesson.getType().toString());
             if (type.equals(lesson.getType().toString())) {
                 return true;
             }
@@ -72,7 +71,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
     }
 
     public class LessonsHolder extends RecyclerView.ViewHolder {
-        private TextView lessonTitle, description;
+        private TextView lessonTitle, description, dayAndTime, teacher;
         private ImageView addImage, backgroundImage;
 
 
@@ -83,6 +82,8 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
             description = itemView.findViewById(R.id.description);
             addImage = itemView.findViewById(R.id.add);
             backgroundImage = itemView.findViewById(R.id.image_background);
+            dayAndTime = itemView.findViewById(R.id.day_and_time);
+            teacher = itemView.findViewById(R.id.teacher_text);
             addImage.setClickable(true);
 
 
@@ -90,9 +91,16 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
 
 
         public void bind(final Lesson lesson) {
-            render(lesson);
+            renderBackground(lesson);
+            int day = renderDay(lesson.getSchedule());
+            Log.d("TAGDAY", lesson.getName() + " " + lesson.getSchedule().getDaysAndTime().get(day) + " " + getDayString(day));
+            String place = renderPlace(lesson.getSchedule());
             lessonTitle.setText(lesson.getName());
-            description.setText(String.format("Luogo %s giorno  %s", renderPlace(lesson.getSchedule()), renderTime(lesson.getSchedule())));
+            description.setText(String.format("%s ", place));
+            teacher.setText(lesson.getTeacher());
+            String timeStart = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeStart()) + ":00";
+            String timeEnd = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeEnd()) + ":00";
+            dayAndTime.setText(String.format("%s, %s-%s", getDayString(day), timeStart, timeEnd));
             if (isFavorite(lesson)) {
                 addImage.setImageResource(R.drawable.ic_check_added);
                 addImage.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +124,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
 
         }
 
-        private void render(Lesson lesson) {
+        private void renderBackground(Lesson lesson) {
             switch (lesson.getType()) {
                 case SVILUPPO_SISTEMI_SOFTWARE:
                     backgroundImage.setImageResource(R.drawable.ic_dev);
@@ -134,6 +142,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
 
         }
 
+
         private String renderPlace(LessonSchedule lessonSchedule) {
             int dow = new DateTime().getDayOfWeek();
             HashMap<Integer, LessonTime> map = lessonSchedule.getDaysAndTime();
@@ -147,15 +156,32 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
             }
         }
 
-        private String renderTime(LessonSchedule lessonSchedule) {
+        private int renderDay(LessonSchedule lessonSchedule) {
             HashMap<Integer, LessonTime> map = lessonSchedule.getDaysAndTime();
             int size = map.keySet().size();
-            if (LessonSchedule.Utils.isToday(map.keySet().toArray(new Integer[size]))) {
-                return "Today";
-            } else {
 
-                return String.valueOf(LessonSchedule.Utils.getClosestDayOfLesson(map.keySet().toArray(new Integer[size])));
+            return LessonSchedule.Utils.getClosestDayOfLesson(map.keySet().toArray(new Integer[size]));
+        }
+
+
+        private String getDayString(int dayOfWeek) {
+            switch (dayOfWeek) {
+                case 1:
+                    return "Monday";
+                case 2:
+                    return "Tuesday";
+                case 3:
+                    return "Wednesday";
+                case 4:
+                    return "Thursday";
+                case 5:
+                    return "Friday";
+                case 0:
+                    return "Today";
+
+
             }
+            return null;
         }
 
 

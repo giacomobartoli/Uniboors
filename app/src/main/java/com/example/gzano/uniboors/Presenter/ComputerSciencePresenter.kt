@@ -62,6 +62,7 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
                         val dayOfWeek = snapshot.child("value")?.value.toString().toInt()
                         Log.d("TAGSCHEDULE", timeEnd.toString() + " " + timeStart.toString() + " " + roomString + " " + dayOfWeek)
                         dayAndTime.put(dayOfWeek, LessonTime(timeStart, timeEnd, roomString))
+
                     }
                     val lessonSchedule = LessonSchedule.createLessonSchedule(dayAndTime)
                     when (Lessons.valueOf(p0.child("type").value.toString())) {
