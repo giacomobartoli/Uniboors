@@ -45,9 +45,10 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
         mRecyclerView = rootView.findViewById(R.id.lessons_recycler_view);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-
+        mRecyclerView.setItemViewCacheSize(20);
+        mRecyclerView.setDrawingCacheEnabled(true);
+        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         lessonsPresenter.onCreate();
-
 
         return rootView;
     }
