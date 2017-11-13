@@ -61,9 +61,6 @@ interface FragmentView {
     }
 
     interface LessonFragmentView : FragmentView {
-        fun setPlacesPresenter()
-        fun addLesson(lesson: Lesson)
-        fun removeLesson(lesson: Lesson)
         fun addUserLesson(lesson: Lesson)
         fun removeUserLesson(lesson: Lesson)
         fun setNewClickListener(resource: Int, position: Int, lesson: Lesson)

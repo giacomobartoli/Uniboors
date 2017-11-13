@@ -20,7 +20,6 @@ public class PlacesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         LessonsFragment recyclerFragment = new LessonsFragment();
-        recyclerFragment.setPlacesPresenter();
         getSupportFragmentManager().beginTransaction().add(R.id.places_fragment_container, recyclerFragment).commit();
 
 

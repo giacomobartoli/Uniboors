@@ -47,7 +47,9 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setItemViewCacheSize(20);
         mRecyclerView.setDrawingCacheEnabled(true);
-        mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        mRecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setHasFixedSize(true);
+        lessonsPresenter = new ComputerSciencePresenter(this);
         lessonsPresenter.onCreate();
 
         return rootView;
@@ -72,25 +74,6 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
     }
 
 
-    @Override
-    public void setPlacesPresenter() {
-        lessonsPresenter = new ComputerSciencePresenter(this);
-    }
-
-    @Override
-    public void addLesson(Lesson lesson) {
-        mAdapter.getCampusLessons().add(lesson);
-        mAdapter.notifyItemInserted(mAdapter.getCampusLessons().size());
-
-    }
-
-    @Override
-    public void removeLesson(Lesson lesson) {
-        int position = mAdapter.getCampusLessons().lastIndexOf(lesson);
-        mAdapter.getCampusLessons().remove(lesson);
-        mAdapter.notifyItemRemoved(position);
-
-    }
 
     @Override
     public void addUserLesson(Lesson lesson) {

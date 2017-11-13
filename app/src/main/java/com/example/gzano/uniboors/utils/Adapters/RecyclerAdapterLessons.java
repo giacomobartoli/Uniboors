@@ -24,18 +24,23 @@ import java.util.HashMap;
  */
 
 public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapterLessons.LessonsHolder> {
-    private ArrayList<Lesson> mCampuseLessons;
+    private ArrayList<Lesson> mCampusLessons;
     private ArrayList<String> mUserLessons;
     private Presenter.LessonsPresenter lessonsPresenter;
 
     public RecyclerAdapterLessons(ArrayList<Lesson> mCampuseLessons, Presenter.LessonsPresenter lessonsPresenter, ArrayList<String> mUserLessons) {
-        this.mCampuseLessons = mCampuseLessons;
+        this.mCampusLessons = mCampuseLessons;
         this.lessonsPresenter = lessonsPresenter;
+
         this.mUserLessons = mUserLessons;
+//        for(int i=0;i< 100;i++){
+//            mCampuseLessons.add(new Lesson.DataMining("",Lessons.DATA_MINING,12,"asdf",new LessonSchedule(new HashMap<Integer, LessonTime>())));
+//        }
+
     }
 
     public ArrayList<Lesson> getCampusLessons() {
-        return mCampuseLessons;
+        return mCampusLessons;
     }
 
     public ArrayList<String> getUserLessons() {
@@ -53,12 +58,12 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
 
     @Override
     public void onBindViewHolder(LessonsHolder holder, int position) {
-        holder.bind(mCampuseLessons.get(position));
+        holder.bind(mCampusLessons.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mCampuseLessons.size();
+        return mCampusLessons.size();
     }
 
     private boolean isFavorite(Lesson lesson) {
@@ -72,19 +77,21 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
 
     public class LessonsHolder extends RecyclerView.ViewHolder {
         private TextView lessonTitle, description, dayAndTime, teacher;
-        private ImageView addImage, backgroundImage;
+        private ImageView addImage;
+        private ImageView backgroundImage;
 
 
         public LessonsHolder(View itemView) {
             super(itemView);
 
             lessonTitle = itemView.findViewById(R.id.lesson_title);
-            description = itemView.findViewById(R.id.description);
+
             addImage = itemView.findViewById(R.id.add);
             backgroundImage = itemView.findViewById(R.id.image_background);
+            description = itemView.findViewById(R.id.description);
             dayAndTime = itemView.findViewById(R.id.day_and_time);
             teacher = itemView.findViewById(R.id.teacher_text);
-            addImage.setClickable(true);
+//            addImage.setClickable(true);
 
 
         }
@@ -101,26 +108,26 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
             String timeStart = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeStart()) + ":00";
             String timeEnd = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeEnd()) + ":00";
             dayAndTime.setText(String.format("%s, %s-%s", getDayString(day), timeStart, timeEnd));
-            if (isFavorite(lesson)) {
-                addImage.setImageResource(R.drawable.ic_check_added);
-                addImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        lessonsPresenter.removeLesson(lesson, getAdapterPosition());
-                        addImage.setImageResource(R.drawable.ic_add);
-                    }
-                });
-            } else {
-                addImage.setImageResource(R.drawable.ic_add);
-                addImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        lessonsPresenter.addLesson(lesson, getAdapterPosition());
-                        addImage.setImageResource(R.drawable.ic_check_added);
-                    }
-                });
+//            if (isFavorite(lesson)) {
+//                addImage.setImageResource(R.drawable.ic_check_added);
+//                addImage.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        lessonsPresenter.removeLesson(lesson, getAdapterPosition());
+//                        addImage.setImageResource(R.drawable.ic_add);
+//                    }
+//                });
+//            } else {
+//                addImage.setImageResource(R.drawable.ic_add);
+//                addImage.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        lessonsPresenter.addLesson(lesson, getAdapterPosition());
+//                        addImage.setImageResource(R.drawable.ic_check_added);
+//                    }
+//                });
 
-            }
+            //        }
 
         }
 

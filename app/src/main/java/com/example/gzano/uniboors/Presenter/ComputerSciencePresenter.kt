@@ -6,11 +6,13 @@ import com.example.gzano.uniboors.Model.LessonSchedule
 import com.example.gzano.uniboors.Model.LessonTime
 import com.example.gzano.uniboors.Model.Lessons
 import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter
-import com.example.gzano.uniboors.R
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView
 import com.example.gzano.uniboors.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 /**
  * Created by gzano on 30/10/2017.
@@ -109,23 +111,12 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
             override fun onDataChange(p0: DataSnapshot?) {
                 p0?.children?.mapTo(userLessons) { it.child("lessonType").value.toString() }
                 Log.d("TAGUSERLES", userLessons.toString())
-                databaseRef.addChildEventListener(object : ChildEventListener {
-                    override fun onCancelled(p0: DatabaseError?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
+                databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(p0: DataSnapshot?) {
+                        for (snapshot1 in p0!!.children!!) {
+                            Log.d("TAGCHILD", " lessons " + p0.childrenCount)
+                            val scheduleDatabaseRef = snapshot1?.child("schedule")
 
-                    override fun onChildMoved(p0: DataSnapshot?, p1: String?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun onChildChanged(p0: DataSnapshot?, p1: String?) {
-                    }
-
-                    override fun onChildAdded(p0: DataSnapshot?, p1: String?) {
-                        val scheduleDatabaseRef = p0?.child("schedule")
-                        if (p0 != null) {
-
-                            Log.d("TAGCHILD", p0.toString() + " " + p0.key.toString())
                             val dayAndTime = HashMap<Int, LessonTime>()
                             for (snapshot in scheduleDatabaseRef?.children!!) {
                                 val timeStart = snapshot?.child("timeStart")?.value.toString().toInt()
@@ -137,43 +128,39 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
 
                             }
                             val lessonSchedule = LessonSchedule.createLessonSchedule(dayAndTime)
-                            when (Lessons.valueOf(p0.child("type").value.toString())) {
+                            when (Lessons.valueOf(snapshot1.child("type").value.toString())) {
                                 Lessons.APPLICAZIONI_WEB -> {
 
-                                    campusLessons.add(Lesson.WebApplication("Applicazioni Web", Lessons.APPLICAZIONI_WEB, p0.child("credits").value.toString().toInt(), p0.child("teacher").value.toString(), lessonSchedule))
+                                    campusLessons.add(Lesson.WebApplication("Applicazioni Web", Lessons.APPLICAZIONI_WEB, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
 
                                 }
                                 Lessons.SVILUPPO_SISTEMI_SOFTWARE -> {
-                                    campusLessons.add(Lesson.SoftwareDevelopment("Sviluppo di Sistemi Software", Lessons.SVILUPPO_SISTEMI_SOFTWARE, p0.child("credits").value.toString().toInt(), p0.child("teacher").value.toString(), lessonSchedule))
+                                    campusLessons.add(Lesson.SoftwareDevelopment("Sviluppo di Sistemi Software", Lessons.SVILUPPO_SISTEMI_SOFTWARE, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
                                 }
 
                                 Lessons.SISTEMI_DISTRIBUITI -> TODO()
-                                Lessons.MACHINE_LEARNING -> campusLessons.add(Lesson.MachineLearning("Machine Learning", Lessons.MACHINE_LEARNING, p0.child("credits").value.toString().toInt(), p0.child("teacher").value.toString(), lessonSchedule))
+                                Lessons.MACHINE_LEARNING -> campusLessons.add(Lesson.MachineLearning("Machine Learning", Lessons.MACHINE_LEARNING, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
 
                                 Lessons.SISTEMI_INFORMATIVI -> TODO()
                                 Lessons.SICUREZZA_DELLE_RETI -> TODO()
                                 Lessons.LCMC -> TODO()
                                 Lessons.DATA_MINING -> {
-                                    campusLessons.add(Lesson.DataMining("Data Mining", Lessons.DATA_MINING, p0.child("credits").value.toString().toInt(), p0.child("teacher").value.toString(), lessonSchedule))
+                                    campusLessons.add(Lesson.DataMining("Data Mining", Lessons.DATA_MINING, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
                                 }
                             }
-                            if (campusLessons.size == 4) {
-                                Log.d("TAGCAMPUSLES", campusLessons.toString())
+                            if (campusLessons.size == p0.childrenCount.toInt()) {
                                 lessonView.setAdapter(campusLessons, userLessons)
-
                             }
                         }
-
                     }
 
-                    override fun onChildRemoved(p0: DataSnapshot?) {
+                    override fun onCancelled(p0: DatabaseError?) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+
                     }
-
                 })
-
             }
-
         })
     }
 
@@ -237,58 +224,58 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
 //    }
 //
     override fun addLesson(lesson: Lesson, position: Int) {
-        userLessonDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot?) {
-
-                if (p0?.value?.toString() != null) {
-                    val isPresent = p0.children?.any { it.key == lesson.name }
-                    val data = HashMap<String, String>()
-                    data.put("lessonType", lesson.type.toString())
-                    if (!isPresent!!) {
-                        userLessonDatabaseRef.child(lesson.name).setValue(data).addOnCompleteListener {
-                            lessonView.setNewClickListener(R.drawable.ic_check_added, position, lesson)
-
-                        }
-                    }
-                }
-            }
-
-            override fun onCancelled(p0: DatabaseError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        })
+//        userLessonDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(p0: DataSnapshot?) {
+//
+//                if (p0?.value?.toString() != null) {
+//                    val isPresent = p0.children?.any { it.key == lesson.name }
+//                    val data = HashMap<String, String>()
+//                    data.put("lessonType", lesson.type.toString())
+//                    if (!isPresent!!) {
+//                        userLessonDatabaseRef.child(lesson.name).setValue(data).addOnCompleteListener {
+//                            lessonView.setNewClickListener(R.drawable.ic_check_added, position, lesson)
+//
+//                        }
+//                    }
+//                }
+//            }
+//
+//            override fun onCancelled(p0: DatabaseError?) {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//
+//        })
 
     }
 
     override fun removeLesson(lesson: Lesson, position: Int) {
-        userLessonDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(p0: DataSnapshot?) {
-                if (p0?.childrenCount == 1.toLong()) {
-                    p0.ref.setValue(Constants.EMPTY_NODE_VALUE).addOnCompleteListener {
-                        if (it.isComplete) {
-                            lessonView.setNewClickListener(R.drawable.ic_add, position, lesson)
-                            lessonView.removeUserLesson(lesson)
-
-                        }
-                    }
-                }
-                p0?.children?.filter { it.key == lesson.name }?.forEach {
-                    it.ref.removeValue().addOnCompleteListener({
-                        if (it.isComplete) {
-                            lessonView.setNewClickListener(R.drawable.ic_add, position, lesson)
-                            lessonView.removeUserLesson(lesson)
-                        }
-                    })
-                }
-
-            }
-
-
-            override fun onCancelled(p0: DatabaseError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        })
+//        userLessonDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(p0: DataSnapshot?) {
+//                if (p0?.childrenCount == 1.toLong()) {
+//                    p0.ref.setValue(Constants.EMPTY_NODE_VALUE).addOnCompleteListener {
+//                        if (it.isComplete) {
+//                            lessonView.setNewClickListener(R.drawable.ic_add, position, lesson)
+//                            lessonView.removeUserLesson(lesson)
+//
+//                        }
+//                    }
+//                }
+//                p0?.children?.filter { it.key == lesson.name }?.forEach {
+//                    it.ref.removeValue().addOnCompleteListener({
+//                        if (it.isComplete) {
+//                            lessonView.setNewClickListener(R.drawable.ic_add, position, lesson)
+//                            lessonView.removeUserLesson(lesson)
+//                        }
+//                    })
+//                }
+//
+//            }
+//
+//
+//            override fun onCancelled(p0: DatabaseError?) {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//
+//        })
     }
 }
