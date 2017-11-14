@@ -23,108 +23,94 @@ import java.util.HashMap;
  * Created by gzano on 04/10/2017.
  */
 
-public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapterLessons.PlacesHolder> {
-    private ArrayList<Lesson> mCampuseLessons, mUserLessons;
-    private Presenter.LessonsPresenter placesPresenter;
+public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapterLessons.LessonsHolder> {
+    private ArrayList<Lesson> mCampusLessons;
+    private ArrayList<String> mUserLessons;
+    private Presenter.LessonsPresenter lessonsPresenter;
+    private boolean isClicked = false;
 
-    public RecyclerAdapterLessons(ArrayList<Lesson> mCampuseLessons, Presenter.LessonsPresenter placesPresenter, ArrayList<Lesson> mUserLessons) {
-        this.mCampuseLessons = mCampuseLessons;
-        this.placesPresenter = placesPresenter;
+    public RecyclerAdapterLessons(ArrayList<Lesson> mCampuseLessons, Presenter.LessonsPresenter lessonsPresenter, ArrayList<String> mUserLessons) {
+        this.mCampusLessons = mCampuseLessons;
+        this.lessonsPresenter = lessonsPresenter;
         this.mUserLessons = mUserLessons;
+
+
     }
 
-    public ArrayList<Lesson> getCampusLessons() {
-        return mCampuseLessons;
-    }
-
-    public ArrayList<Lesson> getUserLessons() {
-        return mUserLessons;
-    }
 
     @Override
-    public PlacesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LessonsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflatedView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.lessons_and_places_row_layout, parent, false);
 
-        return new PlacesHolder(inflatedView);
+        return new LessonsHolder(inflatedView);
     }
 
 
     @Override
-    public void onBindViewHolder(PlacesHolder holder, int position) {
-        holder.bind(mCampuseLessons.get(position));
+    public void onBindViewHolder(LessonsHolder holder, int position) {
+        holder.bind(mCampusLessons.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mCampuseLessons.size();
+        return mCampusLessons.size();
     }
 
-    private boolean isFavorite(Lesson lesson) {
-        for (Lesson l : mUserLessons) {
-
-            if (l.getName().equals(lesson.getName())) {
-                return true;
-            }
-        }
-        return false;
+    public void setFABClicked(boolean b) {
+        isClicked = b;
     }
 
-    public class PlacesHolder extends RecyclerView.ViewHolder {
-        private TextView lessonTitle, description;
-        private ImageView addImage, backgroundImage;
+
+    public class LessonsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView lessonTitle, description, dayAndTime, teacher;
+        private ImageView backgroundImage;
 
 
-        public PlacesHolder(View itemView) {
+        public LessonsHolder(View itemView) {
             super(itemView);
-
+            itemView.setOnClickListener(this);
+            itemView.setBackgroundResource(R.drawable.recycler_view_row_selector);
             lessonTitle = itemView.findViewById(R.id.lesson_title);
-            description = itemView.findViewById(R.id.description);
-            addImage = itemView.findViewById(R.id.add);
             backgroundImage = itemView.findViewById(R.id.image_background);
-            addImage.setClickable(true);
+            description = itemView.findViewById(R.id.description);
+            dayAndTime = itemView.findViewById(R.id.day_and_time);
+            teacher = itemView.findViewById(R.id.teacher_text);
 
 
         }
 
 
         public void bind(final Lesson lesson) {
-            render(lesson);
+            renderBackground(lesson);
+            int day = renderDay(lesson.getSchedule());
+            String place = renderPlace(lesson.getSchedule());
             lessonTitle.setText(lesson.getName());
-            description.setText("Luogo " + renderPlace(lesson.getSchedule()) + " giorno  " + renderTime(lesson.getSchedule()));
-            if (isFavorite(lesson)) {
-                addImage.setImageResource(R.drawable.ic_added_check);
-                addImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        addImage.setImageResource(R.drawable.ic_add);
-                    }
-                });
-            } else {
-                addImage.setImageResource(R.drawable.ic_add);
-                addImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        addImage.setImageResource(R.drawable.ic_added_check);
-                    }
-                });
-
-            }
-
+            description.setText(String.format("%s ", place));
+            teacher.setText(lesson.getTeacher());
+            String timeStart = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeStart()) + ":00";
+            String timeEnd = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeEnd()) + ":00";
+            dayAndTime.setText(String.format("%s, %s-%s", getDayString(day), timeStart, timeEnd));
         }
 
-        private void render(Lesson lesson) {
+        private void renderBackground(Lesson lesson) {
             switch (lesson.getType()) {
                 case SVILUPPO_SISTEMI_SOFTWARE:
                     backgroundImage.setImageResource(R.drawable.ic_dev);
                     break;
                 case APPLICAZIONI_WEB:
-                    backgroundImage.setImageResource(R.drawable.ic_web);
-
+                    backgroundImage.setImageResource(R.drawable.ic_web_development);
+                    break;
+                case MACHINE_LEARNING:
+                    backgroundImage.setImageResource(R.drawable.ic_machine_learning);
+                    break;
+                case DATA_MINING:
+                    backgroundImage.setImageResource(R.drawable.ic_data_mining);
                     break;
             }
 
         }
+
 
         private String renderPlace(LessonSchedule lessonSchedule) {
             int dow = new DateTime().getDayOfWeek();
@@ -139,16 +125,42 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
             }
         }
 
-        private String renderTime(LessonSchedule lessonSchedule) {
-            DateTime dateTime = new DateTime();
+        private int renderDay(LessonSchedule lessonSchedule) {
             HashMap<Integer, LessonTime> map = lessonSchedule.getDaysAndTime();
             int size = map.keySet().size();
-            if (LessonSchedule.Utils.isToday(map.keySet().toArray(new Integer[size]))) {
-                return "Today";
-            } else {
 
-                return String.valueOf(LessonSchedule.Utils.getClosestDayOfLesson(map.keySet().toArray(new Integer[size])));
+            return LessonSchedule.Utils.getClosestDayOfLesson(map.keySet().toArray(new Integer[size]));
+        }
+
+
+        @Override
+        public void onClick(View view) {
+
+            if (isClicked) {
+                view.setPressed(true);
+                lessonsPresenter.startActivity();
             }
+        }
+
+
+        private String getDayString(int dayOfWeek) {
+            switch (dayOfWeek) {
+                case 1:
+                    return "Monday";
+                case 2:
+                    return "Tuesday";
+                case 3:
+                    return "Wednesday";
+                case 4:
+                    return "Thursday";
+                case 5:
+                    return "Friday";
+                case 0:
+                    return "Today";
+
+
+            }
+            return null;
         }
 
 

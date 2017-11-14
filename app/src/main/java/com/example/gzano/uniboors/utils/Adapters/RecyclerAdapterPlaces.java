@@ -76,10 +76,9 @@ public class RecyclerAdapterPlaces extends RecyclerView.Adapter<RecyclerAdapterP
             super(itemView);
 
             roomTitle = itemView.findViewById(R.id.lesson_title);
-            description = itemView.findViewById(R.id.description);
+            description = itemView.findViewById(R.id.day_and_time);
             heartImage = itemView.findViewById(R.id.favourite);
-            backgroundImage = itemView.findViewById(R.id.image_background);
-//            backgroundImage.setImageResource(R.drawable.ic_development);
+            //  backgroundImage = itemView.findViewById(R.id.image_background);
             heartImage.setClickable(true);
 
 

@@ -23,5 +23,6 @@ interface Lesson {
     data class LCMC(override val name: String, override val type: Lessons, override val credits: Int, override val teacher: String, override val schedule: LessonSchedule) : Lesson
     data class NetsSecurity(override val name: String, override val type: Lessons, override val credits: Int, override val teacher: String, override val schedule: LessonSchedule) : Lesson
     data class InformativeSystems(override val name: String, override val type: Lessons, override val credits: Int, override val teacher: String, override val schedule: LessonSchedule) : Lesson
+    data class DataMining(override val name: String, override val type: Lessons, override val credits: Int, override val teacher: String, override val schedule: LessonSchedule) : Lesson
 
 }

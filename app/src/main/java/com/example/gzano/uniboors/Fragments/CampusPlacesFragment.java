@@ -46,7 +46,7 @@ public class CampusPlacesFragment extends Fragment implements FragmentView.Place
         mRecyclerView = rootView.findViewById(R.id.placesRecyclerView);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        progressBarActivity = getActivity().findViewById(R.id.progressBarPlacesActivity);
+        progressBarActivity = getActivity().findViewById(R.id.progress_bar_lessons);
         progressBarActivity.setVisibility(View.VISIBLE);
 //        mAdapter = new RecyclerAdapterPlaces(new ArrayList<Room>(), placesPresenter, new ArrayList<Room>());
 //        mRecyclerView.setAdapter(mAdapter);
