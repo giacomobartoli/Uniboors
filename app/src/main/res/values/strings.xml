@@ -11,7 +11,7 @@
     <string name="signup_or_signin">"Sign in or sign up to a new account"</string>
     <string name="search_title">search this dick</string>
     <string name="action_settings">ciao</string>
-    <string name="search_hint">search your place</string>
+    <string name="search_hint">search a lesson</string>
     <string name="title_activity_your_places">YourPlacesActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_places">PlacesActivity</string>

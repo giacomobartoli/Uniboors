@@ -27,25 +27,16 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
     private ArrayList<Lesson> mCampusLessons;
     private ArrayList<String> mUserLessons;
     private Presenter.LessonsPresenter lessonsPresenter;
+    private boolean isClicked = false;
 
     public RecyclerAdapterLessons(ArrayList<Lesson> mCampuseLessons, Presenter.LessonsPresenter lessonsPresenter, ArrayList<String> mUserLessons) {
         this.mCampusLessons = mCampuseLessons;
         this.lessonsPresenter = lessonsPresenter;
-
         this.mUserLessons = mUserLessons;
-//        for(int i=0;i< 100;i++){
-//            mCampuseLessons.add(new Lesson.DataMining("",Lessons.DATA_MINING,12,"asdf",new LessonSchedule(new HashMap<Integer, LessonTime>())));
-//        }
+
 
     }
 
-    public ArrayList<Lesson> getCampusLessons() {
-        return mCampusLessons;
-    }
-
-    public ArrayList<String> getUserLessons() {
-        return mUserLessons;
-    }
 
     @Override
     public LessonsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -66,32 +57,25 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         return mCampusLessons.size();
     }
 
-    private boolean isFavorite(Lesson lesson) {
-        for (String type : mUserLessons) {
-            if (type.equals(lesson.getType().toString())) {
-                return true;
-            }
-        }
-        return false;
+    public void setFABClicked(boolean b) {
+        isClicked = b;
     }
 
-    public class LessonsHolder extends RecyclerView.ViewHolder {
+
+    public class LessonsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView lessonTitle, description, dayAndTime, teacher;
-        private ImageView addImage;
         private ImageView backgroundImage;
 
 
         public LessonsHolder(View itemView) {
             super(itemView);
-
+            itemView.setOnClickListener(this);
+            itemView.setBackgroundResource(R.drawable.recycler_view_row_selector);
             lessonTitle = itemView.findViewById(R.id.lesson_title);
-
-            addImage = itemView.findViewById(R.id.add);
             backgroundImage = itemView.findViewById(R.id.image_background);
             description = itemView.findViewById(R.id.description);
             dayAndTime = itemView.findViewById(R.id.day_and_time);
             teacher = itemView.findViewById(R.id.teacher_text);
-//            addImage.setClickable(true);
 
 
         }
@@ -100,7 +84,6 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         public void bind(final Lesson lesson) {
             renderBackground(lesson);
             int day = renderDay(lesson.getSchedule());
-            Log.d("TAGDAY", lesson.getName() + " " + lesson.getSchedule().getDaysAndTime().get(day) + " " + getDayString(day));
             String place = renderPlace(lesson.getSchedule());
             lessonTitle.setText(lesson.getName());
             description.setText(String.format("%s ", place));
@@ -108,27 +91,6 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
             String timeStart = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeStart()) + ":00";
             String timeEnd = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeEnd()) + ":00";
             dayAndTime.setText(String.format("%s, %s-%s", getDayString(day), timeStart, timeEnd));
-//            if (isFavorite(lesson)) {
-//                addImage.setImageResource(R.drawable.ic_check_added);
-//                addImage.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        lessonsPresenter.removeLesson(lesson, getAdapterPosition());
-//                        addImage.setImageResource(R.drawable.ic_add);
-//                    }
-//                });
-//            } else {
-//                addImage.setImageResource(R.drawable.ic_add);
-//                addImage.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        lessonsPresenter.addLesson(lesson, getAdapterPosition());
-//                        addImage.setImageResource(R.drawable.ic_check_added);
-//                    }
-//                });
-
-            //        }
-
         }
 
         private void renderBackground(Lesson lesson) {
@@ -168,6 +130,16 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
             int size = map.keySet().size();
 
             return LessonSchedule.Utils.getClosestDayOfLesson(map.keySet().toArray(new Integer[size]));
+        }
+
+
+        @Override
+        public void onClick(View view) {
+
+            if (isClicked) {
+                view.setPressed(true);
+                lessonsPresenter.startActivity();
+            }
         }
 
 

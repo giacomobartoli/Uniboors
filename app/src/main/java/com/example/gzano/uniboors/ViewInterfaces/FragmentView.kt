@@ -1,6 +1,7 @@
 package com.example.gzano.uniboors.ViewInterfaces
 
 import android.support.v4.app.Fragment
+import android.view.View
 import com.example.gzano.uniboors.Model.Lesson
 import com.example.gzano.uniboors.Model.Room
 
@@ -61,11 +62,18 @@ interface FragmentView {
     }
 
     interface LessonFragmentView : FragmentView {
-        fun addUserLesson(lesson: Lesson)
-        fun removeUserLesson(lesson: Lesson)
-        fun setNewClickListener(resource: Int, position: Int, lesson: Lesson)
+        //        fun addUserLesson(lesson: Lesson)
+//        fun removeUserLesson(lesson: Lesson)
+//        fun setNewClickListener(resource: Int, position: Int, lesson: Lesson)
         fun setAdapter(fetchedLessons: ArrayList<Lesson>, fetchedUserlessons: ArrayList<String>)
-        fun setFavoriteIcon(resource: Int, position: Int)
+
+        fun showProgressBar()
+
+        fun hideProgressBar()
+
+        fun makeRowClickable(view: View)
+        fun goToNavigationActivity()
+//        fun setFavoriteIcon(resource: Int, position: Int)
 
     }
 }

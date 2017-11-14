@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PlacesActivity"
+            android:name=".LessonsAndPlacesActivity"
             android:label="@string/title_activity_places"
             android:theme="@style/NoActionBar">
             <meta-data

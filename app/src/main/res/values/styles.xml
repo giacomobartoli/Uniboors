@@ -6,7 +6,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/welcomeActivityBackground</item>
         <item name="android:colorPrimary" tools:targetApi="lollipop">@color/RedBackground</item>
-        <item name="android:colorSecondary" tools:targetApi="n_mr1">@color/secondary_light</item>
+        <item name="android:colorSecondary" tools:targetApi="n_mr1">@color/buttonTextWhite</item>
     </style>
 
     <style name="NoActionBarMaterial" parent="@android:style/Theme.Material" tools:targetApi="lollipop">

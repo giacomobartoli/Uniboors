@@ -3,7 +3,6 @@ package com.example.gzano.uniboors.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.gzano.uniboors.Model.Lesson;
 import com.example.gzano.uniboors.NavigationActivity;
@@ -30,6 +29,7 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
     private RecyclerView mRecyclerView;
     private Presenter.LessonsPresenter lessonsPresenter;
     private RecyclerAdapterLessons mAdapter;
+    private ProgressBar progressBar;
 
 
     public LessonsFragment() {
@@ -42,10 +42,10 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
 
 
         View rootView = inflater.inflate(R.layout.fragment_lessons, container, false);
+        progressBar = getActivity().findViewById(R.id.progress_bar_lessons);
         mRecyclerView = rootView.findViewById(R.id.lessons_recycler_view);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.setItemViewCacheSize(20);
         mRecyclerView.setDrawingCacheEnabled(true);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(true);
@@ -74,80 +74,31 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
     }
 
 
-
     @Override
-    public void addUserLesson(Lesson lesson) {
-        if (!mAdapter.getCampusLessons().contains(lesson)) {
-            mAdapter.getUserLessons().add(lesson.getName());
-
-        }
-
+    public void showProgressBar() {
+        Log.d("TAGBAR", " progress bar " + progressBar.getId());
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void removeUserLesson(Lesson lesson) {
-        if (mAdapter.getCampusLessons().contains(lesson)) {
-            mAdapter.getUserLessons().remove(lesson);
-
-        }
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
+
 
     @Override
-    public void setFavoriteIcon(int resource, final int position) {
-
-        ImageView imageView = getImageAtPosition(position);
-        imageView.setImageResource(resource);
-
-
-    }
-
-    @Override
-    public void setNewClickListener(final int resource, final int position, @NonNull final Lesson lesson) {
-        ImageView imageView = getImageAtPosition(position);
-        if (resource == R.drawable.ic_add) {
-            imageView.setImageResource(R.drawable.ic_add);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    lessonsPresenter.addLesson(lesson, position);
-                }
-            });
-
-        }
-        if (resource == R.drawable.ic_check_added) {
-            imageView.setImageResource(R.drawable.ic_check_added);
-
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.d("TAGremoveROOM", " remove room " + lesson);
-
-                    lessonsPresenter.removeLesson(lesson, position);
-                }
-            });
-
-        }
-    }
-
-    public void startCheckTime() {
-
-    }
-
-    private void goToNavigationActivity() {
+    public void goToNavigationActivity() {
         Intent intent = new Intent(getActivity(), NavigationActivity.class);
         startActivity(intent);
     }
 
-    private ImageView getImageAtPosition(int position) {
 
-        RecyclerAdapterLessons.LessonsHolder viewHolderForAdapterPosition = (RecyclerAdapterLessons.LessonsHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
-
-
-        return viewHolderForAdapterPosition.itemView.findViewById(R.id.add);
+    @Override
+    public void makeRowClickable(View view) {
+        mAdapter.setFABClicked(true);
+        view.setVisibility(View.GONE);
 
     }
-
 }
 
 
