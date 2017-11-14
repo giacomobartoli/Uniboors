@@ -7,10 +7,5 @@ interface Presenter {
 
     fun onCreate()
 
-    interface LessonsPresenter : Presenter {
-
-        fun startActivity()
-
-
-    }
+    interface LessonsPresenter : Presenter
 }

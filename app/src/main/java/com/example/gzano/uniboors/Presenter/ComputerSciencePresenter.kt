@@ -23,9 +23,7 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
     private val databaseRef = FirebaseDatabase.getInstance().getReference(Constants.CESENA_CAMPUS_NODE).child("Corsi")
     private val userLessonDatabaseRef = FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH).child(FirebaseAuth.getInstance().currentUser?.uid).child("lessons").ref
 
-    override fun startActivity() {
-        lessonView.goToNavigationActivity()
-    }
+
 
     override fun onCreate() {
         lessonView.showProgressBar()
@@ -78,7 +76,7 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
                             }
                             if (campusLessons.size == p0.childrenCount.toInt()) {
                                 lessonView.hideProgressBar()
-                                lessonView.setAdapter(campusLessons, userLessons)
+                                lessonView.setAdapter(campusLessons)
                             }
                         }
                     }

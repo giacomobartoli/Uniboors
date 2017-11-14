@@ -62,18 +62,16 @@ interface FragmentView {
     }
 
     interface LessonFragmentView : FragmentView {
-        //        fun addUserLesson(lesson: Lesson)
-//        fun removeUserLesson(lesson: Lesson)
-//        fun setNewClickListener(resource: Int, position: Int, lesson: Lesson)
-        fun setAdapter(fetchedLessons: ArrayList<Lesson>, fetchedUserlessons: ArrayList<String>)
+
+        fun setAdapter(fetchedLessons: ArrayList<Lesson>)
 
         fun showProgressBar()
 
         fun hideProgressBar()
 
         fun makeRowClickable(view: View)
-        fun goToNavigationActivity()
-//        fun setFavoriteIcon(resource: Int, position: Int)
+
+        fun goToNavigationActivity(className: String, teacherName: String, day: String, startTime: String, endTime: String, placeName: String)
 
     }
 }
