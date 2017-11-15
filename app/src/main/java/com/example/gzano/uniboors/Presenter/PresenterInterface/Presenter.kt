@@ -8,4 +8,8 @@ interface Presenter {
     fun onCreate()
 
     interface LessonsPresenter : Presenter
+
+    interface NavigationPresenter : Presenter {
+        fun handleBeacon()
+    }
 }
