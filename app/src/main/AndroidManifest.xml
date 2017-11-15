@@ -22,7 +22,8 @@
         <activity
             android:name=".LessonsAndPlacesActivity"
             android:label="@string/title_activity_places"
-            android:theme="@style/NoActionBar">
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
