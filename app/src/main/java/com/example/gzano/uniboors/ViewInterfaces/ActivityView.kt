@@ -10,6 +10,6 @@ interface ActivityView {
 
         fun setCurrentPosition(currentPosition: String)
 
-        fun setDestination(destination: String)
+
     }
 }
