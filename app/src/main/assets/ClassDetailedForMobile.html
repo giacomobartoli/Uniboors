@@ -8,9 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <link href="css/loginpagestylesheet.css" rel="stylesheet"/>
-    <link href="css/classesstylesheet.css" rel="stylesheet"/>
-    <link href="css/detailclasstylesheet.css" rel="stylesheet"/>
+
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -38,13 +36,13 @@
             firebase.initializeApp(config);
 
             var database = firebase.database();
-            //   setNewLayout()
+
+
             firebase.auth().signInWithEmailAndPassword('gzano93@gmail.com', 'metallaro93').then(success=>{
                 firebase.database().ref('operators/').on('value',snapshot=>{
-                    var count = 0
 
+var count=0
                     snapshot.forEach(operatorSnapshot=>{
-                        //   alert('number online '+operatorSnapshot.child('status').val())
 
                         var operatorStatus=operatorSnapshot.child('status').val()
                         if(operatorStatus=='online'){
@@ -59,21 +57,27 @@
                         $('#myBadge').text(''+0)
                     }
                 })
-                var width=$(window).width()
+
                 database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
                     console.log('Nice im in Firebase')
                     var name=snapshot.child('name').val().toString()
-                    var teacher=snapshot.child('teacher').val()
-
-                    if(width<=350 && name=='Laboratorio Informatico 2'){
+$('#class_name').text(name)
+                    var lessonName=snapshot.child('lesson').child('lessonName').val()
+                    var state=snapshot.child('lesson').child('state').val()
+                    var teacher=snapshot.child('lesson').child('teacher').val()
+                    var name=snapshot.child('name').val().toString()
+                    var timeStart=snapshot.child('lesson').child('timeStart').val()
+                    var timeEnd=snapshot.child('lesson').child('timeEnd').val()
+                    var dayValue=snapshot.child('lesson').child('dayValue').val()
+                    if(name=='Laboratorio Informatico 2'){
                         name='Lab. Inf. 2'
 
                     }
-                    if(width<=350 && name=='Laboratorio Informatico 3'){
+                    if(name=='Laboratorio Informatico 3'){
                         name='Lab. Inf. 3'
 
                     }
-                    $('#classroom_name').text(name)
+                    $('#classroom_name').text(lessonName)
                     $('#position').text(snapshot.child('floor').val().toString())
                     var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
                     if(isFriendly)       {
@@ -96,17 +100,18 @@
                         $('#handy').attr('aria-expanded','false')
                         $('#handy').attr('aria-controls','#help_request')
                     }
-                    $('#teacher_name').text(teacher)
+ $('#teacher_name').text(teacher)
                     var date = new Date();
                     var today = date.getDay();
 
-                    if(4==today){
-                        $('#time_and_day').text('Today, '+9+":00-"+11+":00")
+                    if(dayValue==today){
+                        $('#time_and_day').text('Today, '+timeStart+":00-"+timeEnd+":00")
 
                     }
                     else{
-                        var truncatedDay='Wednesday'.slice(0,3)
-                        $('#time_and_day').text("Ciaone orario")
+
+                            var truncatedDay=renderDay(dayValue).slice(0,3)
+                            $('#time_and_day').text(truncatedDay+", "+timeStart+":00-"+timeEnd+":00")
 
 
                     }
@@ -118,6 +123,25 @@
 
             })
 
+function renderDay(dayNumber){
+
+    switch(dayNumber){
+        case 0:
+            return 'Sunday';
+        case 1:
+            return 'Monday';
+        case 2:
+            return 'Tuesday';
+        case 3:
+            return 'Wednesday';
+        case 4:
+            return 'Thursday';
+        case 5:
+            return 'Friday';
+        case 6:
+            return 'Saturday';
+    }
+}
 
 
 
@@ -134,6 +158,7 @@
 
             function getPlaceDetails(todayclass){
                 console.log('Place details called')
+
                 var width=$(window).width()
                 database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
                     console.log('Nice im in Firebase')
@@ -343,6 +368,7 @@
             }
 
 
+
     </script>
     <style>
 
@@ -547,6 +573,7 @@
 
 
 
+
     </style>
 </head>
 <body>
@@ -561,7 +588,7 @@
 
     <div class=" row justify-content-center" style=" margin-top: 50px;" id="class_and_time">
         <div class="col-4 col-dir icon_wrapper justify-content-center align-self-center"
-             style="margin-left: 50px; margin-top:30px"><img class="icon" src="classroom.svg"></div>
+             style="margin-left: 50px; margin-top:30px"><img class="icon" src="lesson.svg"></div>
         <div class="col col-dir align-self-center " style="margin-top: 30px;">
             <div class="loader d-block mx-auto my-auto"></div>
             <p class="detail display-4 text-left text-capitalize " id="classroom_name"

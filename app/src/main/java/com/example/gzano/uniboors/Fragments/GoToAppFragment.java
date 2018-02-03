@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.gzano.uniboors.LessonsAndPlacesActivity;
+import com.example.gzano.uniboors.NavigationActivity;
 import com.example.gzano.uniboors.Presenter.WelcomePresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
@@ -83,7 +83,7 @@ public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFra
 
     @Override
     public void onGoToAppPressed() {
-        Intent intent = new Intent(getActivity(), LessonsAndPlacesActivity.class);
+        Intent intent = new Intent(getActivity(), NavigationActivity.class);
         startActivity(intent);
     }
 

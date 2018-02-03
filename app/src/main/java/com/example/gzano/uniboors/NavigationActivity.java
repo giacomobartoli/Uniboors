@@ -28,7 +28,6 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         Log.d("TAGWEBViEW", "web view");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        // webView.loadUrl("https://developer.android.com/guide/webapps/webview.html");
         webView.setWebChromeClient(new WebChromeClient() {
             public void onConsoleMessage(String message, int lineNumber, String sourceID) {
                 Log.d("MyApplication", message + " -- From line "
@@ -39,7 +38,6 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         String summary = "file:///android_asset/ClassDetailedForMobile.html";
         webView.loadUrl(summary);
         webView.addJavascriptInterface(new ClassDetailsPicker(this), "Android");
-        //webView.loadData(summary, "text/html", null);
 
     }
 

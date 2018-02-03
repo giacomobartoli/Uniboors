@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.webkit.JavascriptInterface;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by gzano on 03/02/2018.
@@ -16,9 +20,18 @@ public class ClassDetailsPicker {
     public ClassDetailsPicker(Context context) {
         this.context = context;
     }
+    @JavascriptInterface
+    public void showToast() {
+        Toast.makeText(context, "ciao", Toast.LENGTH_SHORT).show();
+    }
 
     @JavascriptInterface
-    public ClassDetails getClassDetails() {
+    public String print() {
+        return "funziono sta tranquillo";
+    }
+
+    @JavascriptInterface
+    public String getClassDetails() throws JSONException {
         Intent intent = ((Activity) context).getIntent();
 
         String lessonName = intent.getStringExtra("lessonName");
@@ -28,8 +41,7 @@ public class ClassDetailsPicker {
         String endTime = intent.getStringExtra("endTime");
         String placeName = intent.getStringExtra("placeName");
 
-
-        return null;
+        return new ClassDetails(lessonName, teacherName, day, startTime, endTime, placeName).createJsonObject();
     }
 
     public class ClassDetails {
@@ -67,7 +79,22 @@ public class ClassDetailsPicker {
         public String getPlaceName() {
             return placeName;
         }
+
+        public String createJsonObject() throws JSONException {
+
+            JSONObject jsonObject = new JSONObject();
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("lessonName", lessonName);
+            jsonObject.put("lessonName", lessonName);
+            jsonObject.put("teacher", teacher);
+            jsonObject.put("placeName", placeName);
+            jsonObject.put("endTime", endTime);
+            jsonObject.put("startTime", startTime);
+            jsonObject.put("dayValue", day);
+            return String.valueOf(jsonObject);
+        }
     }
+
 
 }
 
