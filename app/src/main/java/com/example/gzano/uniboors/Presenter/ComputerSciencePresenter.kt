@@ -23,22 +23,14 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
     private val databaseRef = FirebaseDatabase.getInstance().getReference(Constants.CESENA_CAMPUS_NODE).child("Corsi")
     private val userLessonDatabaseRef = FirebaseDatabase.getInstance().getReference(Constants.NODE_USERS_PATH).child(FirebaseAuth.getInstance().currentUser?.uid).child("lessons").ref
 
-    override fun startActivity() {
-        lessonView.goToNavigationActivity()
-    }
+
 
     override fun onCreate() {
-        lessonView.showProgressBar()
-        userLessonDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            val userLessons = ArrayList<String>()
-            val campusLessons = ArrayList<Lesson>()
-            override fun onCancelled(p0: DatabaseError?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+        Log.d("TAGCHILD", "it stops before firebase")
 
-            override fun onDataChange(p0: DataSnapshot?) {
-                p0?.children?.mapTo(userLessons) { it.child("lessonType").value.toString() }
-                Log.d("TAGUSERLES", userLessons.toString())
+        lessonView.showProgressBar()
+        val campusLessons = ArrayList<Lesson>()
+
                 databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(p0: DataSnapshot?) {
                         for (snapshot1 in p0!!.children!!) {
@@ -56,6 +48,10 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
 
                             }
                             val lessonSchedule = LessonSchedule.createLessonSchedule(dayAndTime)
+                            Log.d("TAGTEACHER", snapshot1.child("teacher").value.toString())
+
+                            Log.d("TAGCREDITS", snapshot1.child("credits").value.toString())
+
                             when (Lessons.valueOf(snapshot1.child("type").value.toString())) {
                                 Lessons.APPLICAZIONI_WEB -> {
 
@@ -66,22 +62,28 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
                                     campusLessons.add(Lesson.SoftwareDevelopment("Sviluppo di Sistemi Software", Lessons.SVILUPPO_SISTEMI_SOFTWARE, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
                                 }
 
-                                Lessons.SISTEMI_DISTRIBUITI -> TODO()
+                                Lessons.SISTEMI_DISTRIBUITI -> campusLessons.add(Lesson.DistributedSystems("Distributed Systems", Lessons.SISTEMI_DISTRIBUITI, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
                                 Lessons.MACHINE_LEARNING -> campusLessons.add(Lesson.MachineLearning("Machine Learning", Lessons.MACHINE_LEARNING, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
 
-                                Lessons.SISTEMI_INFORMATIVI -> TODO()
-                                Lessons.SICUREZZA_DELLE_RETI -> TODO()
-                                Lessons.LCMC -> TODO()
+                                Lessons.SISTEMI_INFORMATIVI -> campusLessons.add(Lesson.InformativeSystems("Informative Systems", Lessons.SISTEMI_INFORMATIVI, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
+                                Lessons.PERVASIVE_COMPUTING -> campusLessons.add(Lesson.PervasiveComputing("Pervasive Computing", Lessons.PERVASIVE_COMPUTING, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
+                                Lessons.NETS_SECURITY -> campusLessons.add(Lesson.NetsSecurity("Nets Security", Lessons.NETS_SECURITY, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
+                                Lessons.BIG_DATA -> campusLessons.add(Lesson.BigData("Big Data", Lessons.BIG_DATA, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
+                                Lessons.SMART_CITY_TECNOLOGIE_MOBILI -> campusLessons.add(Lesson.SmartCity("Smart City", Lessons.SMART_CITY_TECNOLOGIE_MOBILI, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
+                                Lessons.SUPPORTO_ALLE_DECISIONI -> campusLessons.add(Lesson.DecisionSupport("Supporto alle Decisioni", Lessons.SUPPORTO_ALLE_DECISIONI, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
+                                Lessons.BUSINESS_INTELLIGENCE -> campusLessons.add(Lesson.BI("Business Intelligence", Lessons.BUSINESS_INTELLIGENCE, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
+                                Lessons.SISTEMI_INTELLIGENTI_ROBOTICI -> campusLessons.add(Lesson.RoboticSystems("Smart Robotic Systems", Lessons.SISTEMI_INTELLIGENTI_ROBOTICI, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
                                 Lessons.DATA_MINING -> {
                                     campusLessons.add(Lesson.DataMining("Data Mining", Lessons.DATA_MINING, snapshot1.child("credits").value.toString().toInt(), snapshot1.child("teacher").value.toString(), lessonSchedule))
                                 }
                             }
                             if (campusLessons.size == p0.childrenCount.toInt()) {
                                 lessonView.hideProgressBar()
-                                lessonView.setAdapter(campusLessons, userLessons)
+                                lessonView.setAdapter(campusLessons)
                             }
                         }
                     }
+
 
                     override fun onCancelled(p0: DatabaseError?) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -89,9 +91,11 @@ class ComputerSciencePresenter(val lessonView: FragmentView.LessonFragmentView) 
 
                     }
                 })
-            }
-        })
     }
-
-
 }
+
+
+
+
+
+

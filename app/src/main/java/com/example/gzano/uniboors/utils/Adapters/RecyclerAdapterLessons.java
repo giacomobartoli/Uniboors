@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gzano.uniboors.Fragments.LessonsFragment;
 import com.example.gzano.uniboors.Model.Lesson;
 import com.example.gzano.uniboors.Model.LessonSchedule;
 import com.example.gzano.uniboors.Model.LessonTime;
-import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter;
 import com.example.gzano.uniboors.R;
 
 import org.joda.time.DateTime;
@@ -25,14 +25,12 @@ import java.util.HashMap;
 
 public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapterLessons.LessonsHolder> {
     private ArrayList<Lesson> mCampusLessons;
-    private ArrayList<String> mUserLessons;
-    private Presenter.LessonsPresenter lessonsPresenter;
+    private LessonsFragment lessonsFragment;
     private boolean isClicked = false;
 
-    public RecyclerAdapterLessons(ArrayList<Lesson> mCampuseLessons, Presenter.LessonsPresenter lessonsPresenter, ArrayList<String> mUserLessons) {
+    public RecyclerAdapterLessons(ArrayList<Lesson> mCampuseLessons, LessonsFragment lessonsFragment) {
         this.mCampusLessons = mCampuseLessons;
-        this.lessonsPresenter = lessonsPresenter;
-        this.mUserLessons = mUserLessons;
+        this.lessonsFragment = lessonsFragment;
 
 
     }
@@ -65,6 +63,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
     public class LessonsHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView lessonTitle, description, dayAndTime, teacher;
         private ImageView backgroundImage;
+        private String day, timeStart, timeEnd, place;
 
 
         public LessonsHolder(View itemView) {
@@ -83,14 +82,15 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
 
         public void bind(final Lesson lesson) {
             renderBackground(lesson);
-            int day = renderDay(lesson.getSchedule());
-            String place = renderPlace(lesson.getSchedule());
+            int dayInt = renderDay(lesson.getSchedule());
+            place = renderPlace(lesson.getSchedule());
             lessonTitle.setText(lesson.getName());
             description.setText(String.format("%s ", place));
             teacher.setText(lesson.getTeacher());
-            String timeStart = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeStart()) + ":00";
-            String timeEnd = String.valueOf(LessonSchedule.Utils.getLessonTime(day, lesson).getTimeEnd()) + ":00";
-            dayAndTime.setText(String.format("%s, %s-%s", getDayString(day), timeStart, timeEnd));
+            day = getDayString(dayInt);
+            timeStart = String.valueOf(LessonSchedule.Utils.getLessonTime(dayInt, lesson).getTimeStart()) + ":00";
+            timeEnd = String.valueOf(LessonSchedule.Utils.getLessonTime(dayInt, lesson).getTimeEnd()) + ":00";
+            dayAndTime.setText(String.format("%s, %s-%s", day, timeStart, timeEnd));
         }
 
         private void renderBackground(Lesson lesson) {
@@ -107,6 +107,25 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
                 case DATA_MINING:
                     backgroundImage.setImageResource(R.drawable.ic_data_mining);
                     break;
+                case SUPPORTO_ALLE_DECISIONI:
+                    backgroundImage.setImageResource(R.drawable.supporto_alle_decisioni);
+                    break;
+                case SISTEMI_INTELLIGENTI_ROBOTICI:
+                    backgroundImage.setImageResource(R.drawable.ic_robots);
+                    break;
+                case SMART_CITY_TECNOLOGIE_MOBILI:
+                    backgroundImage.setImageResource(R.drawable.ic_digital_cities);
+                    break;
+                case NETS_SECURITY:
+                    backgroundImage.setImageResource(R.drawable.ic_security);
+                    break;
+                case PERVASIVE_COMPUTING:
+                    backgroundImage.setImageResource(R.drawable.ic_internetofthings);
+                    break;
+                case SISTEMI_DISTRIBUITI:
+                    backgroundImage.setImageResource(R.drawable.ic_distributed_systems);
+                    break;
+               
             }
 
         }
@@ -137,8 +156,8 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         public void onClick(View view) {
 
             if (isClicked) {
-                view.setPressed(true);
-                lessonsPresenter.startActivity();
+                lessonsFragment.goToNavigationActivity(lessonTitle.getText().toString(), teacher.getText().toString(), day, timeStart, timeEnd, place, lessonTitle.getText().toString());
+
             }
         }
 

@@ -7,10 +7,9 @@ interface Presenter {
 
     fun onCreate()
 
-    interface LessonsPresenter : Presenter {
+    interface LessonsPresenter : Presenter
 
-        fun startActivity()
-
-
+    interface NavigationPresenter : Presenter {
+        fun handleBeacon()
     }
 }

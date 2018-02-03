@@ -18,10 +18,6 @@ class LessonSchedule(val daysAndTime: HashMap<Int, LessonTime>) {
             return LessonSchedule(dt)
         }
 
-        fun isLessonAboutToStart(timeStart: Int): Boolean {
-            val jodaDate = DateTime(Date())
-            return getTimeDifference(timeStart) <= 5
-        }
 
         fun getLessonTime(dayOfWeek: Int, lesson: Lesson): LessonTime {
             return if (lesson.schedule.daysAndTime.containsKey(dayOfWeek)) {
@@ -54,19 +50,7 @@ class LessonSchedule(val daysAndTime: HashMap<Int, LessonTime>) {
             return temp
         }
 
-        fun isToday(daysOfWeek: Array<Int>): Boolean {
-            val localTime = DateTime()
-            return daysOfWeek.any { localTime.dayOfWeek == it }
-        }
 
-        private fun getTimeDifference(timeStart: Int): Int {
-            val jodaDate = DateTime(Date())
-            return if (jodaDate.hourOfDay - timeStart != 0) {
-                60 - jodaDate.minuteOfDay
-            } else {
-                0
-            }
-        }
 
 
     }

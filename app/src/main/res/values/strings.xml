@@ -20,5 +20,8 @@
     <string name="wow_cool_lesson">wow cool lesson</string>
     <string name="remove_place">remove place</string>
     <string name="alma_mater_cesenae">ALMA MATER CESENAE</string>
+    <string name="description">Description</string>
+    <string name="data_mining">Data Mining</string>
+    <string name="today_9_00_11_00">Today, 9:00-11:00</string>
 
 </resources>

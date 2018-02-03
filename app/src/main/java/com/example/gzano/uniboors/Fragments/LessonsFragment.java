@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class LessonsFragment extends Fragment implements FragmentView.LessonFragmentView {
     private RecyclerView mRecyclerView;
-    private Presenter.LessonsPresenter lessonsPresenter;
+    private Presenter lessonsPresenter;
     private RecyclerAdapterLessons mAdapter;
     private ProgressBar progressBar;
 
@@ -68,8 +68,8 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
     }
 
     @Override
-    public void setAdapter(@NotNull ArrayList<Lesson> fetchedLessons, @NotNull ArrayList<String> fetchedUserlessons) {
-        mAdapter = new RecyclerAdapterLessons(fetchedLessons, lessonsPresenter, fetchedUserlessons);
+    public void setAdapter(@NotNull ArrayList<Lesson> fetchedLessons) {
+        mAdapter = new RecyclerAdapterLessons(fetchedLessons, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -85,19 +85,26 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
         progressBar.setVisibility(View.GONE);
     }
 
-
-    @Override
-    public void goToNavigationActivity() {
-        Intent intent = new Intent(getActivity(), NavigationActivity.class);
-        startActivity(intent);
-    }
-
-
     @Override
     public void makeRowClickable(View view) {
         mAdapter.setFABClicked(true);
         view.setVisibility(View.GONE);
 
+    }
+
+
+    @Override
+    public void goToNavigationActivity(@NotNull String className, @NotNull String teacherName, @NotNull String day, @NotNull String startTime, @NotNull String endTime, @NotNull String placeName, @NotNull String lessonName) {
+        Intent intent = new Intent(getActivity(), NavigationActivity.class);
+        intent.putExtra("className", className);
+        intent.putExtra("teacherName", teacherName);
+        intent.putExtra("day", day);
+        intent.putExtra("startTime", startTime);
+        intent.putExtra("endTime", endTime);
+        intent.putExtra("placeName", placeName);
+        intent.putExtra("lessonName", lessonName);
+        Log.d("TAGINTENT", className + " " + teacherName + " " + day + " " + startTime + " " + endTime + " " + placeName);
+        startActivity(intent);
     }
 }
 
