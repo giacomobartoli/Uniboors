@@ -8,7 +8,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-
+    <link href="css/loginpagestylesheet.css" rel="stylesheet"/>
+    <link href="css/classesstylesheet.css" rel="stylesheet"/>
+    <link href="css/detailclasstylesheet.css" rel="stylesheet"/>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -39,7 +41,6 @@
             //   setNewLayout()
             firebase.auth().signInWithEmailAndPassword('gzano93@gmail.com', 'metallaro93').then(success=>{
                 firebase.database().ref('operators/').on('value',snapshot=>{
-                console.log('ciao')
                     var count = 0
 
                     snapshot.forEach(operatorSnapshot=>{
@@ -58,9 +59,6 @@
                         $('#myBadge').text(''+0)
                     }
                 })
-                var something=Android.getClassDetails()
-
-                $('h1').text(something.toString())
                 var width=$(window).width()
                 database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
                     console.log('Nice im in Firebase')
@@ -127,52 +125,11 @@
 
 
 
-
     </script>
 
 
     <script>
 
-
-
-            function setNewLayout(){
-                console.log('set new layout called')
-                var width=$(window).width()
-                var container= $('#detailcontainer')
-
-                container.contents(':not(h1)').remove();
-
-                var row=' <div class=" row justify-content-center" style="margin-top: 30px;" >'
-
-                var classToAppend='<div class=" row justify-content-center" style=" margin-top: 50px;" id="class_and_time"><div class="col-4 col-dir icon_wrapper justify-content-center align-self-center" style="margin-left: 50px; margin-top:30px"><img  class="icon" src="https://github.com/GimliOnDrugs/UnIndoors/blob/develop/css/assets/classroom.svg" ></div><div class="col col-dir align-self-center " style="margin-top: 30px;" ><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize " id="classroom_name" style="color: white;"></p></div>'
-                var clock=' <div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper"  style="margin-left:50px; margin-top:30px"><img  class="icon" src="css/assets/clock.svg" ></div><div class="col col-dir  align-self-center "  style=" margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail  display-4 text-left text-capitalize" id="time_and_day" style="color: white;"></p></div>'
-                var teacher='<div class="col-4 col-dir justify-content-center align-self-center icon_wrapper "style="margin-left:50px; margin-top:30px"><img  class="icon"  src="css/assets/teacher.svg"></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize" id="teacher_name" style="color: white;"></p></div>'
-                var handy='<div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper"style="margin-left:50px; margin-top:30px"><img  class="icon" src="css/assets/handicapped.svg" id="handy" ></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class="detail display-4 text-left text-capitalize" id="is_friendly" style="color: white;"></p></div><div class="container" id="help_request" style="max-width: 600px; margin-top:30px;"></div>'
-                var map='<div class="col-4 col-dir  justify-content-center align-self-center icon_wrapper" style="margin-left:50px; margin-top:0px"><img  class="icon" src="css/assets/map.svg" ></div><div class="col col-dir  align-self-center " style="margin-top: 30px;"><div class="loader d-block mx-auto my-auto"  ></div><p class=" detail display-4 text-left text-capitalize" id="position" style="color: white;"></p></div>'
-
-                container.append(classToAppend)
-                container.append(row)
-                var rowAppended=$('#detailcontainer').find('.row').last()
-                rowAppended.append(clock)
-                container.append(row)
-                rowAppended=$('#detailcontainer').find('.row').last()
-                rowAppended.append(teacher)
-                container.append(row)
-                rowAppended=$('#detailcontainer').find('.row').last()
-                rowAppended.append(handy)
-                container.append(row)
-                rowAppended=$('#detailcontainer').find('.row').last()
-                rowAppended.append(map)
-                container.append(row)
-
-
-
-
-
-
-
-
-            }
 
 
             function getPlaceDetails(todayclass){
@@ -386,7 +343,6 @@
             }
 
 
-
     </script>
     <style>
 
@@ -588,7 +544,6 @@
                 }
 
             }
-
 
 
 
