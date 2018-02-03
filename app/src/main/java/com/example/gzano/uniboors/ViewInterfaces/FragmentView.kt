@@ -71,7 +71,7 @@ interface FragmentView {
 
         fun makeRowClickable(view: View)
 
-        fun goToNavigationActivity(className: String, teacherName: String, day: String, startTime: String, endTime: String, placeName: String)
+        fun goToNavigationActivity(className: String, teacherName: String, day: String, startTime: String, endTime: String, placeName: String, lessonName: String)
 
     }
 }

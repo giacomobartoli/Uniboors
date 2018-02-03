@@ -33,7 +33,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".NavigationActivity" />
-        <activity android:name=".PresentationActivity"></activity>
     </application>
 
 </manifest>

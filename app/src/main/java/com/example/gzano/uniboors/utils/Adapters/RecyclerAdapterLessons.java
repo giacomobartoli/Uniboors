@@ -107,6 +107,25 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
                 case DATA_MINING:
                     backgroundImage.setImageResource(R.drawable.ic_data_mining);
                     break;
+                case SUPPORTO_ALLE_DECISIONI:
+                    backgroundImage.setImageResource(R.drawable.supporto_alle_decisioni);
+                    break;
+                case SISTEMI_INTELLIGENTI_ROBOTICI:
+                    backgroundImage.setImageResource(R.drawable.ic_robots);
+                    break;
+                case SMART_CITY_TECNOLOGIE_MOBILI:
+                    backgroundImage.setImageResource(R.drawable.ic_digital_cities);
+                    break;
+                case NETS_SECURITY:
+                    backgroundImage.setImageResource(R.drawable.ic_security);
+                    break;
+                case PERVASIVE_COMPUTING:
+                    backgroundImage.setImageResource(R.drawable.ic_internetofthings);
+                    break;
+                case SISTEMI_DISTRIBUITI:
+                    backgroundImage.setImageResource(R.drawable.ic_distributed_systems);
+                    break;
+               
             }
 
         }
@@ -137,7 +156,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         public void onClick(View view) {
 
             if (isClicked) {
-                lessonsFragment.goToNavigationActivity(lessonTitle.getText().toString(), teacher.getText().toString(), day, timeStart, timeEnd, place);
+                lessonsFragment.goToNavigationActivity(lessonTitle.getText().toString(), teacher.getText().toString(), day, timeStart, timeEnd, place, lessonTitle.getText().toString());
 
             }
         }
