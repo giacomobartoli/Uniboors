@@ -11,43 +11,42 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="98dp"
+        android:layout_height="wrap_content"
         android:background="@color/RedBackground"
         android:elevation="4dp">
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="28dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintHorizontal_bias="0.321"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.31"
-            app:srcCompat="@drawable/ic_destination" />
+            app:layout_constraintVertical_bias="0.818"
+            app:srcCompat="@drawable/ic_blutooth" />
 
         <TextView
             android:id="@+id/destination_chosen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="8dp"
             android:background="@color/navigation_text_view_light_red"
             android:paddingHorizontal="8dp"
             android:paddingVertical="4dp"
-            android:text="Laboratorio Informatico 2"
+            android:text="Start sensing"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.32999998" />
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </android.support.constraint.ConstraintLayout>
