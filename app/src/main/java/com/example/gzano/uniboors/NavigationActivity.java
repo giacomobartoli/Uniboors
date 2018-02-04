@@ -1,5 +1,6 @@
 package com.example.gzano.uniboors;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
@@ -46,6 +47,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
     private BeaconManager beaconManager;
     private TextView destination;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    private String room = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         destination = findViewById(R.id.destination_chosen);
         destination.setText(intent.getStringExtra("placeName"));
         WebView webView = findViewById(R.id.unindors_web_view);
+        room = intent.getStringExtra("placeName");
         Log.d("TAGWEBViEW", "web view");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -68,6 +72,31 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         String summary = "file:///android_asset/ClassDetailedForMobile.html";
         webView.loadUrl(summary);
         webView.addJavascriptInterface(new ClassDetailsPicker(this), "Android");
+
+        //Checking if the device supports BLE
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Uff");
+            builder.setMessage("This device does not support Bluetooth LE. Buy another phone.");
+            builder.setPositiveButton(android.R.string.ok, null);
+            finish();
+        }
+
+        //Checking if the Bluetooth is on/off
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            // Device does not support Bluetooth
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Uff");
+            builder.setMessage("This device does not support Bluetooth.");
+            builder.setPositiveButton(android.R.string.ok, null);
+        } else {
+            if (!mBluetoothAdapter.isEnabled()) {
+                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, 2);
+            }
+        }
+
 
 
         ImageView img = findViewById(R.id.imageView3);
@@ -179,8 +208,10 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
 
                     Beacon b = beacons.iterator().next();
                     if(b.getDistance() < 3.0){
-                        Log.d("DISTANCE_M","VAFFANCULOOOO");
-                        createBuilder();
+
+                        associateBeaconWithRoom(beacons);
+                     //   createBuilder();
+
                     }
                 }
 
@@ -195,9 +226,9 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
     }
 
 
-    private void createBuilder(){
+    private void createBuilder(String room){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Room found");
+        builder.setTitle(room+" found");
         builder.setMessage("The class is starting soon. Take a seat.");
         builder.setPositiveButton(android.R.string.ok, null);
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -209,5 +240,41 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         });
         builder.show();
     }
+
+    private boolean associateBeaconWithRoom(Collection<Beacon> beacons){
+
+         String id1="5894d7c1-b6b9-4766-85b9-419843b89471"; //AulaA
+         String id2="1"; //AulaB
+         String id3="8"; //AulaC
+
+        double distance = 100.0;
+        Beacon closestBeacon=beacons.iterator().next();
+
+        for(Beacon b : beacons){
+            if((b.getDistance() < distance)){
+                closestBeacon=b;
+                distance=b.getDistance();
+            }
+        }
+
+        if(closestBeacon.getId1().toString().equals(id1)){
+            if(this.room.equals("AulaA")){
+                createBuilder("AULA A");
+            }
+
+        }else if(closestBeacon.getId2().toString().equals(id2)){
+            if(this.room.equals("AulaB")){
+                createBuilder("AULA B");
+            }
+        }else if(closestBeacon.getId3().toString().equals(id3)){
+            if(this.room.equals("AulaC")){
+                createBuilder("AULA C");
+            }
+        }
+
+        return false;
+    }
+
+
 
 }
