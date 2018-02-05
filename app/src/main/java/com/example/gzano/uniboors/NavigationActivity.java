@@ -228,13 +228,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
                     if (b.getDistance() < 3.0) {
 
                         beaconManager.removeAllRangeNotifiers();
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                createBuilder(room);
 
-//
-                            }
-                        });
 //                            BeaconManager.setAndroidLScanningDisabled(true);
 //                        Log.i("Disabled",String.valueOf(BeaconManager.isAndroidLScanningDisabled()));
 
@@ -293,15 +287,30 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
             }
         }
 
-
-
+Log.i("LOGGINO",closestBeacon.getId1().toString());
         if (closestBeacon.getId1().toString().equals(id1)) {
-            createBuilder("AULA A");
-        } else if (closestBeacon.getId2().toString().equals(id2)) {
-            createBuilder("AULA B");
-        } else {
-            createBuilder("Neither Aula A nor Aula B");
-        }
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    createBuilder("AULA A");
+
+//
+                }
+            });
+        } else if (closestBeacon.getId1().toString().equals(id2)) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    createBuilder("AULA B");
+
+//
+                }
+            });        } else {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    createBuilder("AULA MERDA");
+
+//
+                }
+            });        }
         return false;
 
     }
