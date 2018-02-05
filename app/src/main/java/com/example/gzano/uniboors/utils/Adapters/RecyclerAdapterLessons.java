@@ -64,6 +64,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         private TextView lessonTitle, description, dayAndTime, teacher;
         private ImageView backgroundImage;
         private String day, timeStart, timeEnd, place;
+        private int dayInt;
 
 
         public LessonsHolder(View itemView) {
@@ -82,7 +83,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
 
         public void bind(final Lesson lesson) {
             renderBackground(lesson);
-            int dayInt = renderDay(lesson.getSchedule());
+            dayInt = renderDay(lesson.getSchedule());
             place = renderPlace(lesson.getSchedule());
             lessonTitle.setText(lesson.getName());
             description.setText(String.format("%s ", place));
@@ -125,6 +126,8 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
                 case SISTEMI_DISTRIBUITI:
                     backgroundImage.setImageResource(R.drawable.ic_distributed_systems);
                     break;
+                default:
+                    backgroundImage.setImageResource(R.drawable.ic_internetofthings);
                
             }
 
@@ -156,7 +159,7 @@ public class RecyclerAdapterLessons extends RecyclerView.Adapter<RecyclerAdapter
         public void onClick(View view) {
 
             if (isClicked) {
-                lessonsFragment.goToNavigationActivity(lessonTitle.getText().toString(), teacher.getText().toString(), day, timeStart, timeEnd, place, lessonTitle.getText().toString());
+                lessonsFragment.goToNavigationActivity(lessonTitle.getText().toString(), teacher.getText().toString(), day, timeStart, timeEnd, place, lessonTitle.getText().toString(), dayInt);
 
             }
         }
