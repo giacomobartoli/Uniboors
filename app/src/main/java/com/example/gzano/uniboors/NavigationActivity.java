@@ -23,6 +23,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gzano.uniboors.Model.MyBeacon;
 import com.example.gzano.uniboors.ViewInterfaces.ActivityView;
 import com.example.gzano.uniboors.utils.WebAppInterfaces.ClassDetailsPicker;
 
@@ -34,7 +35,9 @@ import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.jetbrains.annotations.NotNull;
+import com.example.gzano.uniboors.Model.MyBeacon;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class NavigationActivity extends AppCompatActivity implements ActivityView.NavigationView, BeaconConsumer {
@@ -46,6 +49,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
     private BeaconManager beaconManager;
     private TextView destination;
     private String room = "";
+    private Beacon closestBeacon;
+    private ArrayList<MyBeacon> myBeaconList = new ArrayList<>();
     private WebView webView;
     private FloatingActionButton fab;
 
@@ -55,8 +60,10 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         fab = findViewById(R.id.bluetooth_fab);
-        Intent intent = getIntent();
+        WebView webView = findViewById(R.id.unindors_web_view);
+        Intent intent=getIntent();
         room = intent.getStringExtra("placeName");
+        this.addBeaconList();
         Log.d("TAGWEBViEW", "web view");
         webView = findViewById(R.id.unindors_web_view);
         WebSettings webSettings = webView.getSettings();
@@ -229,7 +236,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
 //                            BeaconManager.setAndroidLScanningDisabled(true);
 //                        Log.i("Disabled",String.valueOf(BeaconManager.isAndroidLScanningDisabled()));
 
-                        //   associateBeaconWithRoom(beacons);
+                        findClosestBeacon(beacons);
+
 
                     }
                 }
@@ -247,6 +255,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
 
     private void createBuilder(String room) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setTitle(room + " found");
         builder.setMessage("The class is starting soon. Take a seat.");
         builder.setPositiveButton(android.R.string.ok, null);
@@ -264,7 +273,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         builder.show();
     }
 
-    private boolean associateBeaconWithRoom(Collection<Beacon> beacons) {
+    private boolean findClosestBeacon(Collection<Beacon> beacons) {
+
 
         String id1 = "5894d7c1-b6b9-4766-85b9-419843b89471"; //AulaA
         String id2 = "1"; //AulaB
@@ -273,6 +283,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         double distance = 100.0;
         Beacon closestBeacon = beacons.iterator().next();
 
+
         for (Beacon b : beacons) {
             if ((b.getDistance() < distance)) {
                 closestBeacon = b;
@@ -280,27 +291,40 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
             }
         }
 
+
+
         if (closestBeacon.getId1().toString().equals(id1)) {
-            if (this.room.equals("AulaA")) {
-                createBuilder("AULA A");
-            }
-
+            createBuilder("AULA A");
         } else if (closestBeacon.getId2().toString().equals(id2)) {
-            if (this.room.equals("AulaB")) {
-                createBuilder("AULA B");
-            }
+            createBuilder("AULA B");
         } else if (closestBeacon.getId3().toString().equals(id3)) {
-            if (this.room.equals("AulaC")) {
-                createBuilder("AULA C");
-            }
-        }
+            createBuilder("AULA C");
 
+        }
         return false;
+
+    }
+
+
+    public ArrayList<MyBeacon> getMyBeacon(){
+        return this.myBeaconList;
     }
 
 
     @Override
     public void askPermission() {
+
+    }
+
+    private void addBeaconList(){
+
+        String idFirst = "5894d7c1-b6b9-4766-85b9-419843b89471";
+        String idSecond = "d77657c4-52a7-426f-b9d0-d71e10798c8a";
+
+        this.myBeaconList.add(new MyBeacon(idFirst,"AulaA"));
+        this.myBeaconList.add(new MyBeacon(idSecond,"AulaB"));
+
+
 
     }
 }
