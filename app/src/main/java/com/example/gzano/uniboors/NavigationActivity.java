@@ -1,22 +1,23 @@
 package com.example.gzano.uniboors;
 
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
-
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
-
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -25,18 +26,6 @@ import android.widget.TextView;
 import com.example.gzano.uniboors.ViewInterfaces.ActivityView;
 import com.example.gzano.uniboors.utils.WebAppInterfaces.ClassDetailsPicker;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.RemoteException;
-import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
@@ -44,24 +33,21 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
-
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
-public class NavigationActivity extends AppCompatActivity implements ActivityView.NavigationView,BeaconConsumer {
+public class NavigationActivity extends AppCompatActivity implements ActivityView.NavigationView, BeaconConsumer {
 
 
     protected static final String TAG = "MonitoringActivity";
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    private Context context;
     private BeaconManager beaconManager;
     private TextView destination;
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     private String room = "";
-
-
+    private WebView webView;
     private FloatingActionButton fab;
-
 
 
     @Override
@@ -69,9 +55,10 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         fab = findViewById(R.id.bluetooth_fab);
-        WebView webView = findViewById(R.id.unindors_web_view);
+        Intent intent = getIntent();
         room = intent.getStringExtra("placeName");
         Log.d("TAGWEBViEW", "web view");
+        webView = findViewById(R.id.unindors_web_view);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +71,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
                     view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#28a745")));
 
                 }
+                startSensing();
 
 
             }
@@ -117,12 +105,11 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         }
 
 
-
         ImageView img = findViewById(R.id.imageView3);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startSensing();
+                //  beaconManager.unbind((NavigationActivity)context);
             }
         });
 
@@ -140,7 +127,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
     }
 
 
-    private void startSensing(){
+    private void startSensing() {
         beaconManager = BeaconManager.getInstanceForApplication(this);
         // To detect proprietary beacons, you must add a line like below corresponding to your beacon
         // type.  Do a web search for "setBeaconLayout" to get the proper expression.
@@ -193,7 +180,6 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -202,36 +188,48 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
 
     @Override
     public void onBeaconServiceConnect() {
+
         beaconManager.addMonitorNotifier(new MonitorNotifier() {
             @Override
             public void didEnterRegion(Region region) {
-                Log.d("Bluetooth", "I just saw an beacon for the first time!");
+                Log.i("Bluetooth", "I just saw an beacon for the first time!");
             }
 
             @Override
             public void didExitRegion(Region region) {
-                Log.d("Bluetooth", "I no longer see an beacon");
+                Log.i("Bluetooth", "I no longer see an beacon");
 
             }
 
             @Override
             public void didDetermineStateForRegion(int state, Region region) {
-                Log.d("Bluetooth", "I have just switched from seeing/not seeing beacons: " + state);
+                Log.i("Bluetooth", "I have just switched from seeing/not seeing beacons: " + state);
             }
         });
         beaconManager.addRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                Log.d("#BEACONS FOUND ",""+beacons.size());
+                Log.i("#BEACONS FOUND ", "" + beacons.size());
                 if (beacons.size() > 0) {
-                    Log.d("DISTANCE_M_"+beacons.iterator().next().getId1(), "The first beacon I see is about " + beacons.iterator().next().getDistance() + " meters away.");
+                    Log.i("DISTANCE_M_" + beacons.iterator().next().getId1(), "The first beacon I see is about " + beacons.iterator().next().getDistance() + " meters away.");
                     //Toast.makeText(getBaseContext(),"The first beacon I see is about " + beacons.iterator().next().getDistance() + " meters away.",Toast.LENGTH_LONG).show();
 
                     Beacon b = beacons.iterator().next();
-                    if(b.getDistance() < 3.0){
+                    Log.i("BEACONID", b.getId1().toString());
+                    if (b.getDistance() < 3.0) {
 
-                     //   associateBeaconWithRoom(beacons);
-                        createBuilder(room);
+                        beaconManager.removeAllRangeNotifiers();
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                createBuilder(room);
+
+//
+                            }
+                        });
+//                            BeaconManager.setAndroidLScanningDisabled(true);
+//                        Log.i("Disabled",String.valueOf(BeaconManager.isAndroidLScanningDisabled()));
+
+                        //   associateBeaconWithRoom(beacons);
 
                     }
                 }
@@ -247,48 +245,52 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
     }
 
 
-    private void createBuilder(String room){
+    private void createBuilder(String room) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(room+" found");
+        builder.setTitle(room + " found");
         builder.setMessage("The class is starting soon. Take a seat.");
         builder.setPositiveButton(android.R.string.ok, null);
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
 
             @Override
             public void onDismiss(DialogInterface dialog) {
+                Log.i("WEBVIEW", "starting new web view content");
+                webView.loadUrl("javascript:load()");
+
             }
+
 
         });
         builder.show();
     }
 
-    private boolean associateBeaconWithRoom(Collection<Beacon> beacons){
+    private boolean associateBeaconWithRoom(Collection<Beacon> beacons) {
 
-         String id1="5894d7c1-b6b9-4766-85b9-419843b89471"; //AulaA
-         String id2="1"; //AulaB
-         String id3="8"; //AulaC
+        String id1 = "5894d7c1-b6b9-4766-85b9-419843b89471"; //AulaA
+        String id2 = "1"; //AulaB
+        String id3 = "8"; //AulaC
 
         double distance = 100.0;
-        Beacon closestBeacon=beacons.iterator().next();
+        Beacon closestBeacon = beacons.iterator().next();
 
-        for(Beacon b : beacons){
-            if((b.getDistance() < distance)){
-                closestBeacon=b;
-                distance=b.getDistance();
+        for (Beacon b : beacons) {
+            if ((b.getDistance() < distance)) {
+                closestBeacon = b;
+                distance = b.getDistance();
             }
         }
 
-        if(closestBeacon.getId1().toString().equals(id1)){
-            if(this.room.equals("AulaA")){
+        if (closestBeacon.getId1().toString().equals(id1)) {
+            if (this.room.equals("AulaA")) {
                 createBuilder("AULA A");
             }
 
-        }else if(closestBeacon.getId2().toString().equals(id2)){
-            if(this.room.equals("AulaB")){
+        } else if (closestBeacon.getId2().toString().equals(id2)) {
+            if (this.room.equals("AulaB")) {
                 createBuilder("AULA B");
             }
-        }else if(closestBeacon.getId3().toString().equals(id3)){
-            if(this.room.equals("AulaC")){
+        } else if (closestBeacon.getId3().toString().equals(id3)) {
+            if (this.room.equals("AulaC")) {
                 createBuilder("AULA C");
             }
         }
@@ -297,5 +299,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
     }
 
 
+    @Override
+    public void askPermission() {
 
+    }
 }
