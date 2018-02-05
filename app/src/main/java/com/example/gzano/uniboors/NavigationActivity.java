@@ -72,6 +72,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         setContentView(R.layout.activity_navigation);
         fab = findViewById(R.id.bluetooth_fab);
         WebView webView = findViewById(R.id.unindors_web_view);
+        Intent intent=getIntent();
         room = intent.getStringExtra("placeName");
         Log.d("TAGWEBViEW", "web view");
         WebSettings webSettings = webView.getSettings();
