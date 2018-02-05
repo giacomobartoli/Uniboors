@@ -10,6 +10,10 @@ interface ActivityView {
 
         fun onBeaconSelected(placeKey: String)
 
+        fun askPermission()
+
+
+
 
 
 
