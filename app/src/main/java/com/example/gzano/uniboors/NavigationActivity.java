@@ -35,7 +35,6 @@ import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.jetbrains.annotations.NotNull;
-import com.example.gzano.uniboors.Model.MyBeacon;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -280,8 +279,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
 
 
         String id1 = "5894d7c1-b6b9-4766-85b9-419843b89471"; //AulaA
-        String id2 = "1"; //AulaB
-        String id3 = "8"; //AulaC
+        String id2 = "d77657c4-52a7-426f-b9d0-d71e10798c8a"; //AulaB
+        // String id3 = "8"; //AulaC
 
         double distance = 100.0;
         Beacon closestBeacon = beacons.iterator().next();
@@ -300,9 +299,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
             createBuilder("AULA A");
         } else if (closestBeacon.getId2().toString().equals(id2)) {
             createBuilder("AULA B");
-        } else if (closestBeacon.getId3().toString().equals(id3)) {
-            createBuilder("AULA C");
-
+        } else {
+            createBuilder("Neither Aula A nor Aula B");
         }
         return false;
 
