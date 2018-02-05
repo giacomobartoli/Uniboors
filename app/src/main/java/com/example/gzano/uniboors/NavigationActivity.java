@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gzano.uniboors.Model.MyBeacon;
 import com.example.gzano.uniboors.ViewInterfaces.ActivityView;
 import com.example.gzano.uniboors.utils.WebAppInterfaces.ClassDetailsPicker;
 
@@ -38,7 +39,7 @@ import org.altbeacon.beacon.Region;
 
 
 import org.jetbrains.annotations.NotNull;
-
+import com.example.gzano.uniboors.Model.MyBeacon;
 import java.util.Collection;
 
 public class NavigationActivity extends AppCompatActivity implements ActivityView.NavigationView,BeaconConsumer {
@@ -48,7 +49,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
     private TextView destination;
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
     private String room = "";
-
+    private Beacon closestBeacon;
+    private MyBeacon myBeacon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,8 +211,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
                     Beacon b = beacons.iterator().next();
                     if(b.getDistance() < 3.0){
 
-                     //   associateBeaconWithRoom(beacons);
-                        createBuilder(room);
+                        findClosestBeacon(beacons);
+
 
                     }
                 }
@@ -228,7 +230,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
 
     private void createBuilder(String room){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(room+" found");
+        builder.setTitle("you're close to room "+room);
         builder.setMessage("The class is starting soon. Take a seat.");
         builder.setPositiveButton(android.R.string.ok, null);
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -241,14 +243,14 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         builder.show();
     }
 
-    private boolean associateBeaconWithRoom(Collection<Beacon> beacons){
+    private boolean findClosestBeacon(Collection<Beacon> beacons){
 
          String id1="5894d7c1-b6b9-4766-85b9-419843b89471"; //AulaA
          String id2="1"; //AulaB
          String id3="8"; //AulaC
 
         double distance = 100.0;
-        Beacon closestBeacon=beacons.iterator().next();
+        closestBeacon=beacons.iterator().next();
 
         for(Beacon b : beacons){
             if((b.getDistance() < distance)){
@@ -257,24 +259,25 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
             }
         }
 
-        if(closestBeacon.getId1().toString().equals(id1)){
-            if(this.room.equals("AulaA")){
-                createBuilder("AULA A");
-            }
 
+        if(closestBeacon.getId1().toString().equals(id1)){
+                myBeacon=new MyBeacon(id1,"AulaA");
+                createBuilder("AULA A");
         }else if(closestBeacon.getId2().toString().equals(id2)){
-            if(this.room.equals("AulaB")){
+                myBeacon=new MyBeacon(id2,"AulaB");
                 createBuilder("AULA B");
-            }
         }else if(closestBeacon.getId3().toString().equals(id3)){
-            if(this.room.equals("AulaC")){
+                myBeacon=new MyBeacon(id3,"AulaC");
                 createBuilder("AULA C");
-            }
         }
 
         return false;
     }
 
+
+    public MyBeacon getMyBeacon(){
+        return this.myBeacon;
+    }
 
 
 }
