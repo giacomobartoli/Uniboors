@@ -31,50 +31,32 @@ public class ClassDetailsPicker {
     }
 
     @JavascriptInterface
-    public String getClassDetails() throws JSONException {
+    public String getPlaceName() throws JSONException {
         Intent intent = ((Activity) context).getIntent();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("placeName", intent.getStringExtra("placeName"));
+        jsonObject.put("teacherName", intent.getStringExtra("teacherName"));
+        jsonObject.put("timeStart", intent.getStringExtra("timeStart"));
+        jsonObject.put("timeEnd", intent.getStringExtra("timeEnd"));
+        jsonObject.put("day", intent.getStringExtra("day"));
+        jsonObject.put("lessonName", intent.getStringExtra("lessonName"));
+        jsonObject.put("dayValue", intent.getStringExtra("dayValue"));
 
-        String lessonName = intent.getStringExtra("lessonName");
-        String teacherName = intent.getStringExtra("teacherName");
-        String day = intent.getStringExtra("day");
-        String startTime = intent.getStringExtra("startTime");
-        String endTime = intent.getStringExtra("endTime");
-        String placeName = intent.getStringExtra("placeName");
 
-        return new ClassDetails(lessonName, teacherName, day, startTime, endTime, placeName).createJsonObject();
+        // String placeName = intent.getStringExtra("placeName");
+
+        return String.valueOf(jsonObject);
     }
 
     public class ClassDetails {
-        private String lessonName, teacher, day, startTime, endTime, placeName;
+        private String placeName;
 
-        public ClassDetails(String lessonName, String teacher, String day, String startTime, String endTime, String placeName) {
-            this.lessonName = lessonName;
-            this.teacher = teacher;
-            this.day = day;
-            this.startTime = startTime;
-            this.endTime = endTime;
+        public ClassDetails(String placeName) {
+
             this.placeName = placeName;
         }
 
-        public String getLessonName() {
-            return lessonName;
-        }
 
-        public String getTeacher() {
-            return teacher;
-        }
-
-        public String getDay() {
-            return day;
-        }
-
-        public String getStartTime() {
-            return startTime;
-        }
-
-        public String getEndTime() {
-            return endTime;
-        }
 
         public String getPlaceName() {
             return placeName;
@@ -83,14 +65,9 @@ public class ClassDetailsPicker {
         public String createJsonObject() throws JSONException {
 
             JSONObject jsonObject = new JSONObject();
-            JSONObject jsonObject1 = new JSONObject();
-            jsonObject1.put("lessonName", lessonName);
-            jsonObject.put("lessonName", lessonName);
-            jsonObject.put("teacher", teacher);
             jsonObject.put("placeName", placeName);
-            jsonObject.put("endTime", endTime);
-            jsonObject.put("startTime", startTime);
-            jsonObject.put("dayValue", day);
+
+
             return String.valueOf(jsonObject);
         }
     }

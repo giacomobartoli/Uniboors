@@ -6,9 +6,11 @@ package com.example.gzano.uniboors.ViewInterfaces
 interface ActivityView {
 
     interface NavigationView {
-        fun setETA(estimatedTimeOfArrival: String)
+        fun onFabClick()
 
-        fun setCurrentPosition(currentPosition: String)
+        fun onBeaconSelected(placeKey: String)
+
+
 
 
     }
