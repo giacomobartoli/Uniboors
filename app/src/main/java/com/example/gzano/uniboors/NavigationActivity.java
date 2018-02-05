@@ -209,8 +209,8 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
                     Beacon b = beacons.iterator().next();
                     if(b.getDistance() < 3.0){
 
-                        associateBeaconWithRoom(beacons);
-                     //   createBuilder();
+                     //   associateBeaconWithRoom(beacons);
+                        createBuilder(room);
 
                     }
                 }
