@@ -35,7 +35,7 @@ public class ClassDetailsPicker {
         Intent intent = ((Activity) context).getIntent();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("placeName", intent.getStringExtra("placeName"));
-        jsonObject.put("teacherName", intent.getStringExtra("teacher"));
+        jsonObject.put("teacherName", intent.getStringExtra("teacherName"));
         jsonObject.put("timeStart", intent.getStringExtra("timeStart"));
         jsonObject.put("timeEnd", intent.getStringExtra("timeEnd"));
         jsonObject.put("day", intent.getStringExtra("day"));
