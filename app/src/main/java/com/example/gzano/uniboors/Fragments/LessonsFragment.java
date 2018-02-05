@@ -87,6 +87,7 @@ public class LessonsFragment extends Fragment implements FragmentView.LessonFrag
 
     @Override
     public void makeRowClickable(View view) {
+
         mAdapter.setFABClicked(true);
         view.setVisibility(View.GONE);
 

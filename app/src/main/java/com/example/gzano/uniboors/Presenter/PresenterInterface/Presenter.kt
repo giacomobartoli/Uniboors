@@ -12,4 +12,5 @@ interface Presenter {
     interface NavigationPresenter : Presenter {
         fun handleBeacon()
     }
+
 }

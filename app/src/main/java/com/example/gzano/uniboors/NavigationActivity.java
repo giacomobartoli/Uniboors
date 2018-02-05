@@ -61,24 +61,27 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         webView = findViewById(R.id.unindors_web_view);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        String summary = "file:///android_asset/ClassDetailedForMobile.html";
+        webView.loadUrl(summary);
+        webView.addJavascriptInterface(new ClassDetailsPicker(this), "Android");
         fab.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 if (ColorStateList.valueOf(Color.parseColor("#28a745")) == view.getBackgroundTintList()) {
                     view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFF44336")));
+
                 } else {
                     view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#28a745")));
+                    startSensing();
+
 
                 }
-                startSensing();
 
 
             }
         });
-        String summary = "file:///android_asset/ClassDetailedForMobile.html";
-        webView.loadUrl(summary);
-        webView.addJavascriptInterface(new ClassDetailsPicker(this), "Android");
+
 
         //Checking if the device supports BLE
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
