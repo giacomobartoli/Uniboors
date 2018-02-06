@@ -17,9 +17,21 @@ public class ClassDetailsPicker {
 
     private Context context;
 
+    private String beaconRoomKeyPicked;
+
     public ClassDetailsPicker(Context context) {
         this.context = context;
     }
+
+    @JavascriptInterface
+    public String getBeaconRoomKeyPicked() {
+        return beaconRoomKeyPicked;
+    }
+
+    public void setBeaconRoomKeyPicked(String beaconRoomKeyPicked) {
+        this.beaconRoomKeyPicked = beaconRoomKeyPicked;
+    }
+
     @JavascriptInterface
     public void showToast() {
         Toast.makeText(context, "ciao", Toast.LENGTH_SHORT).show();
@@ -46,30 +58,6 @@ public class ClassDetailsPicker {
         // String placeName = intent.getStringExtra("placeName");
 
         return String.valueOf(jsonObject);
-    }
-
-    public class ClassDetails {
-        private String placeName;
-
-        public ClassDetails(String placeName) {
-
-            this.placeName = placeName;
-        }
-
-
-
-        public String getPlaceName() {
-            return placeName;
-        }
-
-        public String createJsonObject() throws JSONException {
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("placeName", placeName);
-
-
-            return String.valueOf(jsonObject);
-        }
     }
 
 

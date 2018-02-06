@@ -272,8 +272,8 @@ var value=JSON.parse(Android.getPlaceName())
 
    function load(){
 
-
- database.ref('CesenaCampus/AulaA/').on('value',function (snapshot){
+console.log(Android.getBeaconRoomKeyPicked())
+ database.ref('CesenaCampus/'+Android.getBeaconRoomKeyPicked()+'/').on('value',function (snapshot){
                     console.log("load() loaded")
                     var name=snapshot.child('name').val().toString()
                     var lessonName=snapshot.child('lesson').child('lessonName').val()

@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NavigationActivity" />
+        <activity android:name=".NavigationActivity2"></activity>
     </application>
 
 </manifest>
