@@ -21,7 +21,7 @@ Uniboors is the complementary mobile version of the project [UnIndoors](https://
 
 
 # Screenshots:
-<img alt="Log in" width="300px" src="screen/s1.jpg"><img alt="Daily schedule" width="300px" src="screen/s2.jpg"><img alt="class details"  width="300px" src="screen/s3.jpg"><img alt="iBeacon"  width="300px" src="screen/s4.jpg">
+<img alt="Log in" width="400px" src="screen/s1.jpg"><img alt="Daily schedule" width="400px" src="screen/s2.jpg"><img alt="class details"  width="400px" src="screen/s3.jpg"><img alt="iBeacon"  width="400px" src="screen/s4.jpg">
 
 
 ## Developers
