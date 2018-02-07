@@ -20,8 +20,8 @@ Uniboors is the complementary mobile version of the project [UnIndoors](https://
 - iBeacons (Android Beacon Library)
 
 
-#Screenshots:
-<img alt="Log in" src="screen/s1.jpg"><img alt="Daily schedule" src="screen/s2.jpg"><img alt="class details" src="screen/s3.jpg"><img alt="iBeacon" src="screen/s4.jpg">
+# Screenshots:
+<img alt="Log in" width="300px" src="screen/s1.jpg"><img alt="Daily schedule" width="300px" src="screen/s2.jpg"><img alt="class details"  width="300px" src="screen/s3.jpg"><img alt="iBeacon"  width="300px" src="screen/s4.jpg">
 
 
 ## Developers
