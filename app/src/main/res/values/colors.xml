@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="welcomeActivityBackground">#FF2503</color>
-    <color name="uniboorsText">#FDFEFE</color>
+
+    <color name="welcomeActivityBackground">#FDFEFE</color>
+    <color name="buttonTextWhite">#fdfefe</color>
+    <color name="uniboorsText">#f44336</color>
+    <color name="RedBackground">#f44336</color>
+    <color name="textViewGrey">#9E9E9E</color>
+    <color name="colorPrimaryCard">#F50057</color>
+    <color name="colorPrimaryDarkCard">#f50057</color>
+    <color name="color_black">#000000</color>
+    <color name="viewBg">#f1f5f8</color>
+    <color name="places_background">#D3D3D3</color>
+    <color name="secondary">#0069c0</color>
+    <color name="secondary_light">#c1d5e0</color>
+    <color name="secondary_dark">#62757f</color>
+    <color name="primary_light">#ff7961</color>
+    <color name="primary_dark">#ba000d</color>
+    <color name="colorPrimary">#f44336</color>
+    <color name="color_purple">#5133ab</color>
+    <color name="navigation_text_view_light_red">#f46767</color>
 </resources>

@@ -6,4 +6,22 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="go_to_app">go to app</string>
     <string name="sign_up">Sign Up</string>
+    <string name="hintPassword">password</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign Up!</string>
+    <string name="signup_or_signin">"Sign in or sign up to a new account"</string>
+    <string name="search_title">search this dick</string>
+    <string name="action_settings">ciao</string>
+    <string name="search_hint">search a lesson</string>
+    <string name="title_activity_your_places">YourPlacesActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_places">PlacesActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_provaattivita">provaattivita</string>
+    <string name="wow_cool_lesson">wow cool lesson</string>
+    <string name="remove_place">remove place</string>
+    <string name="alma_mater_cesenae">ALMA MATER CESENAE</string>
+    <string name="description">Description</string>
+    <string name="data_mining">Data Mining</string>
+    <string name="today_9_00_11_00">Today, 9:00-11:00</string>
+
 </resources>
