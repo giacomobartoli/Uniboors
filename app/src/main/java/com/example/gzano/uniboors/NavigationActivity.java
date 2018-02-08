@@ -19,9 +19,9 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.example.gzano.uniboors.utils.WebAppInterfaces.BeaconCollector;
 import com.example.gzano.uniboors.Presenter.NavigationPresenter;
 import com.example.gzano.uniboors.ViewInterfaces.ActivityView;
-import com.example.gzano.uniboors.utils.WebAppInterfaces.ClassDetailsPicker;
 
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
@@ -126,7 +126,14 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         Log.i("WEBVIEW", "starting new web view content");
-                        webView.loadUrl("javascript:load()");
+                        if(classroomKey=="AulaA"){
+                            webView.loadUrl("javascript:load('AulaA')");
+
+                        }
+                        else{
+                            webView.loadUrl("javascript:load('AulaB')");
+
+                        }
 
                     }
 
@@ -174,7 +181,7 @@ public class NavigationActivity extends AppCompatActivity implements ActivityVie
         webSettings.setJavaScriptEnabled(true);
         String summary = "file:///android_asset/ClassDetailedForMobile.html";
         webView.loadUrl(summary);
-        webView.addJavascriptInterface(new ClassDetailsPicker(this), "Android");
+        webView.addJavascriptInterface(new BeaconCollector(this), "Android");
 
     }
 

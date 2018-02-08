@@ -57,8 +57,9 @@
                         $('#myBadge').text(''+0)
                     }
                 })
+
                 console.log(Android.getPlaceName())
-var value=JSON.parse(Android.getPlaceName())
+                var value=JSON.parse(Android.getPlaceName())
                 database.ref('CesenaCampus/'+value["placeName"]+'/').on('value',function (snapshot){
                     console.log('Nice im in Firebase')
 
@@ -126,7 +127,7 @@ var value=JSON.parse(Android.getPlaceName())
             })
             function getClassroomDirections(){
                 var directionDiv=$('#directions_container')
-               // alert('ghey')
+                // alert('ghey')
 
 
                 if(directionDiv.children().length==0){
@@ -134,14 +135,14 @@ var value=JSON.parse(Android.getPlaceName())
                     var database = firebase.database();
                     var classroomName=$('#classroom_name').text()
                     if(classroomName=='Lab.Inf.2'){
-                    classroomName='LaboratorioInformatico2'
+                        classroomName='LaboratorioInformatico2'
                     }
-   if(classroomName=='Lab.Inf.3'){
-                    classroomName='LaboratorioInformatico3'
+                    if(classroomName=='Lab.Inf.3'){
+                        classroomName='LaboratorioInformatico3'
                     }
                     else{
-                    classroomName=new String($('#classroom_name').text()).replace(/\s/g, "");
-                    console.log('trimmed classroomName '+classroomName)
+                        classroomName=new String($('#classroom_name').text()).replace(/\s/g, "");
+                        console.log('trimmed classroomName '+classroomName)
                     }
 
 
@@ -265,15 +266,18 @@ var value=JSON.parse(Android.getPlaceName())
 
 
 
+
+
+
     </script>
 
 
     <script>
 
-   function load(){
+            function load(classroomKey){
 
-console.log(Android.getBeaconRoomKeyPicked())
- database.ref('CesenaCampus/'+Android.getBeaconRoomKeyPicked()+'/').on('value',function (snapshot){
+                console.log(classroomKey)
+                database.ref('CesenaCampus/'+classroomKey+'/').on('value',function (snapshot){
                     console.log("load() loaded")
                     var name=snapshot.child('name').val().toString()
                     var lessonName=snapshot.child('lesson').child('lessonName').val()
@@ -293,7 +297,7 @@ console.log(Android.getBeaconRoomKeyPicked())
                         name='Lab. Inf. 3'
 
                     }
-                    $('#classroom_name').text('Aula A')
+                    $('#classroom_name').text(name)
                     $('#position').text(snapshot.child('floor').val().toString())
                     var isFriendly=(snapshot.child('isFriendly').val().toString()=='true')
                     if(isFriendly)       {
@@ -339,7 +343,7 @@ console.log(Android.getBeaconRoomKeyPicked())
 
 
 
-}
+            }
 
             function getPlaceDetails(todayclass){
                 console.log('Place details called')
@@ -557,6 +561,9 @@ console.log(Android.getBeaconRoomKeyPicked())
 
 
 
+
+
+
     </script>
     <style>
             h1{
@@ -705,7 +712,11 @@ console.log(Android.getBeaconRoomKeyPicked())
                 top: 50%;
                 left:50%;
             }
-
+.footer{
+    bottom: 0;
+    width: 100%;
+    background-color:#424949;
+}
 
             @keyframes spin {
                 0% { transform: rotate(0deg); }
@@ -767,12 +778,17 @@ console.log(Android.getBeaconRoomKeyPicked())
 
 
 
+
+
+
     </style>
 </head>
 <body>
 
 
 <div class="container" style="margin-top: 70px; justify-content: center" id="detailcontainer">
+    <div class="loader d-block mx-auto my-auto"></div>
+
     <h1 class="display-4 text-center title" style="color: white;" id="class_name"></h1>
     <h1 class="display-4" style="color: white; display: block;text-align: center;font-size: 20px">
         available operators <span class="badge badge-pill badge-success" id="myBadge">...</span>
@@ -826,7 +842,7 @@ console.log(Android.getBeaconRoomKeyPicked())
             <p class=" detail display-4 text-left text-capitalize" id="position"
                style="color: white;"></p></div>
     </div>
-    <div class=" row justify-content-center" style="margin-top: 30px;">
+    <div class=" row justify-content-center" style="margin-top: 30px; margin-bottom:20px;">
 
         <div class="col-4 col-dir justify-content-center align-self-center icon_wrapper"
              style="margin-left:50px; margin-top:30px"><img class="icon" src="panel.svg"></div>
@@ -839,11 +855,29 @@ console.log(Android.getBeaconRoomKeyPicked())
         </div>
     </div>
 
-    <div class="container collapse" id="directions_container"></div>
+    <div class="container collapse" id="directions_container" style="margin-bottom:30px;"></div>
 
 
 </div>
 
+<footer class="footer">
+
+    <div class="container-fluid" >
+        <div class="row align-items-center" >
+            <div class="col"></div>
+            <div class="col-auto ">
+                <div class="container " >
+                    <img class="d-block my-auto" height="80" width="200" src=logo.png>
+                    <h6 style="color:white; font-weight:100;">2018 - All rights reserved &copy;</h6>
+                </div>
+
+            </div>
+            <div class="col"></div>
+        </div>
+
+    </div>
+
+</footer>
 
 </body>
 
