@@ -1,4 +1,6 @@
+package com.example.gzano.uniboors.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -13,6 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+<<<<<<< HEAD
+=======
+import android.widget.EditText;
+>>>>>>> 43e6c78c2455e7bd39690364685a187ee1f22a15
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,6 +31,7 @@ import com.example.gzano.uniboors.utils.Constants;
 
 public class LoginFragment extends Fragment implements FragmentView.LoginFragmentView {
 
+<<<<<<< HEAD
     private AccountAuthPresenter authPresenter;
     private Button buttonLogin;
     private TextInputEditText email, password;
@@ -32,6 +39,14 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
     private TextInputLayout textInputLayoutemail, textInputLayoutPassword;
     private ProgressBar progressBar;
     private TextView signUp;
+=======
+    private LoginPresenter loginPresenter;
+    private Button buttonSignUp, buttonLogin;
+    private TextView userInfo;
+    private EditText email, password;
+    private View view;
+    private ProgressBar progressBar;
+>>>>>>> 43e6c78c2455e7bd39690364685a187ee1f22a15
 
 
     public LoginFragment() {
@@ -53,6 +68,7 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
         authPresenter = new AccountAuthPresenter(this);
         view = inflater.inflate(R.layout.fragment_login, container, false);
         buttonLogin = view.findViewById(R.id.button2);
+<<<<<<< HEAD
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
         textInputLayoutemail = view.findViewById(R.id.email_helper);
@@ -62,6 +78,15 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
 
         initSpannable();
         authPresenter.onCreate();
+=======
+        buttonSignUp = view.findViewById(R.id.button3);
+        email = view.findViewById(R.id.email);
+        password = view.findViewById(R.id.password);
+        userInfo = view.findViewById(R.id.userInfo);
+        progressBar = view.findViewById(R.id.progressBar);
+
+        loginPresenter.onCreate();
+>>>>>>> 43e6c78c2455e7bd39690364685a187ee1f22a15
 
         return view;
 
@@ -138,9 +163,14 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
         }
     }
 
+<<<<<<< HEAD
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+=======
+        Log.d("MARCO ", " email: " + email.getText() + " pass " + password.getText().toString());
+        loginPresenter.createUser(email.getText().toString(), password.getText().toString());
+>>>>>>> 43e6c78c2455e7bd39690364685a187ee1f22a15
 
     }
 
@@ -167,5 +197,15 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
 
     }
 
+    @Override
+    public void showProgressBar(String message) {
+        progressBar.setClickable(false);
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
 }

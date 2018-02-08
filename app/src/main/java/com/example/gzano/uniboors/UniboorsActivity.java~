@@ -1,7 +1,10 @@
 package com.example.gzano.uniboors;
 
+<<<<<<< HEAD
 import android.os.Bundle;
+=======
 import android.app.ProgressDialog;
+>>>>>>> 43e6c78c2455e7bd39690364685a187ee1f22a15
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
