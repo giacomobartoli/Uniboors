@@ -1,4 +1,4 @@
-package com.example.gzano.uniboors.utils.Adapters;
+package com.example.gzano.uniboors.Utils.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

@@ -18,7 +18,7 @@ import com.example.gzano.uniboors.Presenter.ComputerSciencePresenter;
 import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
-import com.example.gzano.uniboors.utils.Adapters.RecyclerAdapterLessons;
+import com.example.gzano.uniboors.Utils.Adapters.*;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class LessonsFragment extends Fragment implements FragmentView.LessonFragmentView {
     private RecyclerView mRecyclerView;
     private Presenter lessonsPresenter;
-    private RecyclerAdapterLessons mAdapter;
+    private com.example.gzano.uniboors.Utils.Adapters.RecyclerAdapterLessons mAdapter;
     private ProgressBar progressBar;
 
 

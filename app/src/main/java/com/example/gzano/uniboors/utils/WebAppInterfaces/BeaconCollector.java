@@ -4,42 +4,25 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
+
+import com.example.gzano.uniboors.NavigationActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by gzano on 03/02/2018.
+ * Created by gzano on 07/02/2018.
  */
 
-public class ClassDetailsPicker {
+public class BeaconCollector {
 
+    private String AulaA = "AulaA";
+    private String AulaB = "AulaB";
     private Context context;
 
-    private String beaconRoomKeyPicked;
+    public BeaconCollector(Context navigationActivity) {
+        context = navigationActivity;
 
-    public ClassDetailsPicker(Context context) {
-        this.context = context;
-    }
-
-    @JavascriptInterface
-    public String getBeaconRoomKeyPicked() {
-        return beaconRoomKeyPicked;
-    }
-
-    public void setBeaconRoomKeyPicked(String beaconRoomKeyPicked) {
-        this.beaconRoomKeyPicked = beaconRoomKeyPicked;
-    }
-
-    @JavascriptInterface
-    public void showToast() {
-        Toast.makeText(context, "ciao", Toast.LENGTH_SHORT).show();
-    }
-
-    @JavascriptInterface
-    public String print() {
-        return "funziono sta tranquillo";
     }
 
     @JavascriptInterface
@@ -60,7 +43,15 @@ public class ClassDetailsPicker {
         return String.valueOf(jsonObject);
     }
 
+    @JavascriptInterface
+    public String getAulaA() {
+        return AulaA;
+    }
+
+    @JavascriptInterface
+    public String getAulaB() {
+        return AulaB;
+    }
+
 
 }
-
-
