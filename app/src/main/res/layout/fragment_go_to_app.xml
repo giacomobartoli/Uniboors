@@ -1,25 +1,25 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.gzano.uniboors.Fragments.GoToAppFragment">
 
 
     <Button
         android:id="@+id/goToAppButton"
+        style="@style/MyButton"
         android:layout_width="249dp"
         android:layout_height="39dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/go_to_app"
-        style="@style/MyButton"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.545"
-        app:layout_constraintHorizontal_bias="0.503" />
+        app:layout_constraintVertical_bias="0.545" />
 
     <TextView
         android:id="@+id/newAccountTextView"
@@ -27,16 +27,6 @@
         android:layout_height="59dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="85dp"
-<<<<<<< HEAD
-        android:text="Sign in with another account or create a new user"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/newAccountTextView"
-        app:layout_constraintHorizontal_bias="0.757"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/goToAppButton"
-        app:layout_constraintVertical_bias="0.0" />
-=======
         android:text="@string/signup_or_signin"
         android:textAlignment="center"
         android:textSize="18sp"
@@ -46,7 +36,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/goToAppButton"
         app:layout_constraintVertical_bias="0.088" />
->>>>>>> develop
 
     <TextView
         android:id="@+id/welcomeTextView"
@@ -55,12 +44,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
-<<<<<<< HEAD
-        app:layout_constraintBottom_toTopOf="@+id/goToAppButton"
-=======
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/newAccountTextView"
->>>>>>> develop
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"

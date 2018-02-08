@@ -94,6 +94,7 @@ public class LoginFragment extends Fragment implements FragmentView.LoginFragmen
 
 
     public void replaceFragment(Fragment fragment) {
+        //  Log.d("TAGREPLACE","ciaone");
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
