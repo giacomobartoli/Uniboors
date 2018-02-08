@@ -5,7 +5,7 @@ import com.example.gzano.uniboors.Fragments.GoToAppFragment
 import com.example.gzano.uniboors.Model.AuthenticationMode
 import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView
-import com.example.gzano.uniboors.utils.Constants
+import com.example.gzano.uniboors.Utils.Constants
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 

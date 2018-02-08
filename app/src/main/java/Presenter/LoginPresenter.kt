@@ -1,9 +1,10 @@
 package Presenter
 
-import Model.User
 import ViewInterfaces.FragmentView
 import android.util.Log
 import com.example.gzano.uniboors.Fragments.GoToAppFragment
+import com.example.gzano.uniboors.Model.User
+import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter
 import com.example.gzano.uniboors.Utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 
@@ -23,7 +24,7 @@ class LoginPresenter(private var loginFragmentView: FragmentView.LoginFragmentVi
     fun createUser(email: String, password: String) {
         loginFragmentView.showProgressBar("creating account...")
         if (email.isEmpty() || password.isEmpty()) {
-            loginFragmentView.informUser(Constants.ERROR_MESSAGE_AUTH)
+            loginFragmentView.informUser(Constants.ERROR_MESSAGE_AUTH_EMAIL_EMPTY)
         } else {
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
                 if (authenticationTask.isSuccessful) {
@@ -33,7 +34,7 @@ class LoginPresenter(private var loginFragmentView: FragmentView.LoginFragmentVi
                 } else {
                     Log.d("AZZ", " error "+authenticationTask.exception)
 
-                    loginFragmentView.informUser(Constants.ERROR_MESSAGE_AUTH)
+                    loginFragmentView.informUser(Constants.ERROR_MESSAGE_AUTH_PASSWORD_EMPTY)
                 }
             }
         }
@@ -45,12 +46,12 @@ class LoginPresenter(private var loginFragmentView: FragmentView.LoginFragmentVi
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { authenticationTask ->
             if (authenticationTask.isSuccessful) {
                 loginFragmentView.hideProgressBar()
-               // Log.d("GEUUUUUUUUUUUUUUUUUUU", " user created")
+                // Log.d("GEUUUUUUUUUUUUUUUUUUU", " user created")
                 loginFragmentView.replaceFragment(GoToAppFragment())
             } else {
-              //  Log.d("AZZ", " error "+authenticationTask.exception)
+                //  Log.d("AZZ", " error "+authenticationTask.exception)
 
-                loginFragmentView.informUser(Constants.ERROR_MESSAGE_AUTH)
+                loginFragmentView.informUser(Constants.ERROR_WRONG_PASSWORD)
             }
         }
 

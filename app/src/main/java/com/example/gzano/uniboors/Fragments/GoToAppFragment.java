@@ -13,12 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
+import com.example.gzano.uniboors.Fragments.LoginFragment;
 import com.example.gzano.uniboors.LessonsAndPlacesActivity;
 import com.example.gzano.uniboors.Presenter.WelcomePresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
-import com.example.gzano.uniboors.utils.Constants;
+import com.example.gzano.uniboors.Utils.Constants;
 
 
 public class GoToAppFragment extends Fragment implements FragmentView.WelcomeFragmentView {

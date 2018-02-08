@@ -1,4 +1,4 @@
-package com.example.gzano.uniboors.utils;
+package com.example.gzano.uniboors.Utils;
 
 /**
  * Created by gzano on 27/09/2017.

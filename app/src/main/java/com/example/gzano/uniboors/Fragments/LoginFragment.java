@@ -1,3 +1,5 @@
+package com.example.gzano.uniboors.Fragments;
+
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,7 +22,7 @@ import com.example.gzano.uniboors.Model.AuthenticationMode;
 import com.example.gzano.uniboors.Presenter.AccountAuthPresenter;
 import com.example.gzano.uniboors.R;
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView;
-import com.example.gzano.uniboors.utils.Constants;
+import com.example.gzano.uniboors.Utils.Constants;
 
 
 public class LoginFragment extends Fragment implements FragmentView.LoginFragmentView {

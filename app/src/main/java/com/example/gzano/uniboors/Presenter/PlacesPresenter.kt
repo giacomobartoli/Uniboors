@@ -2,7 +2,7 @@ package com.example.gzano.uniboors.Presenter
 
 import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView.PlacesFragmentView
-import com.example.gzano.uniboors.utils.Constants
+import com.example.gzano.uniboors.Utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 

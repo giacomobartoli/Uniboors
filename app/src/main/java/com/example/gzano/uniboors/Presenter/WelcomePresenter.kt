@@ -4,7 +4,7 @@ import com.example.gzano.uniboors.Model.User
 import com.example.gzano.uniboors.Presenter.FirebaseAdapters.UserListener
 import com.example.gzano.uniboors.Presenter.PresenterInterface.Presenter
 import com.example.gzano.uniboors.ViewInterfaces.FragmentView
-import com.example.gzano.uniboors.utils.Constants
+import com.example.gzano.uniboors.Utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
